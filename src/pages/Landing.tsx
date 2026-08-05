@@ -9,7 +9,7 @@ export function Landing({ onNavigate }: LandingProps) {
       <div style={{
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
-        gap: '6rem',
+        gap: '3rem',
         marginBottom: '4rem',
         alignItems: 'center'
       }}>
@@ -21,7 +21,7 @@ export function Landing({ onNavigate }: LandingProps) {
             fontWeight: 'bold',
             color: '#333'
           }}>
-            Zielvereinbarungsformular
+            Zielvereinbarung SCP
           </h1>
         </div>
         <div>

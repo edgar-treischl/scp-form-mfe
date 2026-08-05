@@ -14,6 +14,7 @@ interface QuestionModule {
   startDate: string;
   endDate: string;
   evaluation: string;
+  comments: string;
 }
 
 const GOAL_OPTIONS = [
@@ -29,10 +30,10 @@ const mockDraft: Submission | null = {
   owner: 'maria.schmidt@organisation.de',
   status: 'draft',
   version: 1,
-  createdAt: new Date('2024-07-28T09:15:00'),
-  updatedAt: new Date('2024-07-28T09:45:00'),
+  createdAt: new Date('2020-07-28T09:15:00'),
+  updatedAt: new Date('2020-07-28T09:45:00'),
   data: {
-    title: 'SCP Zwischenbericht Juli',
+    title: 'Zielvereinbarung 2020',
     istStandAnalyse: 'Erste Erkenntnisse aus der laufenden Periode...',
     moduleCount: 1,
   },
@@ -131,13 +132,13 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       // Editing existing submission
       return [
         { label: 'Start', onClick: () => onNavigate('landing') },
-        { label: 'SCP Formular' }
+        { label: 'Zielvereinbarung' }
       ];
     } else {
       // New form
       return [
         { label: 'Start', onClick: () => onNavigate('landing') },
-        { label: 'SCP Formular' }
+        { label: 'Zielvereinbarung' }
       ];
     }
   };
@@ -238,7 +239,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       )}
       
       <header>
-        <h1>SCP Formular</h1>
+        <h1>Zielvereinbarung</h1>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <span style={{ padding: '0.25rem 0.5rem', background: '#fff3cd', borderRadius: '4px' }}>
             Entwurf {currentDraftId ? `(${currentDraftId})` : ''}
@@ -251,8 +252,9 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           {/* Feld 1: IST-Stand-Analyse */}
           <div>
+            <h2 style={{ marginBottom: '1.5rem' }}>Ist-Stand</h2>
             <label htmlFor="istStandAnalyse" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-              Feld 1: Grundlegende Erkenntnisse zur IST-Stand-Analyse in Kurzfassung
+              Grundlegende Erkenntnisse zur IST-Stand-Analyse in Kurzfassung
             </label>
             <textarea
               id="istStandAnalyse"
@@ -268,7 +270,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
           {/* Question Modules */}
           <div>
-            <h2 style={{ marginBottom: '1.5rem' }}>Zielmodule</h2>
+            <h2 style={{ marginBottom: '1.5rem' }}>Ziele</h2>
             
             {questionModules.map((module, index) => (
               <div 
@@ -334,7 +336,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                       htmlFor={`indicators-${module.id}`}
                       style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}
                     >
-                      Feld 3a: Zielindikatoren
+                      Zielindikatoren
                     </label>
                     <textarea
                       id={`indicators-${module.id}`}
@@ -342,14 +344,14 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                       onChange={(e) => handleModuleChange(module.id, 'indicators', e.target.value)}
                       rows={4}
                       style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
-                      placeholder="Beschreiben Sie die Zielindikatoren..."
+                      placeholder="Wie wird festgestellt, ob (inwiewei das Ziel (Teilziel) erreicht worden ist?"
                     />
                   </div>
 
                   {/* Feld 4a: Zeitpunkt für die Zielerreichung */}
                   <div>
                     <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>
-                      Feld 4a: Zeitpunkt für die Zielerreichung *
+                      Zeitpunkt für die Zielerreichung
                     </label>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                       <div>
@@ -392,7 +394,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                       htmlFor={`evaluation-${module.id}`}
                       style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}
                     >
-                      Feld 5a: Interne Evaluation der Teilziele
+                      Interne Evaluation der Teilziele
                     </label>
                     <textarea
                       id={`evaluation-${module.id}`}
@@ -403,11 +405,31 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                       placeholder="Beschreiben Sie die interne Evaluation..."
                     />
                   </div>
+
+                {/* Feld 6a: Comments */}
+                  <div>
+                    <label 
+                      htmlFor={`evaluation-${module.id}`}
+                      style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}
+                    >
+                      Kommentare
+                    </label>
+                    <textarea
+                      id={`evaluation-${module.id}`}
+                      value={module.comments}
+                      onChange={(e) => handleModuleChange(module.id, 'evaluation', e.target.value)}
+                      rows={4}
+                      style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
+                      placeholder="Haben Sie Kommentare hierzu?"
+                    />
+                  </div>
+
+
                 </div>
               </div>
             ))}
 
-            {/* Feld 6a: Add another module */}
+            {/* Add another module */}
             <button
               type="button"
               onClick={addQuestionModule}
@@ -430,7 +452,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         <footer style={{ marginTop: '2rem' }}>
           <button type="button" onClick={() => onNavigate('landing')}>Abbrechen</button>
           <button type="submit" style={{ background: '#0066cc', color: 'white', fontWeight: 'bold' }}>
-            Formular einreichen
+            ZV einreichen
           </button>
         </footer>
       </form>
