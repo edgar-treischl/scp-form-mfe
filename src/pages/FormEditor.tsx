@@ -50,6 +50,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       startDate: '',
       endDate: '',
       evaluation: '',
+      comments: '',
     }
   ]);
   const [showDraftPicker, setShowDraftPicker] = useState(false);
@@ -84,6 +85,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         startDate: '',
         endDate: '',
         evaluation: '',
+        comments: '',
       }
     ]);
   };
