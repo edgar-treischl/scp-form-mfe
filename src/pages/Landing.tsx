@@ -9,18 +9,19 @@ export function Landing({ onNavigate }: LandingProps) {
       <div style={{
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
-        gap: '3rem',
+        gap: '6rem',
         marginBottom: '4rem',
         alignItems: 'center'
       }}>
         <div>
+          <h3>Prototyp</h3>
           <h1 style={{ 
             fontSize: '2.5rem', 
             margin: '0',
             fontWeight: 'bold',
             color: '#333'
           }}>
-            Internal Request Forms
+            Zielvereinbarungsformular
           </h1>
         </div>
         <div>
@@ -65,27 +66,16 @@ export function Landing({ onNavigate }: LandingProps) {
             margin: '0 0 0.5rem 0',
             color: '#333'
           }}>
-            Start New Form
+            Neue Zielvereinbarung
           </h2>
           <p style={{ 
             fontSize: '0.95rem', 
             lineHeight: '1.5',
             color: '#666',
-            margin: '0 0 1.5rem 0'
+            margin: '0'
           }}>
-            Create a new request form. Progress is automatically saved.
+            Neue Zielvereinbarung anlegen.
           </p>
-          <button style={{
-            padding: '0.5rem 1.25rem',
-            background: '#0066cc',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}>
-            Create Form →
-          </button>
         </div>
 
         {/* Previous Submissions Card */}
@@ -111,27 +101,16 @@ export function Landing({ onNavigate }: LandingProps) {
             margin: '0 0 0.5rem 0',
             color: '#333'
           }}>
-            Previous Submissions
+            Frühere Zielvereinbarungen
           </h2>
           <p style={{ 
             fontSize: '0.95rem', 
             lineHeight: '1.5',
             color: '#666',
-            margin: '0 0 1.5rem 0'
+            margin: '0'
           }}>
-            View and manage all your submitted forms and drafts.
+            Frühere Zielvereinbarungen einsehen und managen.
           </p>
-          <button style={{
-            padding: '0.5rem 1.25rem',
-            background: '#0066cc',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}>
-            View History →
-          </button>
         </div>
       </div>
     </div>
