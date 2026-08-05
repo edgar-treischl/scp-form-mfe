@@ -67,6 +67,21 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
 
   return (
     <div>
+      <div style={{ marginBottom: '1rem' }}>
+        <button 
+          onClick={() => onNavigate('landing')}
+          style={{ 
+            padding: '0.5rem 1rem',
+            background: '#f0f0f0',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          ← Return to Home
+        </button>
+      </div>
+      
       <header>
         <h1>Submission History</h1>
         <button onClick={handleExport}>Export CSV</button>

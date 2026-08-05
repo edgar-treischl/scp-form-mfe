@@ -32,12 +32,6 @@ function App() {
 
   return (
     <div className="app">
-      <nav>
-        <button onClick={() => handleNavigate('landing')}>Home</button>
-        <button onClick={() => handleNavigate('form')}>Form</button>
-        <button onClick={() => handleNavigate('history')}>History</button>
-      </nav>
-      
       <main>
         {renderView()}
       </main>
