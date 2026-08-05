@@ -76,7 +76,6 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
       
       <header>
         <h1>Eingabehistorie</h1>
-        <button onClick={handleExport}>CSV exportieren</button>
       </header>
 
       <div style={{ marginTop: '2rem' }}>
@@ -92,7 +91,6 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
               <th style={{ padding: '0.75rem' }}>Status</th>
               <th style={{ padding: '0.75rem' }}>Erstellt</th>
               <th style={{ padding: '0.75rem' }}>Aktualisiert</th>
-              <th style={{ padding: '0.75rem' }}>Aktionen</th>
             </tr>
           </thead>
           <tbody>
@@ -102,7 +100,28 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
                   {submission.id}
                 </td>
                 <td style={{ padding: '0.75rem' }}>
-                  {(submission.data.title as string) || 'Untitled'}
+                  <button
+                    onClick={() => onNavigate('view', submission.id)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#0969da',
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      fontSize: 'inherit',
+                      fontFamily: 'inherit',
+                      padding: 0,
+                      textAlign: 'left',
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.textDecoration = 'underline';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.textDecoration = 'none';
+                    }}
+                  >
+                    {(submission.data.title as string) || 'Untitled'}
+                  </button>
                 </td>
                 <td style={{ padding: '0.75rem' }}>
                   <StatusBadge status={submission.status} />
@@ -113,28 +132,14 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
                 <td style={{ padding: '0.75rem', fontSize: '0.9em', color: '#666' }}>
                   {formatDate(submission.updatedAt)}
                 </td>
-                <td style={{ padding: '0.75rem' }}>
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    <button
-                      onClick={() => onNavigate('view', submission.id)}
-                      style={{ padding: '0.25rem 0.75rem', fontSize: '0.9em' }}
-                    >
-                      Ansehen
-                    </button>
-                    {submission.status === 'draft' && (
-                      <button
-                        onClick={() => onNavigate('form', submission.id)}
-                        style={{ padding: '0.25rem 0.75rem', fontSize: '0.9em' }}
-                      >
-                        Bearbeiten
-                      </button>
-                    )}
-                  </div>
-                </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end' }}>
+          <button onClick={handleExport}>CSV exportieren</button>
+        </div>
       </div>
     </div>
   );

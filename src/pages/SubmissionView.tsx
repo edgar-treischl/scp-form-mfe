@@ -3,7 +3,7 @@ import type { Submission } from '../types';
 
 interface SubmissionViewProps {
   submissionId: string | null;
-  onNavigate: (view: 'landing' | 'form' | 'history' | 'view') => void;
+  onNavigate: (view: 'landing' | 'form' | 'history' | 'view', submissionId?: string) => void;
 }
 
 // Mock submission data
@@ -109,19 +109,19 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
         </div>
       </header>
 
-      <div style={{ background: '#f9f9f9', padding: '1rem', borderRadius: '4px', marginBottom: '2rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', fontSize: '0.9em' }}>
+      <div style={{ background: '#ffffff', border: '1px solid #ddd', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem', fontSize: '0.9375rem' }}>
           <div>
-            <strong>Erstellt:</strong>
+            <div style={{ fontWeight: '500', marginBottom: '0.25rem' }}>Erstellt</div>
             <div style={{ color: '#666' }}>{formatDate(mockSubmission.createdAt)}</div>
           </div>
           <div>
-            <strong>Aktualisiert:</strong>
+            <div style={{ fontWeight: '500', marginBottom: '0.25rem' }}>Aktualisiert</div>
             <div style={{ color: '#666' }}>{formatDate(mockSubmission.updatedAt)}</div>
           </div>
           {mockSubmission.submittedAt && (
             <div>
-              <strong>Eingereicht:</strong>
+              <div style={{ fontWeight: '500', marginBottom: '0.25rem' }}>Eingereicht</div>
               <div style={{ color: '#666' }}>{formatDate(mockSubmission.submittedAt)}</div>
             </div>
           )}
@@ -130,10 +130,11 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         <div>
-          <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
-            Feld 1: Grundlegende Erkenntnisse zur IST-Stand-Analyse in Kurzfassung
+          <h2 style={{ marginBottom: '1.5rem' }}>Ist-Stand</h2>
+          <label style={{ fontWeight: '500', display: 'block', marginBottom: '0.5rem' }}>
+            Grundlegende Erkenntnisse zur IST-Stand-Analyse in Kurzfassung
           </label>
-          <div style={{ padding: '1rem', background: '#f5f5f5', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
+          <div style={{ padding: '0.75rem', background: '#ffffff', border: '1px solid #ddd', borderRadius: '4px', whiteSpace: 'pre-wrap', fontSize: '1rem', lineHeight: '1.5' }}>
             {istStandAnalyse}
           </div>
         </div>
@@ -141,7 +142,7 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
         <hr style={{ border: 'none', borderTop: '2px solid #ddd' }} />
 
         <div>
-          <h2 style={{ marginBottom: '1.5rem' }}>Zielmodule</h2>
+          <h2 style={{ marginBottom: '1.5rem' }}>Ziele</h2>
           
           {questionModules.map((module, index) => (
             <div 
@@ -151,45 +152,45 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
                 borderRadius: '8px',
                 padding: '1.5rem',
                 marginBottom: '1.5rem',
-                background: '#f9f9f9'
+                background: '#ffffff'
               }}
             >
-              <h3 style={{ marginBottom: '1rem' }}>Modul {index + 1}</h3>
+              <h3 style={{ margin: '0 0 1rem 0' }}>Modul {index + 1}</h3>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <div>
-                  <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
+                  <label style={{ fontWeight: '500', display: 'block', marginBottom: '0.5rem' }}>
                     Feld 2: Ziele im SCP
                   </label>
-                  <div style={{ padding: '0.75rem', background: '#fff', borderRadius: '4px', border: '1px solid #ddd' }}>
+                  <div style={{ padding: '0.75rem', background: '#f8f9fa', borderRadius: '4px', fontSize: '1rem' }}>
                     {module.goal}
                   </div>
                 </div>
 
                 <div>
-                  <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
-                    Feld 3a: Zielindikatoren
+                  <label style={{ fontWeight: '500', display: 'block', marginBottom: '0.5rem' }}>
+                    Zielindikatoren
                   </label>
-                  <div style={{ padding: '0.75rem', background: '#fff', borderRadius: '4px', border: '1px solid #ddd', whiteSpace: 'pre-wrap' }}>
+                  <div style={{ padding: '0.75rem', background: '#f8f9fa', borderRadius: '4px', whiteSpace: 'pre-wrap', fontSize: '1rem', lineHeight: '1.5' }}>
                     {module.indicators}
                   </div>
                 </div>
 
                 <div>
-                  <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
-                    Feld 4a: Zeitpunkt für die Zielerreichung
+                  <label style={{ fontWeight: '500', display: 'block', marginBottom: '0.5rem' }}>
+                    Zeitpunkt für die Zielerreichung
                   </label>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div>
                       <div style={{ fontSize: '0.875rem', marginBottom: '0.25rem', color: '#666' }}>Startdatum</div>
-                      <div style={{ padding: '0.75rem', background: '#fff', borderRadius: '4px', border: '1px solid #ddd' }}>
+                      <div style={{ padding: '0.75rem', background: '#f8f9fa', borderRadius: '4px', fontSize: '1rem' }}>
                         {formatDateShort(module.startDate)}
                       </div>
                     </div>
                     {module.endDate && (
                       <div>
                         <div style={{ fontSize: '0.875rem', marginBottom: '0.25rem', color: '#666' }}>Enddatum</div>
-                        <div style={{ padding: '0.75rem', background: '#fff', borderRadius: '4px', border: '1px solid #ddd' }}>
+                        <div style={{ padding: '0.75rem', background: '#f8f9fa', borderRadius: '4px', fontSize: '1rem' }}>
                           {formatDateShort(module.endDate)}
                         </div>
                       </div>
@@ -198,10 +199,10 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
                 </div>
 
                 <div>
-                  <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
-                    Feld 5a: Interne Evaluation der Teilziele
+                  <label style={{ fontWeight: '500', display: 'block', marginBottom: '0.5rem' }}>
+                    Interne Evaluation der Teilziele
                   </label>
-                  <div style={{ padding: '0.75rem', background: '#fff', borderRadius: '4px', border: '1px solid #ddd', whiteSpace: 'pre-wrap' }}>
+                  <div style={{ padding: '0.75rem', background: '#f8f9fa', borderRadius: '4px', whiteSpace: 'pre-wrap', fontSize: '1rem', lineHeight: '1.5' }}>
                     {module.evaluation}
                   </div>
                 </div>
@@ -212,7 +213,9 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
       </div>
 
       <footer>
-        <button onClick={() => onNavigate('history')}>Zurück zur Historie</button>
+        {mockSubmission.status === 'draft' && (
+          <button onClick={() => onNavigate('form', mockSubmission.id)}>Bearbeiten</button>
+        )}
         <button onClick={handleExport}>Exportieren</button>
       </footer>
     </div>
