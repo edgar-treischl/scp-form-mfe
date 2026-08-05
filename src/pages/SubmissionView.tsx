@@ -9,33 +9,52 @@ interface SubmissionViewProps {
 // Mock submission data
 const mockSubmission: Submission = {
   id: 'sub-001',
-  owner: 'john.doe@company.com',
+  owner: 'maria.schmidt@organisation.de',
   status: 'submitted',
   version: 3,
   createdAt: new Date('2024-07-15T10:30:00'),
   updatedAt: new Date('2024-07-15T14:20:00'),
   submittedAt: new Date('2024-07-15T14:20:00'),
   data: {
-    fullName: 'John Doe',
-    email: 'john.doe@company.com',
-    department: 'Engineering',
-    requestType: 'equipment',
-    priority: 'high',
-    title: 'New laptop for development team',
-    description: 'We need new MacBook Pros for the frontend development team. Current machines are 5 years old and struggling with modern development tools.',
-    estimatedCost: '$4,500',
-    justification: 'This will improve developer productivity by 30% and reduce build times from 10 minutes to 2 minutes.',
+    istStandAnalyse: 'Die umfassende Analyse der aktuellen Situation zeigt, dass die bestehenden Strukturen und Prozesse grundsätzlich gut funktionieren. Es wurden jedoch einige Optimierungspotenziale identifiziert, insbesondere in den Bereichen Kommunikation und Koordination zwischen den verschiedenen Abteilungen.',
+    questionModules: [
+      {
+        id: '1',
+        goal: 'Individuelle Ebene – Ziel 1',
+        indicators: 'Erhöhung der Teilnehmerzufriedenheit um mindestens 15%, gemessen durch standardisierte Feedbackbögen. Verbesserung der Kommunikationsqualität, messbar durch reduzierte Rückfragen.',
+        startDate: '2024-08-01',
+        endDate: '2024-12-31',
+        evaluation: 'Quartalsweise Auswertung der Feedbackbögen und monatliche Team-Retrospektiven zur Bewertung der Fortschritte. Anpassung der Maßnahmen bei Bedarf.',
+      },
+      {
+        id: '2',
+        goal: 'Individuelle Ebene – Ziel 3',
+        indicators: 'Steigerung der interdisziplinären Zusammenarbeit durch mindestens 3 gemeinsame Projekte pro Quartal. Dokumentierte Verbesserung der Prozesseffizienz um 20%.',
+        startDate: '2024-09-01',
+        endDate: '2025-03-31',
+        evaluation: 'Monatliches Monitoring der laufenden Projekte und Erfassung der Effizienzsteigerungen durch Prozessanalysen. Halbjährliche Gesamtbewertung.',
+      },
+    ],
   },
 };
 
 export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps) {
   const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('en-US', {
+    return new Intl.DateTimeFormat('de-DE', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
+    }).format(date);
+  };
+
+  const formatDateShort = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('de-DE', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
     }).format(date);
   };
 
@@ -46,15 +65,29 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
   if (!submissionId) {
     return (
       <div>
-        <p>No submission selected.</p>
-        <button onClick={() => onNavigate('history')}>Back to History</button>
+        <p>Keine Einreichung ausgewählt.</p>
+        <button onClick={() => onNavigate('history')}>Zurück zur Historie</button>
       </div>
     );
   }
 
   const data = mockSubmission.data;
-  const estimatedCost: string | undefined = data.estimatedCost as string | undefined;
-  const justification: string | undefined = data.justification as string | undefined;
+  const istStandAnalyse: string = data.istStandAnalyse as string || '';
+  const questionModules: Array<{
+    id: string;
+    goal: string;
+    indicators: string;
+    startDate: string;
+    endDate: string;
+    evaluation: string;
+  }> = (data.questionModules as Array<{
+    id: string;
+    goal: string;
+    indicators: string;
+    startDate: string;
+    endDate: string;
+    evaluation: string;
+  }>) || [];
 
   return (
     <div>
@@ -69,13 +102,13 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
             cursor: 'pointer'
           }}
         >
-          ← Return to Home
+          ← Zurück zur Startseite
         </button>
       </div>
       
       <header>
         <div>
-          <h1>View Submission</h1>
+          <h1>Einreichung ansehen</h1>
           <p style={{ color: '#666', margin: '0.5rem 0 0 0' }}>ID: {mockSubmission.id}</p>
         </div>
         <div>
@@ -86,98 +119,108 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
       <div style={{ background: '#f9f9f9', padding: '1rem', borderRadius: '4px', marginBottom: '2rem' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', fontSize: '0.9em' }}>
           <div>
-            <strong>Created:</strong>
+            <strong>Erstellt:</strong>
             <div style={{ color: '#666' }}>{formatDate(mockSubmission.createdAt)}</div>
           </div>
           <div>
-            <strong>Last Updated:</strong>
+            <strong>Aktualisiert:</strong>
             <div style={{ color: '#666' }}>{formatDate(mockSubmission.updatedAt)}</div>
           </div>
           {mockSubmission.submittedAt && (
             <div>
-              <strong>Submitted:</strong>
+              <strong>Eingereicht:</strong>
               <div style={{ color: '#666' }}>{formatDate(mockSubmission.submittedAt)}</div>
             </div>
           )}
         </div>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-          <div>
-            <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>Full Name</label>
-            <div style={{ padding: '0.5rem', background: '#f5f5f5', borderRadius: '4px' }}>
-              {data.fullName as string}
-            </div>
-          </div>
-
-          <div>
-            <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>Email</label>
-            <div style={{ padding: '0.5rem', background: '#f5f5f5', borderRadius: '4px' }}>
-              {data.email as string}
-            </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <div>
+          <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
+            Feld 1: Grundlegende Erkenntnisse zur IST-Stand-Analyse in Kurzfassung
+          </label>
+          <div style={{ padding: '1rem', background: '#f5f5f5', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
+            {istStandAnalyse}
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-          <div>
-            <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>Department</label>
-            <div style={{ padding: '0.5rem', background: '#f5f5f5', borderRadius: '4px' }}>
-              {data.department as string}
-            </div>
-          </div>
-
-          <div>
-            <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>Request Type</label>
-            <div style={{ padding: '0.5rem', background: '#f5f5f5', borderRadius: '4px', textTransform: 'capitalize' }}>
-              {data.requestType as string}
-            </div>
-          </div>
-        </div>
+        <hr style={{ border: 'none', borderTop: '2px solid #ddd' }} />
 
         <div>
-          <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>Priority</label>
-          <div style={{ padding: '0.5rem', background: '#f5f5f5', borderRadius: '4px', textTransform: 'capitalize' }}>
-            {data.priority as string}
-          </div>
-        </div>
+          <h2 style={{ marginBottom: '1.5rem' }}>Zielmodule</h2>
+          
+          {questionModules.map((module, index) => (
+            <div 
+              key={module.id}
+              style={{ 
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                padding: '1.5rem',
+                marginBottom: '1.5rem',
+                background: '#f9f9f9'
+              }}
+            >
+              <h3 style={{ marginBottom: '1rem' }}>Modul {index + 1}</h3>
 
-        <div>
-          <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>Request Title</label>
-          <div style={{ padding: '0.5rem', background: '#f5f5f5', borderRadius: '4px' }}>
-            {data.title as string}
-          </div>
-        </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div>
+                  <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
+                    Feld 2: Ziele im SCP
+                  </label>
+                  <div style={{ padding: '0.75rem', background: '#fff', borderRadius: '4px', border: '1px solid #ddd' }}>
+                    {module.goal}
+                  </div>
+                </div>
 
-        <div>
-          <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>Description</label>
-          <div style={{ padding: '0.5rem', background: '#f5f5f5', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
-            {data.description as string}
-          </div>
-        </div>
+                <div>
+                  <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
+                    Feld 3a: Zielindikatoren
+                  </label>
+                  <div style={{ padding: '0.75rem', background: '#fff', borderRadius: '4px', border: '1px solid #ddd', whiteSpace: 'pre-wrap' }}>
+                    {module.indicators}
+                  </div>
+                </div>
 
-        {estimatedCost && (
-          <div>
-            <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>Estimated Cost</label>
-            <div style={{ padding: '0.5rem', background: '#f5f5f5', borderRadius: '4px' }}>
-              {estimatedCost}
+                <div>
+                  <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
+                    Feld 4a: Zeitpunkt für die Zielerreichung
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div>
+                      <div style={{ fontSize: '0.875rem', marginBottom: '0.25rem', color: '#666' }}>Startdatum</div>
+                      <div style={{ padding: '0.75rem', background: '#fff', borderRadius: '4px', border: '1px solid #ddd' }}>
+                        {formatDateShort(module.startDate)}
+                      </div>
+                    </div>
+                    {module.endDate && (
+                      <div>
+                        <div style={{ fontSize: '0.875rem', marginBottom: '0.25rem', color: '#666' }}>Enddatum</div>
+                        <div style={{ padding: '0.75rem', background: '#fff', borderRadius: '4px', border: '1px solid #ddd' }}>
+                          {formatDateShort(module.endDate)}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
+                    Feld 5a: Interne Evaluation der Teilziele
+                  </label>
+                  <div style={{ padding: '0.75rem', background: '#fff', borderRadius: '4px', border: '1px solid #ddd', whiteSpace: 'pre-wrap' }}>
+                    {module.evaluation}
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        )}
-
-        {justification && (
-          <div>
-            <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>Business Justification</label>
-            <div style={{ padding: '0.5rem', background: '#f5f5f5', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
-              {justification}
-            </div>
-          </div>
-        )}
+          ))}
+        </div>
       </div>
 
       <footer>
-        <button onClick={() => onNavigate('history')}>Back to History</button>
-        <button onClick={handleExport}>Export</button>
+        <button onClick={() => onNavigate('history')}>Zurück zur Historie</button>
+        <button onClick={handleExport}>Exportieren</button>
       </footer>
     </div>
   );

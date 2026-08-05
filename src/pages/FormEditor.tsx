@@ -5,32 +5,85 @@ interface FormEditorProps {
   onNavigate: (view: 'landing' | 'form' | 'history' | 'view') => void;
 }
 
+interface QuestionModule {
+  id: string;
+  goal: string;
+  indicators: string;
+  startDate: string;
+  endDate: string;
+  evaluation: string;
+}
+
+const GOAL_OPTIONS = [
+  'Individuelle Ebene – Ziel 1',
+  'Individuelle Ebene – Ziel 2',
+  'Individuelle Ebene – Ziel 3',
+  'Individuelle Ebene – Ziel 4',
+];
+
 export function FormEditor({ onNavigate }: FormEditorProps) {
   const [saveStatus, setSaveStatus] = useState<'saving' | 'saved' | 'error' | 'idle'>('idle');
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    department: '',
-    requestType: 'general',
-    priority: 'medium',
-    title: '',
-    description: '',
-    estimatedCost: '',
-    justification: '',
-  });
+  const [istStandAnalyse, setIstStandAnalyse] = useState('');
+  const [questionModules, setQuestionModules] = useState<QuestionModule[]>([
+    {
+      id: crypto.randomUUID(),
+      goal: '',
+      indicators: '',
+      startDate: '',
+      endDate: '',
+      evaluation: '',
+    }
+  ]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Simulate autosave
+  const triggerAutosave = () => {
     setSaveStatus('saving');
     setTimeout(() => setSaveStatus('saved'), 1000);
   };
 
+  const handleIstStandChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setIstStandAnalyse(e.target.value);
+    triggerAutosave();
+  };
+
+  const handleModuleChange = (id: string, field: keyof QuestionModule, value: string) => {
+    setQuestionModules(prev =>
+      prev.map(module =>
+        module.id === id ? { ...module, [field]: value } : module
+      )
+    );
+    triggerAutosave();
+  };
+
+  const addQuestionModule = () => {
+    setQuestionModules(prev => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        goal: '',
+        indicators: '',
+        startDate: '',
+        endDate: '',
+        evaluation: '',
+      }
+    ]);
+  };
+
+  const removeQuestionModule = (id: string) => {
+    setQuestionModules(prev => prev.filter(module => module.id !== id));
+    triggerAutosave();
+  };
+
+  const getAvailableGoals = (currentModuleId: string) => {
+    const selectedGoals = questionModules
+      .filter(module => module.id !== currentModuleId && module.goal !== '')
+      .map(module => module.goal);
+    
+    return GOAL_OPTIONS.filter(goal => !selectedGoals.includes(goal));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Form submitted! (Mock - no backend)');
+    alert('Formular eingereicht! (Mock - kein Backend)');
     onNavigate('history');
   };
 
@@ -47,159 +100,202 @@ export function FormEditor({ onNavigate }: FormEditorProps) {
             cursor: 'pointer'
           }}
         >
-          ← Return to Home
+          ← Zurück zur Startseite
         </button>
       </div>
       
       <header>
-        <h1>Edit Form</h1>
+        <h1>SCP Formular</h1>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <span style={{ padding: '0.25rem 0.5rem', background: '#fff3cd', borderRadius: '4px' }}>Draft</span>
+          <span style={{ padding: '0.25rem 0.5rem', background: '#fff3cd', borderRadius: '4px' }}>Entwurf</span>
           <SaveIndicator status={saveStatus} />
         </div>
       </header>
 
       <form onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label htmlFor="fullName">Full Name *</label>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                value={formData.fullName}
-                onChange={handleChange}
-                required
-                style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email">Email *</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
-              />
-            </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          {/* Feld 1: IST-Stand-Analyse */}
+          <div>
+            <label htmlFor="istStandAnalyse" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+              Feld 1: Grundlegende Erkenntnisse zur IST-Stand-Analyse in Kurzfassung
+            </label>
+            <textarea
+              id="istStandAnalyse"
+              value={istStandAnalyse}
+              onChange={handleIstStandChange}
+              rows={6}
+              style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
+              placeholder="Bitte geben Sie die grundlegenden Erkenntnisse ein..."
+            />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label htmlFor="department">Department *</label>
-              <input
-                id="department"
-                name="department"
-                type="text"
-                value={formData.department}
-                onChange={handleChange}
-                required
-                style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
-              />
-            </div>
+          <hr style={{ border: 'none', borderTop: '2px solid #ddd' }} />
 
-            <div>
-              <label htmlFor="requestType">Request Type *</label>
-              <select
-                id="requestType"
-                name="requestType"
-                value={formData.requestType}
-                onChange={handleChange}
-                required
-                style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
+          {/* Question Modules */}
+          <div>
+            <h2 style={{ marginBottom: '1.5rem' }}>Zielmodule</h2>
+            
+            {questionModules.map((module, index) => (
+              <div 
+                key={module.id}
+                style={{ 
+                  border: '1px solid #ddd',
+                  borderRadius: '8px',
+                  padding: '1.5rem',
+                  marginBottom: '1.5rem',
+                  background: '#f9f9f9'
+                }}
               >
-                <option value="general">General Request</option>
-                <option value="equipment">Equipment Purchase</option>
-                <option value="software">Software License</option>
-                <option value="training">Training Request</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-          </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <h3 style={{ margin: 0 }}>Modul {index + 1}</h3>
+                  {questionModules.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeQuestionModule(module.id)}
+                      style={{
+                        padding: '0.25rem 0.75rem',
+                        background: '#dc3545',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      Entfernen
+                    </button>
+                  )}
+                </div>
 
-          <div>
-            <label htmlFor="priority">Priority *</label>
-            <select
-              id="priority"
-              name="priority"
-              value={formData.priority}
-              onChange={handleChange}
-              required
-              style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                  {/* Feld 2: Ziele im SCP */}
+                  <div>
+                    <label 
+                      htmlFor={`goal-${module.id}`}
+                      style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}
+                    >
+                      Feld 2: Ziele im SCP *
+                    </label>
+                    <select
+                      id={`goal-${module.id}`}
+                      value={module.goal}
+                      onChange={(e) => handleModuleChange(module.id, 'goal', e.target.value)}
+                      required
+                      style={{ width: '100%', padding: '0.5rem' }}
+                    >
+                      <option value="">Bitte wählen Sie ein Ziel...</option>
+                      {module.goal && !getAvailableGoals(module.id).includes(module.goal) && (
+                        <option value={module.goal}>{module.goal}</option>
+                      )}
+                      {getAvailableGoals(module.id).map(option => (
+                        <option key={option} value={option}>{option}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Feld 3a: Zielindikatoren */}
+                  <div>
+                    <label 
+                      htmlFor={`indicators-${module.id}`}
+                      style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}
+                    >
+                      Feld 3a: Zielindikatoren
+                    </label>
+                    <textarea
+                      id={`indicators-${module.id}`}
+                      value={module.indicators}
+                      onChange={(e) => handleModuleChange(module.id, 'indicators', e.target.value)}
+                      rows={4}
+                      style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
+                      placeholder="Beschreiben Sie die Zielindikatoren..."
+                    />
+                  </div>
+
+                  {/* Feld 4a: Zeitpunkt für die Zielerreichung */}
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>
+                      Feld 4a: Zeitpunkt für die Zielerreichung *
+                    </label>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                      <div>
+                        <label 
+                          htmlFor={`startDate-${module.id}`}
+                          style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.875rem' }}
+                        >
+                          Startdatum
+                        </label>
+                        <input
+                          id={`startDate-${module.id}`}
+                          type="date"
+                          value={module.startDate}
+                          onChange={(e) => handleModuleChange(module.id, 'startDate', e.target.value)}
+                          required
+                          style={{ width: '100%', padding: '0.5rem' }}
+                        />
+                      </div>
+                      <div>
+                        <label 
+                          htmlFor={`endDate-${module.id}`}
+                          style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.875rem' }}
+                        >
+                          Enddatum (optional)
+                        </label>
+                        <input
+                          id={`endDate-${module.id}`}
+                          type="date"
+                          value={module.endDate}
+                          onChange={(e) => handleModuleChange(module.id, 'endDate', e.target.value)}
+                          style={{ width: '100%', padding: '0.5rem' }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Feld 5a: Interne Evaluation */}
+                  <div>
+                    <label 
+                      htmlFor={`evaluation-${module.id}`}
+                      style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}
+                    >
+                      Feld 5a: Interne Evaluation der Teilziele
+                    </label>
+                    <textarea
+                      id={`evaluation-${module.id}`}
+                      value={module.evaluation}
+                      onChange={(e) => handleModuleChange(module.id, 'evaluation', e.target.value)}
+                      rows={4}
+                      style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
+                      placeholder="Beschreiben Sie die interne Evaluation..."
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Feld 6a: Add another module */}
+            <button
+              type="button"
+              onClick={addQuestionModule}
+              style={{
+                padding: '0.75rem 1.5rem',
+                background: '#28a745',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontWeight: '500',
+                width: '100%'
+              }}
             >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-              <option value="urgent">Urgent</option>
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="title">Request Title *</label>
-            <input
-              id="title"
-              name="title"
-              type="text"
-              value={formData.title}
-              onChange={handleChange}
-              required
-              placeholder="Brief summary of your request"
-              style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="description">Description *</label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-              rows={5}
-              placeholder="Provide detailed information about your request"
-              style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
-            />
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label htmlFor="estimatedCost">Estimated Cost</label>
-              <input
-                id="estimatedCost"
-                name="estimatedCost"
-                type="text"
-                value={formData.estimatedCost}
-                onChange={handleChange}
-                placeholder="e.g., $500"
-                style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="justification">Business Justification</label>
-            <textarea
-              id="justification"
-              name="justification"
-              value={formData.justification}
-              onChange={handleChange}
-              rows={4}
-              placeholder="Explain why this request is needed and its business impact"
-              style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
-            />
+              + Weiteres Zielmodul hinzufügen
+            </button>
           </div>
         </div>
 
-        <footer>
-          <button type="button" onClick={() => onNavigate('landing')}>Cancel</button>
+        <footer style={{ marginTop: '2rem' }}>
+          <button type="button" onClick={() => onNavigate('landing')}>Abbrechen</button>
           <button type="submit" style={{ background: '#0066cc', color: 'white', fontWeight: 'bold' }}>
-            Submit Form
+            Formular einreichen
           </button>
         </footer>
       </form>
