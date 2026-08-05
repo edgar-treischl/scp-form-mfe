@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SaveIndicator } from '../components';
+import { SaveIndicator, Breadcrumb } from '../components';
 import type { Submission } from '../types';
 
 interface FormEditorProps {
@@ -126,22 +126,28 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     }).format(date);
   };
 
+  const getBreadcrumbItems = () => {
+    if (submissionId) {
+      // Editing existing submission
+      return [
+        { label: 'Start', onClick: () => onNavigate('landing') },
+        { label: 'SCP Formular' }
+      ];
+    } else {
+      // New form
+      return [
+        { label: 'Start', onClick: () => onNavigate('landing') },
+        { label: 'SCP Formular' }
+      ];
+    }
+  };
+
   return (
     <div>
-      <div style={{ marginBottom: '1rem', display: 'flex', gap: '1rem' }}>
-        <button 
-          onClick={() => onNavigate('landing')}
-          style={{ 
-            padding: '0.5rem 1rem',
-            background: '#f0f0f0',
-            border: '1px solid #ddd',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          ← Zurück zur Startseite
-        </button>
-        {mockDraft && !currentDraftId && (
+      <Breadcrumb items={getBreadcrumbItems()} />
+
+      {mockDraft && !currentDraftId && !submissionId && (
+        <div style={{ marginBottom: '1rem' }}>
           <button 
             onClick={() => setShowDraftPicker(true)}
             style={{ 
@@ -155,8 +161,8 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
           >
             📄 Entwurf laden
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Draft Load Confirmation Modal */}
       {showDraftPicker && mockDraft && (

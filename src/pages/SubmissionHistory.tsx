@@ -1,4 +1,4 @@
-import { StatusBadge } from '../components';
+import { StatusBadge, Breadcrumb } from '../components';
 import type { Submission } from '../types';
 
 interface SubmissionHistoryProps {
@@ -67,20 +67,12 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
 
   return (
     <div>
-      <div style={{ marginBottom: '1rem' }}>
-        <button 
-          onClick={() => onNavigate('landing')}
-          style={{ 
-            padding: '0.5rem 1rem',
-            background: '#f0f0f0',
-            border: '1px solid #ddd',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          ← Zurück zur Startseite
-        </button>
-      </div>
+      <Breadcrumb 
+        items={[
+          { label: 'Start', onClick: () => onNavigate('landing') },
+          { label: 'Eingabehistorie' }
+        ]}
+      />
       
       <header>
         <h1>Eingabehistorie</h1>
