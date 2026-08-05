@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { SaveIndicator } from '../components';
+import type { Submission } from '../types';
 
 interface FormEditorProps {
   onNavigate: (view: 'landing' | 'form' | 'history' | 'view') => void;
+  submissionId?: string;
 }
 
 interface QuestionModule {
@@ -21,7 +23,22 @@ const GOAL_OPTIONS = [
   'Individuelle Ebene – Ziel 4',
 ];
 
-export function FormEditor({ onNavigate }: FormEditorProps) {
+// Mock draft - would come from API (user can only have one draft)
+const mockDraft: Submission | null = {
+  id: 'sub-002',
+  owner: 'maria.schmidt@organisation.de',
+  status: 'draft',
+  version: 1,
+  createdAt: new Date('2024-07-28T09:15:00'),
+  updatedAt: new Date('2024-07-28T09:45:00'),
+  data: {
+    title: 'SCP Zwischenbericht Juli',
+    istStandAnalyse: 'Erste Erkenntnisse aus der laufenden Periode...',
+    moduleCount: 1,
+  },
+};
+
+export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   const [saveStatus, setSaveStatus] = useState<'saving' | 'saved' | 'error' | 'idle'>('idle');
   const [istStandAnalyse, setIstStandAnalyse] = useState('');
   const [questionModules, setQuestionModules] = useState<QuestionModule[]>([
@@ -34,6 +51,8 @@ export function FormEditor({ onNavigate }: FormEditorProps) {
       evaluation: '',
     }
   ]);
+  const [showDraftPicker, setShowDraftPicker] = useState(false);
+  const [currentDraftId, setCurrentDraftId] = useState<string | undefined>(submissionId);
 
   const triggerAutosave = () => {
     setSaveStatus('saving');
@@ -81,15 +100,35 @@ export function FormEditor({ onNavigate }: FormEditorProps) {
     return GOAL_OPTIONS.filter(goal => !selectedGoals.includes(goal));
   };
 
+  const loadDraft = () => {
+    if (mockDraft) {
+      // Load draft data into form
+      setIstStandAnalyse((mockDraft.data.istStandAnalyse as string) || '');
+      setCurrentDraftId(mockDraft.id);
+      setShowDraftPicker(false);
+      setSaveStatus('saved');
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     alert('Formular eingereicht! (Mock - kein Backend)');
     onNavigate('history');
   };
 
+  const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat('de-DE', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
+  };
+
   return (
     <div>
-      <div style={{ marginBottom: '1rem' }}>
+      <div style={{ marginBottom: '1rem', display: 'flex', gap: '1rem' }}>
         <button 
           onClick={() => onNavigate('landing')}
           style={{ 
@@ -102,12 +141,102 @@ export function FormEditor({ onNavigate }: FormEditorProps) {
         >
           ← Zurück zur Startseite
         </button>
+        {mockDraft && !currentDraftId && (
+          <button 
+            onClick={() => setShowDraftPicker(true)}
+            style={{ 
+              padding: '0.5rem 1rem',
+              background: '#fff3cd',
+              border: '1px solid #ffc107',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontWeight: '500'
+            }}
+          >
+            📄 Entwurf laden
+          </button>
+        )}
       </div>
+
+      {/* Draft Load Confirmation Modal */}
+      {showDraftPicker && mockDraft && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            background: 'white',
+            borderRadius: '8px',
+            padding: '2rem',
+            maxWidth: '500px',
+            width: '90%'
+          }}>
+            <h2 style={{ margin: '0 0 1rem 0' }}>Entwurf laden?</h2>
+            
+            <div style={{
+              background: '#f9f9f9',
+              border: '1px solid #ddd',
+              borderRadius: '4px',
+              padding: '1rem',
+              marginBottom: '1.5rem'
+            }}>
+              <div style={{ marginBottom: '0.5rem', fontWeight: '500' }}>
+                {(mockDraft.data.title as string) || 'Untitled'}
+              </div>
+              <div style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.75rem' }}>
+                {(mockDraft.data.istStandAnalyse as string)?.substring(0, 150)}...
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#999' }}>
+                Zuletzt aktualisiert: {formatDate(mockDraft.updatedAt)}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setShowDraftPicker(false)}
+                style={{
+                  padding: '0.5rem 1.5rem',
+                  background: '#f0f0f0',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                Abbrechen
+              </button>
+              <button
+                onClick={loadDraft}
+                style={{
+                  padding: '0.5rem 1.5rem',
+                  background: '#0066cc',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontWeight: '500'
+                }}
+              >
+                Entwurf laden
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       
       <header>
         <h1>SCP Formular</h1>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <span style={{ padding: '0.25rem 0.5rem', background: '#fff3cd', borderRadius: '4px' }}>Entwurf</span>
+          <span style={{ padding: '0.25rem 0.5rem', background: '#fff3cd', borderRadius: '4px' }}>
+            Entwurf {currentDraftId ? `(${currentDraftId})` : ''}
+          </span>
           <SaveIndicator status={saveStatus} />
         </div>
       </header>

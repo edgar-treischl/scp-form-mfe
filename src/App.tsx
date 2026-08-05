@@ -20,7 +20,7 @@ function App() {
       case 'landing':
         return <Landing onNavigate={handleNavigate} />;
       case 'form':
-        return <FormEditor onNavigate={handleNavigate} />;
+        return <FormEditor onNavigate={handleNavigate} submissionId={selectedSubmissionId || undefined} />;
       case 'history':
         return <SubmissionHistory onNavigate={handleNavigate} />;
       case 'view':
