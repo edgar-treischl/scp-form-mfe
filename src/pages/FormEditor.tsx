@@ -191,7 +191,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
             <h2 style={{ margin: '0 0 1rem 0' }}>Entwurf laden?</h2>
             
             <div style={{
-              background: '#f9f9f9',
+              background: '#ffffff',
               border: '1px solid #ddd',
               borderRadius: '4px',
               padding: '1rem',
@@ -200,10 +200,10 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
               <div style={{ marginBottom: '0.5rem', fontWeight: '500' }}>
                 {(mockDraft.data.title as string) || 'Untitled'}
               </div>
-              <div style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.75rem' }}>
+              <div style={{ fontSize: '0.9375rem', color: '#666', marginBottom: '0.75rem' }}>
                 {(mockDraft.data.istStandAnalyse as string)?.substring(0, 150)}...
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#999' }}>
+              <div style={{ fontSize: '0.875rem', color: '#999' }}>
                 Zuletzt aktualisiert: {formatDate(mockDraft.updatedAt)}
               </div>
             </div>
@@ -263,7 +263,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
               value={istStandAnalyse}
               onChange={handleIstStandChange}
               rows={6}
-              style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
+              style={{ width: '100%', padding: '0.75rem', fontFamily: 'inherit', fontSize: '1rem' }}
               placeholder="Bitte geben Sie die grundlegenden Erkenntnisse ein..."
             />
           </div>
@@ -282,7 +282,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                   borderRadius: '8px',
                   padding: '1.5rem',
                   marginBottom: '1.5rem',
-                  background: '#f9f9f9'
+                  background: '#ffffff'
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
@@ -298,7 +298,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                         border: 'none',
                         borderRadius: '4px',
                         cursor: 'pointer',
-                        fontSize: '0.875rem'
+                        fontSize: '0.9375rem'
                       }}
                     >
                       Entfernen
@@ -320,7 +320,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                       value={module.goal}
                       onChange={(e) => handleModuleChange(module.id, 'goal', e.target.value)}
                       required
-                      style={{ width: '100%', padding: '0.5rem' }}
+                      style={{ width: '100%', padding: '0.75rem', fontSize: '1rem' }}
                     >
                       <option value="">Bitte wählen Sie ein Ziel...</option>
                       {module.goal && !getAvailableGoals(module.id).includes(module.goal) && (
@@ -345,8 +345,8 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                       value={module.indicators}
                       onChange={(e) => handleModuleChange(module.id, 'indicators', e.target.value)}
                       rows={4}
-                      style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
-                      placeholder="Wie wird festgestellt, ob (inwiewei das Ziel (Teilziel) erreicht worden ist?"
+                      style={{ width: '100%', padding: '0.75rem', fontFamily: 'inherit', fontSize: '1rem' }}
+                      placeholder="Wie wird festgestellt, ob (inwieweit) das Ziel (Teilziel) erreicht worden ist?"
                     />
                   </div>
 
@@ -359,7 +359,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                       <div>
                         <label 
                           htmlFor={`startDate-${module.id}`}
-                          style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.875rem' }}
+                          style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9375rem' }}
                         >
                           Startdatum
                         </label>
@@ -369,13 +369,13 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                           value={module.startDate}
                           onChange={(e) => handleModuleChange(module.id, 'startDate', e.target.value)}
                           required
-                          style={{ width: '100%', padding: '0.5rem' }}
+                          style={{ width: '100%', padding: '0.75rem', fontSize: '1rem' }}
                         />
                       </div>
                       <div>
                         <label 
                           htmlFor={`endDate-${module.id}`}
-                          style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.875rem' }}
+                          style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9375rem' }}
                         >
                           Enddatum (optional)
                         </label>
@@ -384,7 +384,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                           type="date"
                           value={module.endDate}
                           onChange={(e) => handleModuleChange(module.id, 'endDate', e.target.value)}
-                          style={{ width: '100%', padding: '0.5rem' }}
+                          style={{ width: '100%', padding: '0.75rem', fontSize: '1rem' }}
                         />
                       </div>
                     </div>
@@ -403,7 +403,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                       value={module.evaluation}
                       onChange={(e) => handleModuleChange(module.id, 'evaluation', e.target.value)}
                       rows={4}
-                      style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
+                      style={{ width: '100%', padding: '0.75rem', fontFamily: 'inherit', fontSize: '1rem' }}
                       placeholder="Beschreiben Sie die interne Evaluation..."
                     />
                   </div>
@@ -421,7 +421,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                       value={module.comments}
                       onChange={(e) => handleModuleChange(module.id, 'evaluation', e.target.value)}
                       rows={4}
-                      style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
+                      style={{ width: '100%', padding: '0.75rem', fontFamily: 'inherit', fontSize: '1rem' }}
                       placeholder="Haben Sie Kommentare hierzu?"
                     />
                   </div>
