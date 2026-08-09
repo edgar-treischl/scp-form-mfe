@@ -1,5 +1,5 @@
-import logoLeft from '../assets/isb_raute.png';
-import logoRight from '../assets/startchancen.png';
+import logoRight from '../assets/isb_raute.png';
+import logoLeft from '../assets/startchancen.png';
 import { AddIcon, ManageIcon } from '../assets/icons';
 
 interface LandingProps {
@@ -41,7 +41,7 @@ export function Landing({ onNavigate }: LandingProps) {
           src={logoRight}
           alt="Logo rechts"
           style={{
-            height: '100px',
+            height: '75px',
             width: 'auto',
             objectFit: 'contain',
           }}

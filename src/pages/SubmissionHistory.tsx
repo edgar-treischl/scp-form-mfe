@@ -2,7 +2,7 @@ import { StatusBadge, Breadcrumb } from '../components';
 import type { Submission } from '../types';
 
 interface SubmissionHistoryProps {
-  onNavigate: (view: 'landing' | 'form' | 'history' | 'view', submissionId?: string) => void;
+  onNavigate: (view: 'landing' | 'form' | 'history' | 'view' | 'about', submissionId?: string) => void;
 }
 
 // Mock data

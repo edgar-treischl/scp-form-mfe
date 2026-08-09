@@ -4,7 +4,7 @@ import { LoadTemplateIcon } from '../assets/icons';
 import type { Submission } from '../types';
 
 interface FormEditorProps {
-  onNavigate: (view: 'landing' | 'form' | 'history' | 'view') => void;
+  onNavigate: (view: 'landing' | 'form' | 'history' | 'view' | 'about') => void;
   submissionId?: string;
 }
 

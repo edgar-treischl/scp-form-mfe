@@ -5,7 +5,7 @@ import { exportSubmissionAsDOCX } from '../utils/docxExport';
 
 interface SubmissionViewProps {
   submissionId: string | null;
-  onNavigate: (view: 'landing' | 'form' | 'history' | 'view', submissionId?: string) => void;
+  onNavigate: (view: 'landing' | 'form' | 'history' | 'view' | 'about', submissionId?: string) => void;
 }
 
 // Mock submission data

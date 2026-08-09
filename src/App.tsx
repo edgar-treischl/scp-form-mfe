@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Landing, FormEditor, SubmissionHistory, SubmissionView } from './pages';
+import { Landing, FormEditor, SubmissionHistory, SubmissionView, About } from './pages';
+import { Footer } from './components';
 import './App.css';
 
-type View = 'landing' | 'form' | 'history' | 'view';
+type View = 'landing' | 'form' | 'history' | 'view' | 'about';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('landing');
@@ -25,6 +26,8 @@ function App() {
         return <SubmissionHistory onNavigate={handleNavigate} />;
       case 'view':
         return <SubmissionView submissionId={selectedSubmissionId} onNavigate={handleNavigate} />;
+      case 'about':
+        return <About onNavigate={handleNavigate} />;
       default:
         return <Landing onNavigate={handleNavigate} />;
     }
@@ -34,6 +37,7 @@ function App() {
     <div className="app">
       <main>
         {renderView()}
+        <Footer onNavigate={handleNavigate} />
       </main>
     </div>
   );
