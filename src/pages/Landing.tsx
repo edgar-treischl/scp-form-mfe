@@ -72,8 +72,8 @@ export function Landing({ onNavigate }: LandingProps) {
             maxWidth: '700px',
           }}
         >
-          Neue Zielvereinbarungen anlegen, bearbeiten und bislang eingereichte
-          Einreichung verwalten.
+          Neue Zielvereinbarungen anlegen, bearbeiten und eingereichte
+          Vereinbarungen verwalten.
         </p>
       </div>
 
@@ -97,13 +97,13 @@ export function Landing({ onNavigate }: LandingProps) {
             transition: 'border-color 0.2s',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = '#0066cc';
+            e.currentTarget.style.borderColor = '#1E8AD9';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.borderColor = '#e0e0e0';
           }}
         >
-          <AddIcon style={{ width: '2rem', height: '2rem', color: '#0066cc', marginBottom: '1rem' }} />
+          <AddIcon style={{ width: '2rem', height: '2rem', color: '#1E8AD9', marginBottom: '1rem' }} />
           <h2
             style={{
               fontSize: '1.25rem',
@@ -138,13 +138,13 @@ export function Landing({ onNavigate }: LandingProps) {
             transition: 'border-color 0.2s',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = '#0066cc';
+            e.currentTarget.style.borderColor = '#1E8AD9';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.borderColor = '#e0e0e0';
           }}
         >
-          <ManageIcon style={{ width: '2rem', height: '2rem', color: '#0066cc', marginBottom: '1rem' }} />
+          <ManageIcon style={{ width: '2rem', height: '2rem', color: '#1E8AD9', marginBottom: '1rem' }} />
           <h2
             style={{
               fontSize: '1.25rem',

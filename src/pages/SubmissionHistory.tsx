@@ -105,7 +105,7 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
                     style={{
                       background: 'none',
                       border: 'none',
-                      color: '#0969da',
+                      color: '#1E8AD9ff',
                       cursor: 'pointer',
                       textDecoration: 'none',
                       fontSize: 'inherit',

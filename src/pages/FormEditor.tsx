@@ -27,8 +27,8 @@ const GOAL_OPTIONS = [
 
 // Professional color palette
 const colors = {
-  primary: '#0066cc',
-  success: '#28a745',
+  primary: '#1E8AD9',
+  success: '#64D4C6',
   danger: '#dc3545',
   warning: '#ffc107',
   neutral: '#f8f9fa',
