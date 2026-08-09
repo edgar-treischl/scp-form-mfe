@@ -51,3 +51,25 @@ export function LoadTemplateIcon({ className, style }: IconProps) {
     </svg>
   );
 }
+
+export function ExportWordIcon({ className, style }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      style={style}
+      aria-hidden="true"
+    >
+      {/* Document */}
+      <path d="M6 2h8l4 4v5h-2V7h-3V4H6v16h6v2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+
+      {/* Export arrow */}
+      <path d="M14 14h3v-3l4 4-4 4v-3h-3v-2z" />
+
+      {/* Word-style W */}
+      <path d="M7 11h1.7l.8 3.2.9-3.2h1.2l.9 3.2.8-3.2H15l-1.5 6h-1.3l-1.2-3.4L9.8 17H8.5L7 11z" />
+    </svg>
+  );
+}
+

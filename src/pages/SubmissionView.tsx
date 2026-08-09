@@ -1,5 +1,7 @@
 import { StatusBadge, Breadcrumb } from '../components';
+import { ExportWordIcon } from '../assets/icons';
 import type { Submission } from '../types';
+import { exportSubmissionAsDOCX } from '../utils/docxExport';
 
 interface SubmissionViewProps {
   submissionId: string | null;
@@ -58,8 +60,12 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
     }).format(date);
   };
 
-  const handleExport = () => {
-    alert('Export functionality (Mock - no backend)');
+  const handleExport = async () => {
+    try {
+      await exportSubmissionAsDOCX(mockSubmission);
+    } catch (error) {
+      alert(`Export fehlgeschlagen: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`);
+    }
   };
 
   if (!submissionId) {
@@ -90,7 +96,7 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
   }>) || [];
 
   return (
-    <div>
+    <div id="submission-content">
       <Breadcrumb 
         items={[
           { label: 'Start', onClick: () => onNavigate('landing') },
@@ -216,7 +222,10 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
         {mockSubmission.status === 'draft' && (
           <button onClick={() => onNavigate('form', mockSubmission.id)}>Bearbeiten</button>
         )}
-        <button onClick={handleExport}>Exportieren</button>
+        <button onClick={handleExport} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <ExportWordIcon style={{ width: '1.4rem', height: '1.4rem' }} />
+          Als Word exportieren
+        </button>
       </footer>
     </div>
   );
