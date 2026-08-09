@@ -1,5 +1,6 @@
-import logoLeft from '/src/assets/isb_raute.png';
-import logoRight from '/src/assets/startchancen.png';
+import logoLeft from '../assets/isb_raute.png';
+import logoRight from '../assets/startchancen.png';
+import { AddIcon, ManageIcon } from '../assets/icons';
 
 interface LandingProps {
   onNavigate: (view: 'landing' | 'form' | 'history' | 'view') => void;
@@ -102,6 +103,7 @@ export function Landing({ onNavigate }: LandingProps) {
             e.currentTarget.style.borderColor = '#e0e0e0';
           }}
         >
+          <AddIcon style={{ width: '2rem', height: '2rem', color: '#0066cc', marginBottom: '1rem' }} />
           <h2
             style={{
               fontSize: '1.25rem',
@@ -142,6 +144,7 @@ export function Landing({ onNavigate }: LandingProps) {
             e.currentTarget.style.borderColor = '#e0e0e0';
           }}
         >
+          <ManageIcon style={{ width: '2rem', height: '2rem', color: '#0066cc', marginBottom: '1rem' }} />
           <h2
             style={{
               fontSize: '1.25rem',

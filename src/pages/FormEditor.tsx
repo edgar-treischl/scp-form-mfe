@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SaveIndicator, Breadcrumb } from '../components';
+import { LoadTemplateIcon } from '../assets/icons';
 import type { Submission } from '../types';
 
 interface FormEditorProps {
@@ -23,6 +24,250 @@ const GOAL_OPTIONS = [
   'Individuelle Ebene – Ziel 3',
   'Individuelle Ebene – Ziel 4',
 ];
+
+// Professional color palette
+const colors = {
+  primary: '#0066cc',
+  success: '#28a745',
+  danger: '#dc3545',
+  warning: '#ffc107',
+  neutral: '#f8f9fa',
+  border: '#dee2e6',
+  text: '#212529',
+  textMuted: '#6c757d',
+  disabled: '#e9ecef',
+};
+
+// Reusable style objects
+const styles = {
+  container: {
+    maxWidth: '900px',
+    margin: '0 auto',
+    padding: '2rem 1rem',
+  },
+  header: {
+    marginBottom: '2rem',
+    borderBottom: `2px solid ${colors.border}`,
+    paddingBottom: '1.5rem',
+  },
+  header_title: {
+    fontSize: '2rem',
+    fontWeight: '600',
+    color: colors.text,
+    margin: 0,
+    marginBottom: '0.5rem',
+  },
+  header_meta: {
+    display: 'flex' as const,
+    gap: '1rem',
+    alignItems: 'center',
+    marginTop: '1rem',
+  },
+  status_badge: {
+    padding: '0.35rem 0.75rem',
+    background: colors.warning,
+    color: '#000',
+    borderRadius: '4px',
+    fontSize: '0.875rem',
+    fontWeight: '500',
+  },
+  section: {
+    marginBottom: '2.5rem',
+  },
+  section_title: {
+    fontSize: '1.25rem',
+    fontWeight: '600',
+    color: colors.text,
+    marginBottom: '1.5rem',
+  },
+  label: {
+    display: 'block' as const,
+    marginBottom: '0.5rem',
+    fontWeight: '500',
+    color: colors.text,
+    fontSize: '0.95rem',
+  },
+  required: {
+    color: colors.danger,
+  },
+  input: {
+    width: '100%',
+    padding: '0.65rem 0.75rem',
+    fontSize: '0.95rem',
+    border: `1px solid ${colors.border}`,
+    borderRadius: '4px',
+    fontFamily: 'inherit',
+    transition: 'border-color 0.2s',
+  },
+  textarea: {
+    width: '100%',
+    padding: '0.75rem',
+    fontSize: '0.95rem',
+    border: `1px solid ${colors.border}`,
+    borderRadius: '4px',
+    fontFamily: 'inherit',
+    resize: 'vertical' as const,
+    transition: 'border-color 0.2s',
+  },
+  moduleCard: {
+    border: `1px solid ${colors.border}`,
+    borderRadius: '6px',
+    padding: '1.5rem',
+    marginBottom: '1.5rem',
+    background: '#fff',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+  },
+  module_header: {
+    display: 'flex' as const,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '1.5rem',
+  },
+  module_title: {
+    fontSize: '1.1rem',
+    fontWeight: '600',
+    color: colors.text,
+    margin: 0,
+  },
+  button_primary: {
+    padding: '0.75rem 1.5rem',
+    background: colors.primary,
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: '500',
+    fontSize: '0.95rem',
+    transition: 'background-color 0.2s',
+  },
+  button_success: {
+    width: '100%',
+    padding: '0.85rem 1.5rem',
+    background: colors.success,
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: '500',
+    fontSize: '0.95rem',
+    transition: 'all 0.2s',
+  },
+  button_success_disabled: {
+    width: '100%',
+    padding: '0.85rem 1.5rem',
+    background: colors.disabled,
+    color: colors.textMuted,
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'not-allowed',
+    fontWeight: '500',
+    fontSize: '0.95rem',
+  },
+  button_danger: {
+    padding: '0.35rem 0.75rem',
+    background: colors.danger,
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '0.875rem',
+    fontWeight: '500',
+    transition: 'background-color 0.2s',
+  },
+  button_secondary: {
+    padding: '0.5rem 1.5rem',
+    background: colors.neutral,
+    color: colors.text,
+    border: `1px solid ${colors.border}`,
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: '500',
+    transition: 'background-color 0.2s',
+  },
+  button_draft: {
+    padding: '0.65rem 1rem',
+    background: '#fff8e1',
+    border: `1px solid ${colors.warning}`,
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: '500',
+    fontSize: '0.95rem',
+    transition: 'background-color 0.2s',
+  },
+  draftInfoBox: {
+    marginBottom: '1.5rem',
+  },
+  modalOverlay: {
+    position: 'fixed' as const,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex' as const,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
+    zIndex: 1000,
+  },
+  modalContent: {
+    background: 'white',
+    borderRadius: '8px',
+    padding: '2rem',
+    maxWidth: '500px',
+    width: '90%',
+    boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+  },
+  modalTitle: {
+    fontSize: '1.25rem',
+    fontWeight: '600',
+    color: colors.text,
+    margin: '0 0 1.5rem 0',
+  },
+  draftCard: {
+    background: colors.neutral,
+    border: `1px solid ${colors.border}`,
+    borderRadius: '4px',
+    padding: '1rem',
+    marginBottom: '1.5rem',
+  },
+  draftCard_title: {
+    marginBottom: '0.5rem',
+    fontWeight: '600',
+    color: colors.text,
+  },
+  draftCard_preview: {
+    fontSize: '0.9rem',
+    color: colors.textMuted,
+    marginBottom: '0.75rem',
+  },
+  draftCard_meta: {
+    fontSize: '0.85rem',
+    color: colors.textMuted,
+  },
+  fieldGroup: {
+    display: 'flex' as const,
+    flexDirection: 'column' as const,
+    gap: '1.5rem',
+  },
+  fieldRow: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '1rem',
+  },
+  footer: {
+    display: 'flex' as const,
+    gap: '1rem',
+    justifyContent: 'flex-end',
+    marginTop: '2rem',
+    paddingTop: '1.5rem',
+    borderTop: `1px solid ${colors.border}`,
+  },
+  hr: {
+    border: 'none',
+    borderTop: `1px solid ${colors.border}`,
+    margin: '2rem 0',
+  },
+};
 
 // Mock draft - would come from API (user can only have one draft)
 const mockDraft: Submission | null = {
@@ -76,6 +321,10 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   };
 
   const addQuestionModule = () => {
+    if (questionModules.length >= GOAL_OPTIONS.length) {
+      alert(`Es können maximal ${GOAL_OPTIONS.length} Zielmodule hinzugefügt werden.`);
+      return;
+    }
     setQuestionModules(prev => [
       ...prev,
       {
@@ -146,92 +395,49 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   };
 
   return (
-    <div>
+    <div style={styles.container}>
       <Breadcrumb items={getBreadcrumbItems()} />
 
       {mockDraft && !currentDraftId && !submissionId && (
-        <div style={{ marginBottom: '1rem' }}>
+        <div style={styles.draftInfoBox}>
           <button 
             onClick={() => setShowDraftPicker(true)}
-            style={{ 
-              padding: '0.5rem 1rem',
-              background: '#fff3cd',
-              border: '1px solid #ffc107',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontWeight: '500'
-            }}
+            style={styles.button_draft}
           >
-            📄 Entwurf laden
+            <LoadTemplateIcon style={{ width: '1.25rem', height: '1.25rem', marginRight: '0.5rem', verticalAlign: 'middle' }} />
+            Entwurf laden
           </button>
         </div>
       )}
 
       {/* Draft Load Confirmation Modal */}
       {showDraftPicker && mockDraft && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000
-        }}>
-          <div style={{
-            background: 'white',
-            borderRadius: '8px',
-            padding: '2rem',
-            maxWidth: '500px',
-            width: '90%'
-          }}>
-            <h2 style={{ margin: '0 0 1rem 0' }}>Entwurf laden?</h2>
+        <div style={styles.modalOverlay}>
+          <div style={styles.modalContent}>
+            <h2 style={styles.modalTitle}>Entwurf laden?</h2>
             
-            <div style={{
-              background: '#ffffff',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              padding: '1rem',
-              marginBottom: '1.5rem'
-            }}>
-              <div style={{ marginBottom: '0.5rem', fontWeight: '500' }}>
+            <div style={styles.draftCard}>
+              <div style={styles.draftCard_title}>
                 {(mockDraft.data.title as string) || 'Untitled'}
               </div>
-              <div style={{ fontSize: '0.9375rem', color: '#666', marginBottom: '0.75rem' }}>
+              <div style={styles.draftCard_preview}>
                 {(mockDraft.data.istStandAnalyse as string)?.substring(0, 150)}...
               </div>
-              <div style={{ fontSize: '0.875rem', color: '#999' }}>
+              <div style={styles.draftCard_meta}>
                 Zuletzt aktualisiert: {formatDate(mockDraft.updatedAt)}
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+            <div style={styles.footer}>
               <button
                 onClick={() => setShowDraftPicker(false)}
-                style={{
-                  padding: '0.5rem 1.5rem',
-                  background: '#f0f0f0',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  cursor: 'pointer'
-                }}
+                style={styles.button_secondary}
               >
                 Abbrechen
               </button>
               <button
                 onClick={loadDraft}
-                style={{
-                  padding: '0.5rem 1.5rem',
-                  background: '#0066cc',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontWeight: '500'
-                }}
+                style={styles.button_primary}
               >
                 Entwurf laden
               </button>
@@ -240,10 +446,10 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         </div>
       )}
       
-      <header>
-        <h1>Zielvereinbarung</h1>
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <span style={{ padding: '0.25rem 0.5rem', background: '#fff3cd', borderRadius: '4px' }}>
+      <header style={styles.header}>
+        <h1 style={styles.header_title}>Neue Zielvereinbarung</h1>
+        <div style={styles.header_meta}>
+          <span style={styles.status_badge}>
             Entwurf {currentDraftId ? `(${currentDraftId})` : ''}
           </span>
           <SaveIndicator status={saveStatus} />
@@ -251,76 +457,61 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       </header>
 
       <form onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          {/* Feld 1: IST-Stand-Analyse */}
-          <div>
-            <h2 style={{ marginBottom: '1.5rem' }}>Ist-Stand</h2>
-            <label htmlFor="istStandAnalyse" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-              Grundlegende Erkenntnisse zur IST-Stand-Analyse in Kurzfassung
-            </label>
-            <textarea
-              id="istStandAnalyse"
-              value={istStandAnalyse}
-              onChange={handleIstStandChange}
-              rows={6}
-              style={{ width: '100%', padding: '0.75rem', fontFamily: 'inherit', fontSize: '1rem' }}
-              placeholder="Bitte geben Sie die grundlegenden Erkenntnisse ein..."
-            />
-          </div>
+        {/* IST-Stand-Analyse Section */}
+        <div style={styles.section}>
+          <h2 style={styles.section_title}>Ist-Stand</h2>
+          <label htmlFor="istStandAnalyse" style={styles.label}>
+            Grundlegende Erkenntnisse zur IST-Stand-Analyse in Kurzfassung
+          </label>
+          <textarea
+            id="istStandAnalyse"
+            value={istStandAnalyse}
+            onChange={handleIstStandChange}
+            rows={6}
+            style={styles.textarea}
+            placeholder="Bitte geben Sie die grundlegenden Erkenntnisse ein..."
+          />
+        </div>
 
-          <hr style={{ border: 'none', borderTop: '2px solid #ddd' }} />
+        <hr style={styles.hr} />
 
-          {/* Question Modules */}
-          <div>
-            <h2 style={{ marginBottom: '1.5rem' }}>Ziele</h2>
+        {/* Ziele Section */}
+        <div style={styles.section}>
+          <h2 style={styles.section_title}>Ziele</h2>
             
-            {questionModules.map((module, index) => (
-              <div 
-                key={module.id}
-                style={{ 
-                  border: '1px solid #ddd',
-                  borderRadius: '8px',
-                  padding: '1.5rem',
-                  marginBottom: '1.5rem',
-                  background: '#ffffff'
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3 style={{ margin: 0 }}>Modul {index + 1}</h3>
-                  {questionModules.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeQuestionModule(module.id)}
-                      style={{
-                        padding: '0.25rem 0.75rem',
-                        background: '#dc3545',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        fontSize: '0.9375rem'
-                      }}
-                    >
-                      Entfernen
-                    </button>
-                  )}
-                </div>
+          {questionModules.map((module, index) => (
+            <div 
+              key={module.id}
+              style={styles.moduleCard}
+            >
+              <div style={styles.module_header}>
+                <h3 style={styles.module_title}>Modul {index + 1}</h3>
+                {questionModules.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeQuestionModule(module.id)}
+                    style={styles.button_danger}
+                  >
+                    Entfernen
+                  </button>
+                )}
+              </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <div style={styles.fieldGroup}>
                   {/* Feld 2: Ziele im SCP */}
                   <div>
                     <label 
                       htmlFor={`goal-${module.id}`}
-                      style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}
+                      style={styles.label}
                     >
-                      Feld 2: Ziele im SCP *
+                      Feld 2: Ziele im SCP <span style={styles.required}>*</span>
                     </label>
                     <select
                       id={`goal-${module.id}`}
                       value={module.goal}
                       onChange={(e) => handleModuleChange(module.id, 'goal', e.target.value)}
                       required
-                      style={{ width: '100%', padding: '0.75rem', fontSize: '1rem' }}
+                      style={styles.input}
                     >
                       <option value="">Bitte wählen Sie ein Ziel...</option>
                       {module.goal && !getAvailableGoals(module.id).includes(module.goal) && (
@@ -336,7 +527,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                   <div>
                     <label 
                       htmlFor={`indicators-${module.id}`}
-                      style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}
+                      style={styles.label}
                     >
                       Zielindikatoren
                     </label>
@@ -345,21 +536,21 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                       value={module.indicators}
                       onChange={(e) => handleModuleChange(module.id, 'indicators', e.target.value)}
                       rows={4}
-                      style={{ width: '100%', padding: '0.75rem', fontFamily: 'inherit', fontSize: '1rem' }}
+                      style={styles.textarea}
                       placeholder="Wie wird festgestellt, ob (inwieweit) das Ziel (Teilziel) erreicht worden ist?"
                     />
                   </div>
 
                   {/* Feld 4a: Zeitpunkt für die Zielerreichung */}
                   <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>
+                    <label style={styles.label}>
                       Zeitpunkt für die Zielerreichung
                     </label>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div style={styles.fieldRow}>
                       <div>
                         <label 
                           htmlFor={`startDate-${module.id}`}
-                          style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9375rem' }}
+                          style={{...styles.label, marginBottom: '0.25rem', fontSize: '0.875rem'}}
                         >
                           Startdatum
                         </label>
@@ -369,13 +560,13 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                           value={module.startDate}
                           onChange={(e) => handleModuleChange(module.id, 'startDate', e.target.value)}
                           required
-                          style={{ width: '100%', padding: '0.75rem', fontSize: '1rem' }}
+                          style={styles.input}
                         />
                       </div>
                       <div>
                         <label 
                           htmlFor={`endDate-${module.id}`}
-                          style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9375rem' }}
+                          style={{...styles.label, marginBottom: '0.25rem', fontSize: '0.875rem'}}
                         >
                           Enddatum (optional)
                         </label>
@@ -384,7 +575,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                           type="date"
                           value={module.endDate}
                           onChange={(e) => handleModuleChange(module.id, 'endDate', e.target.value)}
-                          style={{ width: '100%', padding: '0.75rem', fontSize: '1rem' }}
+                          style={styles.input}
                         />
                       </div>
                     </div>
@@ -394,7 +585,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                   <div>
                     <label 
                       htmlFor={`evaluation-${module.id}`}
-                      style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}
+                      style={styles.label}
                     >
                       Interne Evaluation der Teilziele
                     </label>
@@ -403,29 +594,28 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                       value={module.evaluation}
                       onChange={(e) => handleModuleChange(module.id, 'evaluation', e.target.value)}
                       rows={4}
-                      style={{ width: '100%', padding: '0.75rem', fontFamily: 'inherit', fontSize: '1rem' }}
+                      style={styles.textarea}
                       placeholder="Beschreiben Sie die interne Evaluation..."
                     />
                   </div>
 
-                {/* Feld 6a: Comments */}
+                  {/* Feld 6a: Comments */}
                   <div>
                     <label 
-                      htmlFor={`evaluation-${module.id}`}
-                      style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}
+                      htmlFor={`comments-${module.id}`}
+                      style={styles.label}
                     >
                       Kommentare
                     </label>
                     <textarea
-                      id={`evaluation-${module.id}`}
+                      id={`comments-${module.id}`}
                       value={module.comments}
-                      onChange={(e) => handleModuleChange(module.id, 'evaluation', e.target.value)}
+                      onChange={(e) => handleModuleChange(module.id, 'comments', e.target.value)}
                       rows={4}
-                      style={{ width: '100%', padding: '0.75rem', fontFamily: 'inherit', fontSize: '1rem' }}
+                      style={styles.textarea}
                       placeholder="Haben Sie Kommentare hierzu?"
                     />
                   </div>
-
 
                 </div>
               </div>
@@ -435,25 +625,20 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
             <button
               type="button"
               onClick={addQuestionModule}
-              style={{
-                padding: '0.75rem 1.5rem',
-                background: '#28a745',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontWeight: '500',
-                width: '100%'
-              }}
+              disabled={questionModules.length >= GOAL_OPTIONS.length}
+              style={questionModules.length >= GOAL_OPTIONS.length ? styles.button_success_disabled : styles.button_success}
             >
-              + Weiteres Zielmodul hinzufügen
+              {questionModules.length >= GOAL_OPTIONS.length 
+                ? `✓ Maximal ${GOAL_OPTIONS.length} Zielmodule erreicht` 
+                : '+ Weiteres Zielmodul hinzufügen'}
             </button>
           </div>
-        </div>
 
-        <footer style={{ marginTop: '2rem' }}>
-          <button type="button" onClick={() => onNavigate('landing')}>Abbrechen</button>
-          <button type="submit" style={{ background: '#0066cc', color: 'white', fontWeight: 'bold' }}>
+        <footer style={styles.footer}>
+          <button type="button" onClick={() => onNavigate('landing')} style={styles.button_secondary}>
+            Abbrechen
+          </button>
+          <button type="submit" style={styles.button_primary}>
             ZV einreichen
           </button>
         </footer>
