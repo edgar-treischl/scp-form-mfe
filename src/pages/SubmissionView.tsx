@@ -100,7 +100,7 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
       <Breadcrumb 
         items={[
           { label: 'Start', onClick: () => onNavigate('landing') },
-          { label: 'Eingabehistorie', onClick: () => onNavigate('history') },
+          { label: 'Zielvereinbarungen', onClick: () => onNavigate('history') },
           { label: submissionId }
         ]}
       />

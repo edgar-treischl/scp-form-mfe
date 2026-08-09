@@ -8,44 +8,30 @@ interface SubmissionHistoryProps {
 // Mock data
 const mockSubmissions: Submission[] = [
   {
-    id: 'sub-001',
+    id: '001',
     owner: 'maria.schmidt@organisation.de',
     status: 'submitted',
     version: 3,
-    createdAt: new Date('2024-07-15T10:30:00'),
-    updatedAt: new Date('2024-07-15T14:20:00'),
-    submittedAt: new Date('2024-07-15T14:20:00'),
+    createdAt: new Date('2025-07-15T10:30:00'),
+    updatedAt: new Date('2025-07-15T14:20:00'),
+    submittedAt: new Date('2025-07-15T14:20:00'),
     data: {
-      title: 'SCP Evaluation Q2/2024',
+      title: 'Zielvereinbarung 2025',
       istStandAnalyse: 'Umfassende Analyse der aktuellen Situation...',
       moduleCount: 2,
     },
   },
   {
-    id: 'sub-002',
+    id: '002',
     owner: 'maria.schmidt@organisation.de',
     status: 'draft',
     version: 1,
-    createdAt: new Date('2024-07-28T09:15:00'),
-    updatedAt: new Date('2024-07-28T09:45:00'),
+    createdAt: new Date('2026-07-28T09:15:00'),
+    updatedAt: new Date('2026-07-28T09:45:00'),
     data: {
-      title: 'SCP Zwischenbericht Juli',
+      title: 'Zielvereinbarung 2026',
       istStandAnalyse: 'Erste Erkenntnisse aus der laufenden Periode...',
       moduleCount: 1,
-    },
-  },
-  {
-    id: 'sub-003',
-    owner: 'maria.schmidt@organisation.de',
-    status: 'submitted',
-    version: 2,
-    createdAt: new Date('2024-08-01T11:00:00'),
-    updatedAt: new Date('2024-08-01T15:30:00'),
-    submittedAt: new Date('2024-08-01T15:30:00'),
-    data: {
-      title: 'SCP Jahresplanung 2024/2025',
-      istStandAnalyse: 'Rückblick auf die erreichten Ziele...',
-      moduleCount: 4,
     },
   },
 ];
@@ -70,12 +56,12 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
       <Breadcrumb 
         items={[
           { label: 'Start', onClick: () => onNavigate('landing') },
-          { label: 'Eingabehistorie' }
+          { label: 'Zielvereinbarungen' }
         ]}
       />
       
       <header>
-        <h1>Eingabehistorie</h1>
+        <h1>Zielvereinbarungen verwalten</h1>
       </header>
 
       <div style={{ marginTop: '2rem' }}>
@@ -136,10 +122,6 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
             ))}
           </tbody>
         </table>
-
-        <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end' }}>
-          <button onClick={handleExport}>CSV exportieren</button>
-        </div>
       </div>
     </div>
   );

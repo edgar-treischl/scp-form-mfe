@@ -53,6 +53,7 @@ const styles = {
   header_title: {
     fontSize: '2rem',
     fontWeight: '600',
+    lineHeight: '1.25',
     color: colors.text,
     margin: 0,
     marginBottom: '0.5rem',
@@ -124,7 +125,7 @@ const styles = {
     marginBottom: '1.5rem',
   },
   module_title: {
-    fontSize: '1.1rem',
+    fontSize: '1.2rem',
     fontWeight: '600',
     color: colors.text,
     margin: 0,
@@ -134,6 +135,17 @@ const styles = {
     background: colors.primary,
     color: 'white',
     border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: '500',
+    fontSize: '0.95rem',
+    transition: 'background-color 0.2s',
+  },
+  button_secondary: {
+    padding: '0.5rem 1.5rem',
+    background: colors.neutral,
+    color: colors.text,
+    border: `1px solid ${colors.border}`,
     borderRadius: '4px',
     cursor: 'pointer',
     fontWeight: '500',
@@ -171,16 +183,6 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
     fontSize: '0.875rem',
-    fontWeight: '500',
-    transition: 'background-color 0.2s',
-  },
-  button_secondary: {
-    padding: '0.5rem 1.5rem',
-    background: colors.neutral,
-    color: colors.text,
-    border: `1px solid ${colors.border}`,
-    borderRadius: '4px',
-    cursor: 'pointer',
     fontWeight: '500',
     transition: 'background-color 0.2s',
   },
@@ -267,18 +269,63 @@ const styles = {
     borderTop: `1px solid ${colors.border}`,
     margin: '2rem 0',
   },
+  contractSection: {
+    border: `2px solid ${colors.primary}`,
+    borderRadius: '8px',
+    padding: '1.5rem',
+    marginBottom: '2rem',
+  },
+  contractTitle: {
+    fontSize: '1.1rem',
+    fontWeight: '700',
+    color: colors.primary,
+    marginBottom: '1rem',
+    textTransform: 'uppercase' as const,
+    letterSpacing: '0.5px',
+  },
+  contractPreview: {
+    fontSize: '0.95rem',
+    lineHeight: '1.8',
+    color: colors.text,
+    fontStyle: 'italic' as const,
+  },
+  contractValue: {
+    borderBottom: `2px solid ${colors.primary}`,
+    color: colors.text,
+    fontWeight: '600',
+    fontStyle: 'normal' as const,
+    paddingBottom: '2px',
+  },
+  contractInputsGrid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '1rem',
+    marginTop: '1.5rem',
+  },
+  contractInputWrapper: {
+    display: 'flex' as const,
+    flexDirection: 'column' as const,
+    gap: '0.5rem',
+  },
+  contractLabel: {
+    fontSize: '0.85rem',
+    fontWeight: '600',
+    color: colors.primary,
+    textTransform: 'uppercase' as const,
+    letterSpacing: '0.3px',
+  },
 };
 
 // Mock draft - would come from API (user can only have one draft)
 const mockDraft: Submission | null = {
-  id: 'sub-002',
+  id: '002',
   owner: 'maria.schmidt@organisation.de',
   status: 'draft',
   version: 1,
-  createdAt: new Date('2020-07-28T09:15:00'),
-  updatedAt: new Date('2020-07-28T09:45:00'),
+  createdAt: new Date('2026-07-28T09:15:00'),
+  updatedAt: new Date('2026-07-28T09:45:00'),
   data: {
-    title: 'Zielvereinbarung 2020',
+    title: 'Zielvereinbarung 2026',
     istStandAnalyse: 'Erste Erkenntnisse aus der laufenden Periode...',
     moduleCount: 1,
   },
@@ -300,6 +347,13 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   ]);
   const [showDraftPicker, setShowDraftPicker] = useState(false);
   const [currentDraftId, setCurrentDraftId] = useState<string | undefined>(submissionId);
+
+  // Contract party parameters (from authentication/context - these values change per user)
+  const contractSchoolName = 'Zauberberg Grundschule';
+  const contractSchoolLead = 'Dr. Monika Musterfrau';
+  const contractSamt = 'Staatl. Schulamt Zauberberg';
+  const contractProgramRep = 'Max Musterman';
+
 
   const triggerAutosave = () => {
     setSaveStatus('saving');
@@ -383,13 +437,13 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       // Editing existing submission
       return [
         { label: 'Start', onClick: () => onNavigate('landing') },
-        { label: 'Zielvereinbarung' }
+        { label: 'Neu' }
       ];
     } else {
       // New form
       return [
         { label: 'Start', onClick: () => onNavigate('landing') },
-        { label: 'Zielvereinbarung' }
+        { label: 'Neu' }
       ];
     }
   };
@@ -447,7 +501,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       )}
       
       <header style={styles.header}>
-        <h1 style={styles.header_title}>Neue Zielvereinbarung</h1>
+        <h1 style={styles.header_title}>Zielvereinbarung für Schulen im Startchancen-Programm</h1>
         <div style={styles.header_meta}>
           <span style={styles.status_badge}>
             Entwurf {currentDraftId ? `(${currentDraftId})` : ''}
@@ -455,6 +509,20 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
           <SaveIndicator status={saveStatus} />
         </div>
       </header>
+
+      {/* Contract Preview Section */}
+      <div style={styles.contractSection}>
+        <h2 style={styles.contractTitle}>Zielvereinbarung</h2>
+        
+        <div style={styles.contractPreview}>
+          <p style={{ marginTop: 0, marginBottom: '1.5rem' }}>
+            Zwischen der Schule <span style={styles.contractValue}>{contractSchoolName}</span> in Zusammenarbeit mit <span style={styles.contractValue}>{contractSchoolLead}</span> (Schulleitung) auf der einen Seite
+                      </p>
+          <p style={{ marginTop: 0, marginBottom: '1.5rem' }}>            
+            nd dem <span style={styles.contractValue}>{contractSamt}</span>, vertreten durch <span style={styles.contractValue}>{contractProgramRep}</span>, auf der anderen Seite, wird folgende Zielvereinbarung geschlossen und verbindlich vereinbart.
+          </p>
+        </div>
+      </div>
 
       <form onSubmit={handleSubmit}>
         {/* IST-Stand-Analyse Section */}
