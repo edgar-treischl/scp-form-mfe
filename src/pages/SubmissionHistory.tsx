@@ -37,10 +37,7 @@ const mockSubmissions: Submission[] = [
 ];
 
 export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
-  const handleExport = () => {
-    alert('Export CSV functionality (Mock - no backend)');
-  };
-
+  
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('de-DE', {
       year: 'numeric',
