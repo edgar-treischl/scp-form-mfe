@@ -501,7 +501,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       )}
       
       <header style={styles.header}>
-        <h1 style={styles.header_title}>Zielvereinbarung für Schulen im Startchancen-Programm</h1>
+        <h1 style={styles.header_title}>Neue Zielvereinbarung</h1>
         <div style={styles.header_meta}>
           <span style={styles.status_badge}>
             Entwurf {currentDraftId ? `(${currentDraftId})` : ''}
@@ -512,14 +512,17 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
       {/* Contract Preview Section */}
       <div style={styles.contractSection}>
-        <h2 style={styles.contractTitle}>Zielvereinbarung</h2>
+        <h2 style={styles.contractTitle}>Zielvereinbarung für Schulen im Startchancen-Programm:</h2>
         
         <div style={styles.contractPreview}>
           <p style={{ marginTop: 0, marginBottom: '1.5rem' }}>
-            Zwischen der Schule <span style={styles.contractValue}>{contractSchoolName}</span> in Zusammenarbeit mit <span style={styles.contractValue}>{contractSchoolLead}</span> (Schulleitung) auf der einen Seite
-                      </p>
+            Zwischen <span style={styles.contractValue}>{contractSchoolLead}</span> als Schulleitung der <span style={styles.contractValue}>{contractSchoolName}</span>.
+          </p>
           <p style={{ marginTop: 0, marginBottom: '1.5rem' }}>            
-            nd dem <span style={styles.contractValue}>{contractSamt}</span>, vertreten durch <span style={styles.contractValue}>{contractProgramRep}</span>, auf der anderen Seite, wird folgende Zielvereinbarung geschlossen und verbindlich vereinbart.
+            Und dem <span style={styles.contractValue}>{contractSamt}</span>, vertreten durch <span style={styles.contractValue}>{contractProgramRep}</span>. Folgende Zielvereinbarung geschlossen und verbindlich vereinbart.
+          </p>
+          <p style={{ marginTop: 0, marginBottom: '0rem' }}>
+            Folgende Zielvereinbarung wird verbindlich vereinbart und geschlossen.
           </p>
         </div>
       </div>

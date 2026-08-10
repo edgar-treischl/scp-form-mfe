@@ -56,19 +56,23 @@ export function ExportWordIcon({ className, style }: IconProps) {
   return (
     <svg
       viewBox="0 0 24 24"
-      fill="currentColor"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
       style={style}
       aria-hidden="true"
     >
       {/* Document */}
-      <path d="M6 2h8l4 4v5h-2V7h-3V4H6v16h6v2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+      <path d="M6 2h8l4 4v5h-2V7h-3V4H6v16h6" />
 
       {/* Export arrow */}
-      <path d="M14 14h3v-3l4 4-4 4v-3h-3v-2z" />
+      <path d="M14 14h3v-3l4 4-4 4v-3h-3" />
 
       {/* Word-style W */}
-      <path d="M7 11h1.7l.8 3.2.9-3.2h1.2l.9 3.2.8-3.2H15l-1.5 6h-1.3l-1.2-3.4L9.8 17H8.5L7 11z" />
+      <path d="M7 11l1.6 6 .9-3.2.9 3.2 1.6-6" />
     </svg>
   );
 }

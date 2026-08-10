@@ -222,8 +222,8 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
         {mockSubmission.status === 'draft' && (
           <button onClick={() => onNavigate('form', mockSubmission.id)}>Bearbeiten</button>
         )}
-        <button onClick={handleExport} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <ExportWordIcon style={{ width: '1.4rem', height: '1.4rem' }} />
+        <button onClick={handleExport} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.95rem' }}>
+          <ExportWordIcon style={{ width: '1.4rem', height: '1.4rem', strokeWidth: '1.2' }} />
           Als Word exportieren
         </button>
       </footer>
