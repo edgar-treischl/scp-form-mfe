@@ -10,8 +10,10 @@ export function FormCallout({
   message = 'Wichtige Information',
 }: FormCalloutProps) {
   const exampleData = [
-    { question: 'Wie wird die Schule bei der Umsetzung unterstützt?', indicator: 'Ressourcen, Personal' },
-    { question: 'Welche Maßnahmen sind geplant?', indicator: 'Zeitplan, Verantwortliche' },
+    { question: 'Was zeigen die Daten?', indicator: 'Freitext' },
+    { question: 'Zielerreichung', indicator: 'Single Choice' },
+    { question: 'Begründung', indicator: 'u.a. Passgenauigkeit, Zeit, Personal' },
+
   ];
 
   return (

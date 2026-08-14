@@ -307,8 +307,6 @@ export function FormGoals({
             : '+ Weiteres Zielmodul hinzufügen'}
         </button>
       </div>
-
-      <hr style={formStyles.hr} />
     </>
   );
 }

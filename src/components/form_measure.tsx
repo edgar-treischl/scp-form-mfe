@@ -72,7 +72,7 @@ export function FormMeasure({
   return (
     <>
       <div style={formStyles.section}>
-        <h2 style={formStyles.section_title}>Maßnahmen</h2>
+        <h2 style={formStyles.section_title}>Planen Sie Maßnahmen und erstellen Sie ein Handlungsprogramm!</h2>
 
         {measureModules.map((module, index) => (
           <div key={module.id} style={formStyles.moduleCard}>
@@ -296,8 +296,6 @@ export function FormMeasure({
             : '+ Weitere Maßnahme hinzufügen'}
         </button>
       </div>
-
-      <hr style={formStyles.hr} />
     </>
   );
 }

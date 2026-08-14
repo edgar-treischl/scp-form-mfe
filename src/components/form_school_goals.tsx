@@ -309,8 +309,6 @@ export function FormSchoolGoals({
             : '+ Weiteres Schulzielmodul hinzufügen'}
         </button>
       </div>
-
-      <hr style={formStyles.hr} />
     </>
   );
 }

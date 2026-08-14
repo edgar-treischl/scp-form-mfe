@@ -853,9 +853,11 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
           onFileRemove={handleFileRemove}
         />
 
+         <hr style={styles.hr} />
+
         <FormCallout
-          title="Hinweis: Weitere Fragen in Vorbereitung"
-          message="Die folgenden Bereiche sind noch nicht vollständig implementiert. Sie können hier bereits Kategorien und Fragen dokumentieren, die später hinzugefügt werden."
+          title="Hinweis: Weitere Fragen zur Datengestützte Bilanzierung pro Teilziel"
+          message="Das Formular zur Bilanzierung pro Teilziel ist nicht implementiert."
         />
 
         <footer style={styles.footer}>
