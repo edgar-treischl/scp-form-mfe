@@ -40,7 +40,6 @@ const colors = {
   textMuted: '#6c757d',
   disabled: '#e9ecef',
 };
-const styles = {
   container: {
     maxWidth: '900px',
     margin: '0 auto',
@@ -573,43 +572,354 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         </div>
       </header>
 
-      <FormContract
-        contractSchoolLead={contractSchoolLead}
-        contractSchoolName={contractSchoolName}
-        contractSamt={contractSamt}
-        contractProgramRep={contractProgramRep}
-      />
+      {/* Contract Preview Section */}
+      <div style={styles.contractSection}>
+        <h2 style={styles.contractTitle}>Zielvereinbarung für Schulen im Startchancen-Programm:</h2>
+        
+        <div style={styles.contractPreview}>
+          <p style={{ marginTop: 0, marginBottom: '1.5rem' }}>
+            Zwischen <span style={styles.contractValue}>{contractSchoolLead}</span> als Schulleitung der <span style={styles.contractValue}>{contractSchoolName}</span>.
+          </p>
+          <p style={{ marginTop: 0, marginBottom: '1.5rem' }}>            
+            Und dem <span style={styles.contractValue}>{contractSamt}</span>, vertreten durch <span style={styles.contractValue}>{contractProgramRep}</span>. Folgende Zielvereinbarung geschlossen und verbindlich vereinbart.
+          </p>
+          <p style={{ marginTop: 0, marginBottom: '0rem' }}>
+            Folgende Zielvereinbarung wird verbindlich vereinbart und geschlossen.
+          </p>
+        </div>
+      </div>
 
       <form onSubmit={handleSubmit}>
-        <FormIststand
-          istStandAnalyse={istStandAnalyse}
-          supportPersonnel={supportPersonnel}
-          supportTypes={supportTypes}
-          supportOtherText={supportOtherText}
-          dataSources={dataSources}
-          onIstStandChange={(value) =>
-            handleIstStandChange({ target: { value } } as React.ChangeEvent<HTMLTextAreaElement>)
-          }
-          onSupportPersonnelChange={handleSupportPersonnelChange}
-          onSupportTypeChange={handleSupportTypeChange}
-          onSupportOtherTextChange={(val) => {
-            setSupportOtherText(val);
-            triggerAutosave();
-          }}
-          onDataSourceChange={handleDataSourceChange}
-        />
+        {/* IST-Stand-Analyse Section */}
+        <div style={styles.section}>
+          <h2 style={styles.section_title}>Ist-Stand</h2>
+          <label htmlFor="istStandAnalyse" style={styles.label}>
+            Grundlegende Erkenntnisse zur IST-Stand-Analyse in Kurzfassung
+          </label>
+          <textarea
+            id="istStandAnalyse"
+            value={istStandAnalyse}
+            onChange={handleIstStandChange}
+            rows={6}
+            style={styles.textarea}
+            placeholder="Bitte geben Sie die grundlegenden Erkenntnisse ein..."
+          />
+
+          {/* Question 1: Support Personnel */}
+          <div style={{ marginTop: '2rem' }}>
+            <label style={styles.label}>
+              Wir arbeiten mit Personen aus dem Unterstützungssystem zusammen.
+            </label>
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'normal' }}>
+                <input
+                  type="radio"
+                  name="supportPersonnel"
+                  value="true"
+                  checked={supportPersonnel === true}
+                  onChange={() => handleSupportPersonnelChange(true)}
+                  style={{ cursor: 'pointer' }}
+                />
+                Ja
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'normal' }}>
+                <input
+                  type="radio"
+                  name="supportPersonnel"
+                  value="false"
+                  checked={supportPersonnel === false}
+                  onChange={() => handleSupportPersonnelChange(false)}
+                  style={{ cursor: 'pointer' }}
+                />
+                Nein
+              </label>
+            </div>
+          </div>
+
+          {/* Question 2: Support Types (Filtered) */}
+          {supportPersonnel === true && (
+            <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+              <label style={styles.label}>
+                Mit wem arbeiten Sie zusammen?
+              </label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {['SEM', 'BDA', 'BiUSE', 'QmbS'].map(type => (
+                  <label
+                    key={type}
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'normal' }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={supportTypes.includes(type)}
+                      onChange={(e) => handleSupportTypeChange(type, e.target.checked)}
+                      style={{ cursor: 'pointer' }}
+                    />
+                    {type}
+                  </label>
+                ))}
+                <label
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'normal' }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={supportTypes.includes('Sonstige')}
+                    onChange={(e) => handleSupportTypeChange('Sonstige', e.target.checked)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  Sonstige, nämlich:
+                </label>
+                {supportTypes.includes('Sonstige') && (
+                  <input
+                    type="text"
+                    value={supportOtherText}
+                    onChange={(e) => {
+                      setSupportOtherText(e.target.value);
+                      triggerAutosave();
+                    }}
+                    placeholder="Bitte spezifizieren Sie..."
+                    style={{ ...styles.input, marginLeft: '1.5rem' }}
+                  />
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Question 3: Data Sources */}
+          <div style={{ marginTop: '1.5rem', marginBottom: '1rem' }}>
+            <label style={styles.label}>
+              Datenquellen für die Ist-Stand-Erhebung
+            </label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {[
+                'Schulstatistiken (z. B. ASV/ASD)',
+                'Zentrale Lernstandserhebungen (z. B. VERA, BYLES, Lernstand 5, Orientierungsarbeiten)',
+                'Leistungs- und Notenbild (z. B. Notenspiegel, Klassenarbeiten)',
+                'Beobachtungen (z. B. Unterricht, Pausen, Übergänge)',
+                'Online-Befragungen (z. B. BETSIE, PAUL)',
+                'Ergebnisse aus der externen Evaluation (z. B. Befragungsergebnisse, Unterrichtsbeobachtungen, Evaluationsbericht)',
+                'Protokolle (Lehrerkonferenzen, SCP-Gruppe)'
+              ].map(source => (
+                <label
+                  key={source}
+                  style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontWeight: 'normal' }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={dataSources.includes(source)}
+                    onChange={(e) => handleDataSourceChange(source, e.target.checked)}
+                    style={{ cursor: 'pointer', marginTop: '0.25rem' }}
+                  />
+                  <span>{source}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
 
         <hr style={styles.hr} />
 
-        <FormGoals
-          questionModules={questionModules}
-          goalOptions={GOAL_OPTIONS}
-          onModuleChange={handleModuleChange}
-          onModuleCheckboxChange={handleModuleCheckboxChange}
-          onAddModule={addQuestionModule}
-          onRemoveModule={removeQuestionModule}
-          getAvailableGoals={getAvailableGoals}
-        />
+        {/* Ziele Section */}
+        <div style={styles.section}>
+          <h2 style={styles.section_title}>Ziele</h2>
+            
+          {questionModules.map((module, index) => (
+            <div 
+              key={module.id}
+              style={styles.moduleCard}
+            >
+              <div style={styles.module_header}>
+                <h3 style={styles.module_title}>Modul {index + 1}</h3>
+                {questionModules.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeQuestionModule(module.id)}
+                    style={styles.button_danger}
+                  >
+                    Entfernen
+                  </button>
+                )}
+              </div>
+
+              <div style={styles.fieldGroup}>
+                  {/* Feld 2: Ziele im SCP */}
+                  <div>
+                    <label 
+                      htmlFor={`goal-${module.id}`}
+                      style={styles.label}
+                    >
+                      Feld 2: Ziele im SCP <span style={styles.required}>*</span>
+                    </label>
+                    <select
+                      id={`goal-${module.id}`}
+                      value={module.goal}
+                      onChange={(e) => handleModuleChange(module.id, 'goal', e.target.value)}
+                      required
+                      style={styles.input}
+                    >
+                      <option value="">Bitte wählen Sie ein Ziel...</option>
+                      {module.goal && !getAvailableGoals(module.id).includes(module.goal) && (
+                        <option value={module.goal}>{module.goal}</option>
+                      )}
+                      {getAvailableGoals(module.id).map(option => (
+                        <option key={option} value={option}>{option}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Auf wen bezieht sich das Ziel? */}
+                  <div>
+                    <label style={styles.label}>
+                      Auf wen bezieht sich das Ziel? <span style={styles.required}>*</span>
+                    </label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {[
+                        'Schülerinnen und Schüler',
+                        'Lehrkräfte / Kollegium',
+                        'Eltern / Erziehungsberechtigte',
+                        'Schulgemeinschaft',
+                        'Schule als Organisation (z. B. für Abläufe)',
+                        'Sonstige'
+                      ].map(option => (
+                        <label key={option} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontWeight: 'normal' }}>
+                          <input
+                            type="checkbox"
+                            checked={module.targetGroup.includes(option)}
+                            onChange={() => handleModuleCheckboxChange(module.id, 'targetGroup', option)}
+                            style={{ cursor: 'pointer', marginTop: '0.25rem' }}
+                          />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Was ist der Gegenstand des Ziels? */}
+                  <div>
+                    <label style={styles.label}>
+                      Was ist der Gegenstand des Ziels? <span style={styles.required}>*</span>
+                    </label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {[
+                        'Kompetenzen/Fähigkeiten (z. B. Medienkompetenz, Leseförderung)',
+                        'Prozesse/Abläufe (z. B. Kommunikationswege, Feedbackkultur)',
+                        'Angebote/Projekte (z. B. AGs, Ganztagsangebote)',
+                        'Sonstiges'
+                      ].map(option => (
+                        <label key={option} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontWeight: 'normal' }}>
+                          <input
+                            type="checkbox"
+                            checked={module.subject.includes(option)}
+                            onChange={() => handleModuleCheckboxChange(module.id, 'subject', option)}
+                            style={{ cursor: 'pointer', marginTop: '0.25rem' }}
+                          />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Welche Datenquellen nutzen Sie, um die Zielerreichung zu überprüfen? */}
+                  <div>
+                    <label style={styles.label}>
+                      Welche Datenquellen nutzen Sie, um die Zielerreichung zu überprüfen? <span style={styles.required}>*</span>
+                    </label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {[
+                        'Schulstatistiken (z. B. ASV/ASD)',
+                        'Zentrale Lernstandserhebungen (z. B. VERA, BYLES, Lernstand 5, Orientierungsarbeiten)',
+                        'Leistungs- und Notenbild (z. B. Notenspiegel, Klassenarbeiten)',
+                        'Beobachtungen (z. B. Unterricht, Pausen, Übergänge)',
+                        'Online-Befragungen (z. B. BETSIE, PAUL)',
+                        'Protokolle (Lehrerkonferenzen, SCP-Gruppe)',
+                        'Sonstiges'
+                      ].map(option => (
+                        <label key={option} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontWeight: 'normal' }}>
+                          <input
+                            type="checkbox"
+                            checked={module.dataSources.includes(option)}
+                            onChange={() => handleModuleCheckboxChange(module.id, 'dataSources', option)}
+                            style={{ cursor: 'pointer', marginTop: '0.25rem' }}
+                          />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Feld 4a: Zeitpunkt für die Zielerreichung */}
+                  <div>
+                    <label style={styles.label}>
+                      Zeitpunkt für die Zielerreichung
+                    </label>
+                    <div style={styles.fieldRow}>
+                      <div>
+                        <label 
+                          htmlFor={`startDate-${module.id}`}
+                          style={{...styles.label, marginBottom: '0.25rem', fontSize: '0.875rem'}}
+                        >
+                          Startdatum
+                        </label>
+                        <input
+                          id={`startDate-${module.id}`}
+                          type="date"
+                          value={module.startDate}
+                          onChange={(e) => handleModuleChange(module.id, 'startDate', e.target.value)}
+                          required
+                          style={styles.input}
+                        />
+                      </div>
+                      <div>
+                        <label 
+                          htmlFor={`endDate-${module.id}`}
+                          style={{...styles.label, marginBottom: '0.25rem', fontSize: '0.875rem'}}
+                        >
+                          Enddatum (optional)
+                        </label>
+                        <input
+                          id={`endDate-${module.id}`}
+                          type="date"
+                          value={module.endDate}
+                          onChange={(e) => handleModuleChange(module.id, 'endDate', e.target.value)}
+                          style={styles.input}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Feld 6a: Comments */}
+                  <div>
+                    <label 
+                      htmlFor={`comments-${module.id}`}
+                      style={styles.label}
+                    >
+                      Kommentare
+                    </label>
+                    <textarea
+                      id={`comments-${module.id}`}
+                      value={module.comments}
+                      onChange={(e) => handleModuleChange(module.id, 'comments', e.target.value)}
+                      rows={4}
+                      style={styles.textarea}
+                      placeholder="Haben Sie Kommentare hierzu?"
+                    />
+                  </div>
+
+                </div>
+              </div>
+            ))}
+
+            {/* Add another module */}
+            <button
+              type="button"
+              onClick={addQuestionModule}
+              disabled={questionModules.length >= GOAL_OPTIONS.length}
+              style={questionModules.length >= GOAL_OPTIONS.length ? styles.button_success_disabled : styles.button_success}
+            >
+              {questionModules.length >= GOAL_OPTIONS.length 
+                ? `✓ Maximal ${GOAL_OPTIONS.length} Zielmodule erreicht` 
+                : '+ Weiteres Zielmodul hinzufügen'}
+            </button>
+          </div>
 
         <footer style={styles.footer}>
           <button type="button" onClick={() => onNavigate('landing')} style={styles.button_secondary}>
