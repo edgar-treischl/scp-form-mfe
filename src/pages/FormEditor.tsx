@@ -4,6 +4,7 @@ import { FormContract } from '../components/form_contract';
 import { FormIststand } from '../components/form_iststand';
 import { FormGoals } from '../components/form_goals';
 import { FormSchoolGoals } from '../components/form_school_goals';
+import { FormMeasure } from '../components/form_measure';
 import { LoadTemplateIcon } from '../assets/icons';
 import type { Submission } from '../types';
 
@@ -25,6 +26,19 @@ interface QuestionModule {
   startDate: string;
   endDate: string;
   comments: string;
+}
+
+interface MeasureModule {
+  id: string;
+  description: string;
+  type: string;
+  responsible: string;
+  involved: string[];
+  resources: string[];
+  resourcesDescription: string;
+  workMethod: string[];
+  workMethodDescription: string;
+  deadline: string;
 }
 
 const FORM_GOAL_OPTIONS = [
@@ -388,6 +402,20 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       comments: '',
     }
   ]);
+  const [measureModules, setMeasureModules] = useState<MeasureModule[]>([
+    {
+      id: crypto.randomUUID(),
+      description: '',
+      type: '',
+      responsible: '',
+      involved: [],
+      resources: [],
+      resourcesDescription: '',
+      workMethod: [],
+      workMethodDescription: '',
+      deadline: '',
+    }
+  ]);
   const [showDraftPicker, setShowDraftPicker] = useState(false);
   const [currentDraftId, setCurrentDraftId] = useState<string | undefined>(submissionId);
 
@@ -566,6 +594,60 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     return SCHOOL_GOAL_OPTIONS.filter(goal => !selectedGoals.includes(goal));
   };
 
+  const handleMeasureModuleChange = (id: string, field: keyof MeasureModule, value: string | string[]) => {
+    setMeasureModules(prev =>
+      prev.map(module =>
+        module.id === id ? { ...module, [field]: value } : module
+      )
+    );
+    triggerAutosave();
+  };
+
+  const handleMeasureModuleCheckboxChange = (id: string, field: 'involved' | 'resources' | 'workMethod', option: string) => {
+    setMeasureModules(prev =>
+      prev.map(module => {
+        if (module.id === id) {
+          const currentArray = module[field];
+          return {
+            ...module,
+            [field]: currentArray.includes(option)
+              ? currentArray.filter(item => item !== option)
+              : [...currentArray, option]
+          };
+        }
+        return module;
+      })
+    );
+    triggerAutosave();
+  };
+
+  const addMeasureModule = () => {
+    if (measureModules.length >= 5) {
+      alert('Es können maximal 5 Maßnahmen hinzugefügt werden.');
+      return;
+    }
+    setMeasureModules(prev => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        description: '',
+        type: '',
+        responsible: '',
+        involved: [],
+        resources: [],
+        resourcesDescription: '',
+        workMethod: [],
+        workMethodDescription: '',
+        deadline: '',
+      }
+    ]);
+  };
+
+  const removeMeasureModule = (id: string) => {
+    setMeasureModules(prev => prev.filter(module => module.id !== id));
+    triggerAutosave();
+  };
+
   const loadDraft = () => {
     if (mockDraft) {
       // Load draft data into form
@@ -720,6 +802,16 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
           onAddModule={addSchoolGoalModule}
           onRemoveModule={removeSchoolGoalModule}
           getAvailableGoals={getAvailableSchoolGoals}
+        />
+
+        <hr style={styles.hr} />
+
+        <FormMeasure
+          measureModules={measureModules}
+          onModuleChange={handleMeasureModuleChange}
+          onModuleCheckboxChange={handleMeasureModuleCheckboxChange}
+          onAddModule={addMeasureModule}
+          onRemoveModule={removeMeasureModule}
         />
 
         <footer style={styles.footer}>

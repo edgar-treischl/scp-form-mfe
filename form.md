@@ -1,35 +1,52 @@
 
 {/* Ziele Section */}
-question1: keep it as it is: {/* Feld 2: Ziele im SCP */}
-question2: Delete Zielindikator
-    new: Auf wen bezieht sich das Ziel?
+question1: Beschreiben Sie die Maßnahme, Aktion, Schritt.
+    type: open text field
+question2: Um welchen Maßnahmentyp handelt es sich?
     type: multiple choice
     answer: 
-    •	Schülerinnen und Schüler
-    •	Lehrkräfte / Kollegium
-    •	Eltern / Erziehungsberechtigte
-    •	Schulgemeinschaft
-    •	Schule als Organisation (z. B. für Abläufe)
-    •	Sonstige
-question3: "Was ist der Gegenstand des Ziels?"
+    •	Unterrichtsentwicklung / Methodeneinführung
+    •	Konzeptentwicklung / Curriculumarbeit
+    •	Fortbildung / Qualifizierung (z. B. SchiLF, externe Fortbildung)
+    •	Infrastruktur- / Beschaffungsprojekt
+    •	Kooperation / Netzwerkaufbau (z. B. Kooperationsvertrag offener Ganztag)
+question3: Wer ist verantwortlich?
+    type: single choice
+    answer: 
+    •	alle Lehrkräfte 
+    •	Klassenleitung
+    •	Fachlehrkräfte
+    •	Schulleitung
+    •	Eltern
+    •	Pädagogisches Personal
+question4: Wer ist beteiligt?
     type: multiple choice
     answer: 
-    •	Kompetenzen/Fähigkeiten (z. B. Medienkompetenz, Leseförderung)
-    •	Prozesse/Abläufe (z. B. Kommunikationswege, Feedbackkultur)
-    •	Angebote/Projekte (z. B. AGs, Ganztagsangebote)
-    •	Sonstiges
-question4: "Welche Datenquellen nutzen Sie, um die Zielerreichung zu überprüfen?"
+    •	alle Lehrkräfte 
+    •	Klassenleitung
+    •	Fachlehrkräfte
+    •	Schulleitung
+    •	Eltern
+    •	Pädagogisches Personal
+question5a: WIE? Nennen Sie Ressourcen und Sachmittel, die Sie für die Umsetzung der Maßnahme benötigen?
     type: multiple choice
-    answer: 
-    •	Schulstatistiken (z. B. ASV/ASD)
-    •	Zentrale Lernstandserhebungen (z. B. VERA, BYLES, Lernstand 5, Orientierungsarbeiten)
-    •	Leistungs- und Notenbild (z. B. Notenspiegel, Klassenarbeiten)
-    •	Beobachtungen (z. B. Unterricht, Pausen, Übergänge)
-    •	Online-Befragungen (z. B. BETSIE, PAUL)
-    •	Protokolle (Lehrerkonferenzen, SCP-Gruppe) 
-    •	Sonstiges
-question5: keep as it is =>  {/* Feld 4a: Zeitpunkt für die Zielerreichung */}
-question6: keep as it is =>  {/* Feld 6a: Comments */}
-
-plus: delete: {/* Feld 5a: Interne Evaluation */}
+    answer:
+    •	Zeitressourcen (z. B. Konferenzzeit, pädagogischer Tag, Anrechnungsstunden)
+    •	Digitale Ausstattung & Software (z. B. Plattformlizenzen, Hardware)
+    •	Finanzielle Mittel (z. B. Budget für Fortbildungen, zusätzliche Lernmittel)
+    •	Räumlichkeiten / Infrastruktur (z. B. Lernwerkstatt, Ausstattung von Förderräumen)
+question5b: Beschreiben Sie die Ressourcen und Sachmittel.
+    type: open text field
+question6a: Mit welcher Arbeitsmethode wird dieser Schritt umgesetzt?
+    type: multiple choice
+    answer:
+    •	Kollaborativ / Im Austausch (z. B. Fachschaft, Jahrgangsteam)
+    •	Individuell / Einzelarbeit 
+    •	Hospitationsbasiert /Unterrichtsbezogen (z. B. kollegiales Feedback)
+question6b: Beschreiben Sie die Arbeitsmethode
+    type: open text field
+question7: BIS WANN muss die Maßnahme im Schulalltag gestartet oder durchgeführt sein?
+    type: date/user pick via calender a date
+    
+    
 
