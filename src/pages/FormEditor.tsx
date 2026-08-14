@@ -23,11 +23,19 @@ interface QuestionModule {
   endDate: string;
   comments: string;
 }
-const GOAL_OPTIONS = [
+
+const FORM_GOAL_OPTIONS = [
   'Erhöhte Anzahl an Schülerinnen und Schülern erreichen mithilfe entsprechender Basiskompetenzen die Mindeststandards in Deutsch.',
   'Erhöhte Anzahl an Schülerinnen und Schülern gestalten mithilfe entsprechender sozialer und personaler Kompetenzen eine Wellbeing-Kultur an der Schule mit.',
   'Gesteigerte Umsetzung der Chancengerechtigkeit insbesondere im Bereich der Zusammenarbeit mit Eltern und Erziehungsberechtigten.',
   'Erhöhte Anzahl an Schülerinnen und Schülern erreichen einen Schulabschluss und beginnen eine anschließende Berufsausbildung.',
+];
+
+const SCHOOL_GOAL_OPTIONS = [
+  'Schulgemeinschaft verfolgt die Gestaltung einer positiven Schulkultur und die Entwicklung der Schule hin zu einem förderlichen Lern- und Sozialraum als handlungsleitendes Grundprinzip.',
+  'XXx.',
+  'xxx.',
+  'XXX.',
 ];
 
 // Professional color palette
@@ -449,8 +457,8 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   };
 
   const addQuestionModule = () => {
-    if (questionModules.length >= GOAL_OPTIONS.length) {
-      alert(`Es können maximal ${GOAL_OPTIONS.length} Zielmodule hinzugefügt werden.`);
+    if (questionModules.length >= FORM_GOAL_OPTIONS.length) {
+      alert(`Es können maximal ${FORM_GOAL_OPTIONS.length} Zielmodule hinzugefügt werden.`);
       return;
     }
     setQuestionModules(prev => [
@@ -479,7 +487,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       .filter(module => module.id !== currentModuleId && module.goal !== '')
       .map(module => module.goal);
     
-    return GOAL_OPTIONS.filter(goal => !selectedGoals.includes(goal));
+    return FORM_GOAL_OPTIONS.filter(goal => !selectedGoals.includes(goal));
   };
 
   const handleSchoolGoalModuleChange = (id: string, field: keyof QuestionModule, value: string | string[]) => {
@@ -510,8 +518,8 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   };
 
   const addSchoolGoalModule = () => {
-    if (schoolGoalModules.length >= GOAL_OPTIONS.length) {
-      alert(`Es können maximal ${GOAL_OPTIONS.length} Schulzielmodule hinzugefügt werden.`);
+    if (schoolGoalModules.length >= SCHOOL_GOAL_OPTIONS.length) {
+      alert(`Es können maximal ${SCHOOL_GOAL_OPTIONS.length} Schulzielmodule hinzugefügt werden.`);
       return;
     }
     setSchoolGoalModules(prev => [
@@ -540,7 +548,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       .filter(module => module.id !== currentModuleId && module.goal !== '')
       .map(module => module.goal);
     
-    return GOAL_OPTIONS.filter(goal => !selectedGoals.includes(goal));
+    return SCHOOL_GOAL_OPTIONS.filter(goal => !selectedGoals.includes(goal));
   };
 
   const loadDraft = () => {

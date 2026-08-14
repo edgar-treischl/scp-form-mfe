@@ -24,10 +24,10 @@ interface FormSchoolGoalsProps {
 }
 
 const GOAL_OPTIONS = [
-  'Erhöhte Anzahl an Schülerinnen und Schülern erreichen mithilfe entsprechender Basiskompetenzen die Mindeststandards in Deutsch.',
-  'Erhöhte Anzahl an Schülerinnen und Schülern gestalten mithilfe entsprechender sozialer und personaler Kompetenzen eine Wellbeing-Kultur an der Schule mit.',
-  'Gesteigerte Umsetzung der Chancengerechtigkeit insbesondere im Bereich der Zusammenarbeit mit Eltern und Erziehungsberechtigten.',
-  'Erhöhte Anzahl an Schülerinnen und Schülern erreichen einen Schulabschluss und beginnen eine anschließende Berufsausbildung.',
+  'Schulgemeinschaft verfolgt die Gestaltung einer positiven Schulkultur und die Entwicklung der Schule hin zu einem förderlichen Lern- und Sozialraum als handlungsleitendes Grundprinzip.',
+  'XXx.',
+  'xxx.',
+  'XXX.',
 ];
 
 const TARGET_GROUP_OPTIONS = [

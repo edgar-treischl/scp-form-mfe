@@ -21,7 +21,7 @@ interface FormGoalsProps {
   getAvailableGoals: (currentModuleId: string) => string[];
 }
 
-const GOAL_OPTIONS = [
+const FORM_GOAL_OPTIONS = [
   'Erhöhte Anzahl an Schülerinnen und Schülern erreichen mithilfe entsprechender Basiskompetenzen die Mindeststandards in Deutsch.',
   'Erhöhte Anzahl an Schülerinnen und Schülern gestalten mithilfe entsprechender sozialer und personaler Kompetenzen eine Wellbeing-Kultur an der Schule mit.',
   'Gesteigerte Umsetzung der Chancengerechtigkeit insbesondere im Bereich der Zusammenarbeit mit Eltern und Erziehungsberechtigten.',
@@ -267,15 +267,15 @@ export function FormGoals({
         <button
           type="button"
           onClick={onAddModule}
-          disabled={questionModules.length >= GOAL_OPTIONS.length}
+          disabled={questionModules.length >= FORM_GOAL_OPTIONS.length}
           style={
-            questionModules.length >= GOAL_OPTIONS.length
+            questionModules.length >= FORM_GOAL_OPTIONS.length
               ? formStyles.button_success_disabled
               : formStyles.button_success
           }
         >
-          {questionModules.length >= GOAL_OPTIONS.length
-            ? `✓ Maximal ${GOAL_OPTIONS.length} Zielmodule erreicht`
+          {questionModules.length >= FORM_GOAL_OPTIONS.length
+            ? `✓ Maximal ${FORM_GOAL_OPTIONS.length} Zielmodule erreicht`
             : '+ Weiteres Zielmodul hinzufügen'}
         </button>
       </div>
