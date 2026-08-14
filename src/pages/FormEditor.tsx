@@ -11,10 +11,11 @@ interface FormEditorProps {
 interface QuestionModule {
   id: string;
   goal: string;
-  indicators: string;
+  targetGroup: string[]; // Multiple choice: who the goal concerns
+  subject: string[]; // Multiple choice: what the goal is about
+  dataSources: string[]; // Multiple choice: data sources for verification
   startDate: string;
   endDate: string;
-  evaluation: string;
   comments: string;
 }
 
@@ -346,10 +347,11 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     {
       id: crypto.randomUUID(),
       goal: '',
-      indicators: '',
+      targetGroup: [],
+      subject: [],
+      dataSources: [],
       startDate: '',
       endDate: '',
-      evaluation: '',
       comments: '',
     }
   ]);
@@ -403,11 +405,29 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     triggerAutosave();
   };
 
-  const handleModuleChange = (id: string, field: keyof QuestionModule, value: string) => {
+  const handleModuleChange = (id: string, field: keyof QuestionModule, value: string | string[]) => {
     setQuestionModules(prev =>
       prev.map(module =>
         module.id === id ? { ...module, [field]: value } : module
       )
+    );
+    triggerAutosave();
+  };
+
+  const handleModuleCheckboxChange = (id: string, field: 'targetGroup' | 'subject' | 'dataSources', option: string) => {
+    setQuestionModules(prev =>
+      prev.map(module => {
+        if (module.id === id) {
+          const currentArray = module[field];
+          return {
+            ...module,
+            [field]: currentArray.includes(option)
+              ? currentArray.filter(item => item !== option)
+              : [...currentArray, option]
+          };
+        }
+        return module;
+      })
     );
     triggerAutosave();
   };
@@ -422,10 +442,11 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       {
         id: crypto.randomUUID(),
         goal: '',
-        indicators: '',
+        targetGroup: [],
+        subject: [],
+        dataSources: [],
         startDate: '',
         endDate: '',
-        evaluation: '',
         comments: '',
       }
     ]);
@@ -746,22 +767,84 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                     </select>
                   </div>
 
-                  {/* Feld 3a: Zielindikatoren */}
+                  {/* Auf wen bezieht sich das Ziel? */}
                   <div>
-                    <label 
-                      htmlFor={`indicators-${module.id}`}
-                      style={styles.label}
-                    >
-                      Zielindikatoren
+                    <label style={styles.label}>
+                      Auf wen bezieht sich das Ziel? <span style={styles.required}>*</span>
                     </label>
-                    <textarea
-                      id={`indicators-${module.id}`}
-                      value={module.indicators}
-                      onChange={(e) => handleModuleChange(module.id, 'indicators', e.target.value)}
-                      rows={4}
-                      style={styles.textarea}
-                      placeholder="Wie wird festgestellt, ob (inwieweit) das Ziel (Teilziel) erreicht worden ist?"
-                    />
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {[
+                        'Schülerinnen und Schüler',
+                        'Lehrkräfte / Kollegium',
+                        'Eltern / Erziehungsberechtigte',
+                        'Schulgemeinschaft',
+                        'Schule als Organisation (z. B. für Abläufe)',
+                        'Sonstige'
+                      ].map(option => (
+                        <label key={option} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontWeight: 'normal' }}>
+                          <input
+                            type="checkbox"
+                            checked={module.targetGroup.includes(option)}
+                            onChange={() => handleModuleCheckboxChange(module.id, 'targetGroup', option)}
+                            style={{ cursor: 'pointer', marginTop: '0.25rem' }}
+                          />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Was ist der Gegenstand des Ziels? */}
+                  <div>
+                    <label style={styles.label}>
+                      Was ist der Gegenstand des Ziels? <span style={styles.required}>*</span>
+                    </label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {[
+                        'Kompetenzen/Fähigkeiten (z. B. Medienkompetenz, Leseförderung)',
+                        'Prozesse/Abläufe (z. B. Kommunikationswege, Feedbackkultur)',
+                        'Angebote/Projekte (z. B. AGs, Ganztagsangebote)',
+                        'Sonstiges'
+                      ].map(option => (
+                        <label key={option} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontWeight: 'normal' }}>
+                          <input
+                            type="checkbox"
+                            checked={module.subject.includes(option)}
+                            onChange={() => handleModuleCheckboxChange(module.id, 'subject', option)}
+                            style={{ cursor: 'pointer', marginTop: '0.25rem' }}
+                          />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Welche Datenquellen nutzen Sie, um die Zielerreichung zu überprüfen? */}
+                  <div>
+                    <label style={styles.label}>
+                      Welche Datenquellen nutzen Sie, um die Zielerreichung zu überprüfen? <span style={styles.required}>*</span>
+                    </label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {[
+                        'Schulstatistiken (z. B. ASV/ASD)',
+                        'Zentrale Lernstandserhebungen (z. B. VERA, BYLES, Lernstand 5, Orientierungsarbeiten)',
+                        'Leistungs- und Notenbild (z. B. Notenspiegel, Klassenarbeiten)',
+                        'Beobachtungen (z. B. Unterricht, Pausen, Übergänge)',
+                        'Online-Befragungen (z. B. BETSIE, PAUL)',
+                        'Protokolle (Lehrerkonferenzen, SCP-Gruppe)',
+                        'Sonstiges'
+                      ].map(option => (
+                        <label key={option} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontWeight: 'normal' }}>
+                          <input
+                            type="checkbox"
+                            checked={module.dataSources.includes(option)}
+                            onChange={() => handleModuleCheckboxChange(module.id, 'dataSources', option)}
+                            style={{ cursor: 'pointer', marginTop: '0.25rem' }}
+                          />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Feld 4a: Zeitpunkt für die Zielerreichung */}
@@ -802,24 +885,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
                         />
                       </div>
                     </div>
-                  </div>
-
-                  {/* Feld 5a: Interne Evaluation */}
-                  <div>
-                    <label 
-                      htmlFor={`evaluation-${module.id}`}
-                      style={styles.label}
-                    >
-                      Interne Evaluation der Teilziele
-                    </label>
-                    <textarea
-                      id={`evaluation-${module.id}`}
-                      value={module.evaluation}
-                      onChange={(e) => handleModuleChange(module.id, 'evaluation', e.target.value)}
-                      rows={4}
-                      style={styles.textarea}
-                      placeholder="Beschreiben Sie die interne Evaluation..."
-                    />
                   </div>
 
                   {/* Feld 6a: Comments */}
