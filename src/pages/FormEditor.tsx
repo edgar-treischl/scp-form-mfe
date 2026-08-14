@@ -19,10 +19,10 @@ interface QuestionModule {
 }
 
 const GOAL_OPTIONS = [
-  'Individuelle Ebene – Ziel 1',
-  'Individuelle Ebene – Ziel 2',
-  'Individuelle Ebene – Ziel 3',
-  'Individuelle Ebene – Ziel 4',
+  'Erhöhte Anzahl an Schülerinnen und Schülern erreichen mithilfe entsprechender Basiskompetenzen die Mindeststandards in Deutsch.',
+  'Erhöhte Anzahl an Schülerinnen und Schülern gestalten mithilfe entsprechender sozialer und personaler Kompetenzen eine Wellbeing-Kultur an der Schule mit.',
+  'Gesteigerte Umsetzung der Chancengerechtigkeit insbesondere im Bereich der Zusammenarbeit mit Eltern und Erziehungsberechtigten.',
+  'Erhöhte Anzahl an Schülerinnen und Schülern erreichen einen Schulabschluss und beginnen eine anschließende Berufsausbildung.',
 ];
 
 // Professional color palette
@@ -327,6 +327,10 @@ const mockDraft: Submission | null = {
   data: {
     title: 'Zielvereinbarung 2026',
     istStandAnalyse: 'Erste Erkenntnisse aus der laufenden Periode...',
+    supportPersonnel: true,
+    supportTypes: ['SEM', 'BDA'],
+    supportOtherText: '',
+    dataSources: ['Schulstatistiken (z. B. ASV/ASD)', 'Zentrale Lernstandserhebungen (z. B. VERA, BYLES, Lernstand 5, Orientierungsarbeiten)'],
     moduleCount: 1,
   },
 };
@@ -334,6 +338,10 @@ const mockDraft: Submission | null = {
 export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   const [saveStatus, setSaveStatus] = useState<'saving' | 'saved' | 'error' | 'idle'>('idle');
   const [istStandAnalyse, setIstStandAnalyse] = useState('');
+  const [supportPersonnel, setSupportPersonnel] = useState<boolean | ''>('');
+  const [supportTypes, setSupportTypes] = useState<string[]>([]);
+  const [supportOtherText, setSupportOtherText] = useState('');
+  const [dataSources, setDataSources] = useState<string[]>([]);
   const [questionModules, setQuestionModules] = useState<QuestionModule[]>([
     {
       id: crypto.randomUUID(),
@@ -362,6 +370,36 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
   const handleIstStandChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setIstStandAnalyse(e.target.value);
+    triggerAutosave();
+  };
+
+  const handleSupportPersonnelChange = (value: boolean) => {
+    setSupportPersonnel(value);
+    if (!value) {
+      setSupportTypes([]);
+      setSupportOtherText('');
+    }
+    triggerAutosave();
+  };
+
+  const handleSupportTypeChange = (type: string, checked: boolean) => {
+    if (checked) {
+      setSupportTypes(prev => [...prev, type]);
+    } else {
+      setSupportTypes(prev => prev.filter(t => t !== type));
+      if (type === 'Sonstige') {
+        setSupportOtherText('');
+      }
+    }
+    triggerAutosave();
+  };
+
+  const handleDataSourceChange = (source: string, checked: boolean) => {
+    if (checked) {
+      setDataSources(prev => [...prev, source]);
+    } else {
+      setDataSources(prev => prev.filter(s => s !== source));
+    }
     triggerAutosave();
   };
 
@@ -410,6 +448,10 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     if (mockDraft) {
       // Load draft data into form
       setIstStandAnalyse((mockDraft.data.istStandAnalyse as string) || '');
+      setSupportPersonnel((mockDraft.data.supportPersonnel as boolean) || false);
+      setSupportTypes((mockDraft.data.supportTypes as string[]) || []);
+      setSupportOtherText((mockDraft.data.supportOtherText as string) || '');
+      setDataSources((mockDraft.data.dataSources as string[]) || []);
       setCurrentDraftId(mockDraft.id);
       setShowDraftPicker(false);
       setSaveStatus('saved');
@@ -542,6 +584,116 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
             style={styles.textarea}
             placeholder="Bitte geben Sie die grundlegenden Erkenntnisse ein..."
           />
+
+          {/* Question 1: Support Personnel */}
+          <div style={{ marginTop: '2rem' }}>
+            <label style={styles.label}>
+              Wir arbeiten mit Personen aus dem Unterstützungssystem zusammen.
+            </label>
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'normal' }}>
+                <input
+                  type="radio"
+                  name="supportPersonnel"
+                  value="true"
+                  checked={supportPersonnel === true}
+                  onChange={() => handleSupportPersonnelChange(true)}
+                  style={{ cursor: 'pointer' }}
+                />
+                Ja
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'normal' }}>
+                <input
+                  type="radio"
+                  name="supportPersonnel"
+                  value="false"
+                  checked={supportPersonnel === false}
+                  onChange={() => handleSupportPersonnelChange(false)}
+                  style={{ cursor: 'pointer' }}
+                />
+                Nein
+              </label>
+            </div>
+          </div>
+
+          {/* Question 2: Support Types (Filtered) */}
+          {supportPersonnel === true && (
+            <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+              <label style={styles.label}>
+                Mit wem arbeiten Sie zusammen?
+              </label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {['SEM', 'BDA', 'BiUSE', 'QmbS'].map(type => (
+                  <label
+                    key={type}
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'normal' }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={supportTypes.includes(type)}
+                      onChange={(e) => handleSupportTypeChange(type, e.target.checked)}
+                      style={{ cursor: 'pointer' }}
+                    />
+                    {type}
+                  </label>
+                ))}
+                <label
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'normal' }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={supportTypes.includes('Sonstige')}
+                    onChange={(e) => handleSupportTypeChange('Sonstige', e.target.checked)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  Sonstige, nämlich:
+                </label>
+                {supportTypes.includes('Sonstige') && (
+                  <input
+                    type="text"
+                    value={supportOtherText}
+                    onChange={(e) => {
+                      setSupportOtherText(e.target.value);
+                      triggerAutosave();
+                    }}
+                    placeholder="Bitte spezifizieren Sie..."
+                    style={{ ...styles.input, marginLeft: '1.5rem' }}
+                  />
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Question 3: Data Sources */}
+          <div style={{ marginTop: '1.5rem', marginBottom: '1rem' }}>
+            <label style={styles.label}>
+              Datenquellen für die Ist-Stand-Erhebung
+            </label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {[
+                'Schulstatistiken (z. B. ASV/ASD)',
+                'Zentrale Lernstandserhebungen (z. B. VERA, BYLES, Lernstand 5, Orientierungsarbeiten)',
+                'Leistungs- und Notenbild (z. B. Notenspiegel, Klassenarbeiten)',
+                'Beobachtungen (z. B. Unterricht, Pausen, Übergänge)',
+                'Online-Befragungen (z. B. BETSIE, PAUL)',
+                'Ergebnisse aus der externen Evaluation (z. B. Befragungsergebnisse, Unterrichtsbeobachtungen, Evaluationsbericht)',
+                'Protokolle (Lehrerkonferenzen, SCP-Gruppe)'
+              ].map(source => (
+                <label
+                  key={source}
+                  style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontWeight: 'normal' }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={dataSources.includes(source)}
+                    onChange={(e) => handleDataSourceChange(source, e.target.checked)}
+                    style={{ cursor: 'pointer', marginTop: '0.25rem' }}
+                  />
+                  <span>{source}</span>
+                </label>
+              ))}
+            </div>
+          </div>
         </div>
 
         <hr style={styles.hr} />
