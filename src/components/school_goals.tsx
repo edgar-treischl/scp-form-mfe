@@ -1,21 +1,23 @@
 import { formStyles } from './formStyles';
 
-interface QuestionModule {
-  id: string;
-  goal: string;
-  smartGoal: string;
-  targetGroup: string[];
-  subject: string[];
-  dataSources: string[];
-  startDate: string;
-  endDate: string;
-  comments: string;
-}
-
-interface FormGoalsProps {
-  questionModules: QuestionModule[];
+interface FormSchoolGoalsProps {
+  questionModules: Array<{
+    id: string;
+    goal: string;
+    smartGoal: string;
+    targetGroup: string[];
+    subject: string[];
+    dataSources: string[];
+    startDate: string;
+    endDate: string;
+    comments: string;
+  }>;
   goalOptions: string[];
-  onModuleChange: (id: string, field: keyof QuestionModule, value: string | string[]) => void;
+  onModuleChange: (
+    id: string,
+    field: 'goal' | 'smartGoal' | 'targetGroup' | 'subject' | 'dataSources' | 'startDate' | 'endDate' | 'comments',
+    value: string | string[]
+  ) => void;
   onModuleCheckboxChange: (id: string, field: 'targetGroup' | 'subject' | 'dataSources', option: string) => void;
   onAddModule: () => void;
   onRemoveModule: (id: string) => void;
@@ -48,7 +50,7 @@ const DATA_SOURCES_OPTIONS = [
   'Sonstiges',
 ];
 
-export function FormGoals({
+export function FormSchoolGoals({
   questionModules,
   goalOptions,
   onModuleChange,
@@ -56,16 +58,16 @@ export function FormGoals({
   onAddModule,
   onRemoveModule,
   getAvailableGoals,
-}: FormGoalsProps) {
+}: FormSchoolGoalsProps) {
   return (
     <>
       <div style={formStyles.section}>
-        <h2 style={formStyles.section_title}>Ziele</h2>
+        <h2 style={formStyles.section_title}>Schulziele</h2>
 
         {questionModules.map((module, index) => (
           <div key={module.id} style={formStyles.moduleCard}>
             <div style={formStyles.module_header}>
-              <h3 style={formStyles.module_title}>Individualziel {index + 1}</h3>
+              <h3 style={formStyles.module_title}>Schulziel {index + 1}</h3>
               {questionModules.length > 1 && (
                 <button
                   type="button"
@@ -81,7 +83,7 @@ export function FormGoals({
               {/* Question 01: Ziele im SCP */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label htmlFor={`goal-${module.id}`} style={formStyles.label}>
-                  01. Ziele im SCP: Für welches SCP-Kernziel auf der individuellen Ebene hat sich Ihre Schule entschieden? <span style={formStyles.required}>*</span>
+                  01. Ziele im SCP: Für welches SCP-Kernziel auf der schulischen Ebene hat sich Ihre Schule entschieden? <span style={formStyles.required}>*</span>
                 </label>
                 <select
                   id={`goal-${module.id}`}
@@ -270,8 +272,8 @@ export function FormGoals({
           }
         >
           {questionModules.length >= goalOptions.length
-            ? `✓ Maximal ${goalOptions.length} Zielmodule erreicht`
-            : '+ Weiteres Zielmodul hinzufügen'}
+            ? `✓ Maximal ${goalOptions.length} Schulzielmodule erreicht`
+            : '+ Weiteres Schulzielmodul hinzufügen'}
         </button>
       </div>
 

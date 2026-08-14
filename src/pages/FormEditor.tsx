@@ -3,6 +3,7 @@ import { SaveIndicator, Breadcrumb } from '../components';
 import { FormContract } from '../components/form_contract';
 import { FormIststand } from '../components/form_iststand';
 import { FormGoals } from '../components/form_goals';
+import { FormSchoolGoals } from '../components/school_goals';
 import { LoadTemplateIcon } from '../assets/icons';
 import type { Submission } from '../types';
 
@@ -14,6 +15,7 @@ interface FormEditorProps {
 interface QuestionModule {
   id: string;
   goal: string;
+  smartGoal: string;
   targetGroup: string[];
   subject: string[];
   dataSources: string[];
@@ -347,6 +349,20 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     {
       id: crypto.randomUUID(),
       goal: '',
+      smartGoal: '',
+      targetGroup: [],
+      subject: [],
+      dataSources: [],
+      startDate: '',
+      endDate: '',
+      comments: '',
+    }
+  ]);
+  const [schoolGoalModules, setSchoolGoalModules] = useState<QuestionModule[]>([
+    {
+      id: crypto.randomUUID(),
+      goal: '',
+      smartGoal: '',
       targetGroup: [],
       subject: [],
       dataSources: [],
@@ -442,6 +458,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       {
         id: crypto.randomUUID(),
         goal: '',
+        smartGoal: '',
         targetGroup: [],
         subject: [],
         dataSources: [],
@@ -459,6 +476,67 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
   const getAvailableGoals = (currentModuleId: string) => {
     const selectedGoals = questionModules
+      .filter(module => module.id !== currentModuleId && module.goal !== '')
+      .map(module => module.goal);
+    
+    return GOAL_OPTIONS.filter(goal => !selectedGoals.includes(goal));
+  };
+
+  const handleSchoolGoalModuleChange = (id: string, field: keyof QuestionModule, value: string | string[]) => {
+    setSchoolGoalModules(prev =>
+      prev.map(module =>
+        module.id === id ? { ...module, [field]: value } : module
+      )
+    );
+    triggerAutosave();
+  };
+
+  const handleSchoolGoalModuleCheckboxChange = (id: string, field: 'targetGroup' | 'subject' | 'dataSources', option: string) => {
+    setSchoolGoalModules(prev =>
+      prev.map(module => {
+        if (module.id === id) {
+          const currentArray = module[field];
+          return {
+            ...module,
+            [field]: currentArray.includes(option)
+              ? currentArray.filter(item => item !== option)
+              : [...currentArray, option]
+          };
+        }
+        return module;
+      })
+    );
+    triggerAutosave();
+  };
+
+  const addSchoolGoalModule = () => {
+    if (schoolGoalModules.length >= GOAL_OPTIONS.length) {
+      alert(`Es können maximal ${GOAL_OPTIONS.length} Schulzielmodule hinzugefügt werden.`);
+      return;
+    }
+    setSchoolGoalModules(prev => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        goal: '',
+        smartGoal: '',
+        targetGroup: [],
+        subject: [],
+        dataSources: [],
+        startDate: '',
+        endDate: '',
+        comments: '',
+      }
+    ]);
+  };
+
+  const removeSchoolGoalModule = (id: string) => {
+    setSchoolGoalModules(prev => prev.filter(module => module.id !== id));
+    triggerAutosave();
+  };
+
+  const getAvailableSchoolGoals = (currentModuleId: string) => {
+    const selectedGoals = schoolGoalModules
       .filter(module => module.id !== currentModuleId && module.goal !== '')
       .map(module => module.goal);
     
@@ -609,6 +687,18 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
           onAddModule={addQuestionModule}
           onRemoveModule={removeQuestionModule}
           getAvailableGoals={getAvailableGoals}
+        />
+
+        <hr style={styles.hr} />
+
+        <FormSchoolGoals
+          questionModules={schoolGoalModules}
+          goalOptions={GOAL_OPTIONS}
+          onModuleChange={handleSchoolGoalModuleChange}
+          onModuleCheckboxChange={handleSchoolGoalModuleCheckboxChange}
+          onAddModule={addSchoolGoalModule}
+          onRemoveModule={removeSchoolGoalModule}
+          getAvailableGoals={getAvailableSchoolGoals}
         />
 
         <footer style={styles.footer}>
