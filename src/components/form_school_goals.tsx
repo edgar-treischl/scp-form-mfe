@@ -12,7 +12,6 @@ interface FormSchoolGoalsProps {
     endDate: string;
     comments: string;
   }>;
-  goalOptions: string[];
   onModuleChange: (
     id: string,
     field: 'goal' | 'smartGoal' | 'targetGroup' | 'subject' | 'dataSources' | 'startDate' | 'endDate' | 'comments',
@@ -23,6 +22,13 @@ interface FormSchoolGoalsProps {
   onRemoveModule: (id: string) => void;
   getAvailableGoals: (currentModuleId: string) => string[];
 }
+
+const GOAL_OPTIONS = [
+  'Erhöhte Anzahl an Schülerinnen und Schülern erreichen mithilfe entsprechender Basiskompetenzen die Mindeststandards in Deutsch.',
+  'Erhöhte Anzahl an Schülerinnen und Schülern gestalten mithilfe entsprechender sozialer und personaler Kompetenzen eine Wellbeing-Kultur an der Schule mit.',
+  'Gesteigerte Umsetzung der Chancengerechtigkeit insbesondere im Bereich der Zusammenarbeit mit Eltern und Erziehungsberechtigten.',
+  'Erhöhte Anzahl an Schülerinnen und Schülern erreichen einen Schulabschluss und beginnen eine anschließende Berufsausbildung.',
+];
 
 const TARGET_GROUP_OPTIONS = [
   'Schülerinnen und Schüler',
@@ -52,7 +58,6 @@ const DATA_SOURCES_OPTIONS = [
 
 export function FormSchoolGoals({
   questionModules,
-  goalOptions,
   onModuleChange,
   onModuleCheckboxChange,
   onAddModule,
@@ -264,15 +269,15 @@ export function FormSchoolGoals({
         <button
           type="button"
           onClick={onAddModule}
-          disabled={questionModules.length >= goalOptions.length}
+          disabled={questionModules.length >= GOAL_OPTIONS.length}
           style={
-            questionModules.length >= goalOptions.length
+            questionModules.length >= GOAL_OPTIONS.length
               ? formStyles.button_success_disabled
               : formStyles.button_success
           }
         >
-          {questionModules.length >= goalOptions.length
-            ? `✓ Maximal ${goalOptions.length} Schulzielmodule erreicht`
+          {questionModules.length >= GOAL_OPTIONS.length
+            ? `✓ Maximal ${GOAL_OPTIONS.length} Schulzielmodule erreicht`
             : '+ Weiteres Schulzielmodul hinzufügen'}
         </button>
       </div>

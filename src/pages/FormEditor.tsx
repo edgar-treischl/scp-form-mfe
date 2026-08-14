@@ -681,7 +681,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
         <FormGoals
           questionModules={questionModules}
-          goalOptions={GOAL_OPTIONS}
           onModuleChange={handleModuleChange}
           onModuleCheckboxChange={handleModuleCheckboxChange}
           onAddModule={addQuestionModule}
@@ -693,7 +692,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
         <FormSchoolGoals
           questionModules={schoolGoalModules}
-          goalOptions={GOAL_OPTIONS}
           onModuleChange={handleSchoolGoalModuleChange}
           onModuleCheckboxChange={handleSchoolGoalModuleCheckboxChange}
           onAddModule={addSchoolGoalModule}
