@@ -1,0 +1,467 @@
+/* Professional Form Input Styles */
+/* Enhanced styling for dropdowns, date pickers, checkboxes, and radio buttons */
+
+:root {
+  --form-primary: #1E8AD9;
+  --form-success: #64D4C6;
+  --form-danger: #dc3545;
+  --form-border: #dee2e6;
+  --form-border-focus: #1E8AD9;
+  --form-bg: #ffffff;
+  --form-bg-hover: #f8f9fa;
+  --form-text: #212529;
+  --form-text-muted: #6c757d;
+  --form-disabled: #e9ecef;
+  --form-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  --form-shadow-focus: 0 0 0 3px rgba(30, 138, 217, 0.1);
+  --form-transition: all 0.2s ease;
+}
+
+/* ============================================
+   SELECT / DROPDOWN STYLING
+   ============================================ */
+select,
+input[type="select"] {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%231E8AD9' d='M4 6 L 8 11 L 12 6 Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.2rem;
+  padding-right: 2.75rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--form-text);
+  background-color: var(--form-bg);
+  border: 1px solid var(--form-border);
+  border-radius: 6px;
+  padding-left: 0.75rem;
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+  width: 100%;
+  transition: var(--form-transition);
+  box-shadow: var(--form-shadow);
+}
+
+select:hover:not(:disabled) {
+  border-color: var(--form-primary);
+  background-color: var(--form-bg-hover);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--form-border-focus);
+  box-shadow: var(--form-shadow), var(--form-shadow-focus);
+}
+
+select:disabled {
+  background-color: var(--form-disabled);
+  color: var(--form-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+select option {
+  padding: 0.5rem;
+  background-color: transparent;
+  color: var(--form-text);
+}
+
+select option:checked {
+  background-color: transparent;
+  color: var(--form-text);
+}
+
+/* ============================================
+   DATE INPUT STYLING
+   ============================================ */
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"],
+input[type="month"],
+input[type="week"] {
+  appearance: textfield;
+  background-color: var(--form-bg);
+  border: 1px solid var(--form-border);
+  border-radius: 6px;
+  padding: 0.65rem 0.75rem;
+  width: 100%;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--form-text);
+  transition: var(--form-transition);
+  box-shadow: var(--form-shadow);
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="month"]::-webkit-calendar-picker-indicator,
+input[type="week"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  color: var(--form-primary);
+  background-color: transparent;
+}
+
+input[type="date"]:hover:not(:disabled),
+input[type="datetime-local"]:hover:not(:disabled),
+input[type="time"]:hover:not(:disabled),
+input[type="month"]:hover:not(:disabled),
+input[type="week"]:hover:not(:disabled) {
+  border-color: var(--form-primary);
+  background-color: var(--form-bg-hover);
+}
+
+input[type="date"]:focus,
+input[type="datetime-local"]:focus,
+input[type="time"]:focus,
+input[type="month"]:focus,
+input[type="week"]:focus {
+  outline: none;
+  border-color: var(--form-border-focus);
+  box-shadow: var(--form-shadow), var(--form-shadow-focus);
+}
+
+input[type="date"]:disabled,
+input[type="datetime-local"]:disabled,
+input[type="time"]:disabled,
+input[type="month"]:disabled,
+input[type="week"]:disabled {
+  background-color: var(--form-disabled);
+  color: var(--form-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ============================================
+   CHECKBOX STYLING
+   ============================================ */
+input[type="checkbox"] {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--form-border);
+  border-radius: 4px;
+  background-color: var(--form-bg);
+  cursor: pointer;
+  transition: var(--form-transition);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="checkbox"]:hover:not(:disabled) {
+  border-color: var(--form-primary);
+  background-color: var(--form-bg-hover);
+  box-shadow: inset 0 0 0 1px var(--form-primary);
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--form-primary);
+  border-color: var(--form-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='white' d='M16.707 5.293a1 1 0 010 1.414l-9 9a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L7 12.586l8.293-8.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1rem;
+}
+
+input[type="checkbox"]:checked:hover:not(:disabled) {
+  background-color: #0d6bb6;
+  border-color: #0d6bb6;
+}
+
+input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(30, 138, 217, 0.2);
+}
+
+input[type="checkbox"]:disabled {
+  background-color: var(--form-disabled);
+  border-color: var(--form-border);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ============================================
+   RADIO BUTTON STYLING
+   ============================================ */
+input[type="radio"] {
+  appearance: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid var(--form-border);
+  border-radius: 50%;
+  background-color: var(--form-bg);
+  cursor: pointer;
+  transition: var(--form-transition);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="radio"]:hover:not(:disabled) {
+  border-color: var(--form-primary);
+  background-color: var(--form-bg-hover);
+}
+
+input[type="radio"]:checked {
+  border-color: var(--form-primary);
+  background: radial-gradient(circle, var(--form-primary) 35%, transparent 70%);
+  box-shadow: inset 0 0 0 3px var(--form-bg);
+}
+
+input[type="radio"]:checked:hover:not(:disabled) {
+  border-color: #0d6bb6;
+  background: radial-gradient(circle, #0d6bb6 35%, transparent 70%);
+}
+
+input[type="radio"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(30, 138, 217, 0.2);
+}
+
+input[type="radio"]:disabled {
+  background-color: var(--form-disabled);
+  border-color: var(--form-border);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ============================================
+   TEXT & NUMBER INPUTS
+   ============================================ */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="url"],
+input[type="tel"],
+input[type="number"] {
+  appearance: none;
+  background-color: var(--form-bg);
+  border: 1px solid var(--form-border);
+  border-radius: 6px;
+  padding: 0.65rem 0.75rem;
+  width: 100%;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--form-text);
+  transition: var(--form-transition);
+  box-shadow: var(--form-shadow);
+}
+
+input[type="text"]:hover:not(:disabled),
+input[type="email"]:hover:not(:disabled),
+input[type="password"]:hover:not(:disabled),
+input[type="search"]:hover:not(:disabled),
+input[type="url"]:hover:not(:disabled),
+input[type="tel"]:hover:not(:disabled),
+input[type="number"]:hover:not(:disabled) {
+  border-color: var(--form-primary);
+  background-color: var(--form-bg-hover);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="url"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border-color: var(--form-border-focus);
+  box-shadow: var(--form-shadow), var(--form-shadow-focus);
+}
+
+input[type="text"]:disabled,
+input[type="email"]:disabled,
+input[type="password"]:disabled,
+input[type="search"]:disabled,
+input[type="url"]:disabled,
+input[type="tel"]:disabled,
+input[type="number"]:disabled {
+  background-color: var(--form-disabled);
+  color: var(--form-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ============================================
+   TEXTAREA STYLING
+   ============================================ */
+textarea {
+  appearance: none;
+  background-color: var(--form-bg);
+  border: 1px solid var(--form-border);
+  border-radius: 6px;
+  padding: 0.75rem;
+  width: 100%;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--form-text);
+  resize: vertical;
+  transition: var(--form-transition);
+  box-shadow: var(--form-shadow);
+  min-height: 6rem;
+  line-height: 1.5;
+}
+
+textarea:hover:not(:disabled) {
+  border-color: var(--form-primary);
+  background-color: var(--form-bg-hover);
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--form-border-focus);
+  box-shadow: var(--form-shadow), var(--form-shadow-focus);
+}
+
+textarea:disabled {
+  background-color: var(--form-disabled);
+  color: var(--form-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+textarea::placeholder {
+  color: var(--form-text-muted);
+  opacity: 0.7;
+}
+
+/* ============================================
+   LABEL STYLING
+   ============================================ */
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--form-text);
+  font-size: 0.95rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+label:has(input[type="checkbox"]),
+label:has(input[type="radio"]) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: normal;
+  cursor: pointer;
+  margin-bottom: 0.25rem;
+}
+
+/* ============================================
+   FOCUS VISIBLE FOR ACCESSIBILITY
+   ============================================ */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--form-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   PLACEHOLDER TEXT
+   ============================================ */
+input::placeholder {
+  color: var(--form-text-muted);
+  opacity: 0.7;
+}
+
+/* ============================================
+   FORM GROUP WRAPPER
+   ============================================ */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+}
+
+/* ============================================
+   INLINE FORM GROUPS (for radio/checkbox groups)
+   ============================================ */
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  user-select: none;
+}
+
+.form-check input {
+  margin: 0;
+  width: auto;
+}
+
+.form-check label {
+  margin: 0;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --form-bg: #1f2937;
+    --form-bg-hover: #374151;
+    --form-text: #f3f4f6;
+    --form-border: #4b5563;
+  }
+
+  select,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="url"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="time"],
+  input[type="month"],
+  input[type="week"],
+  textarea {
+    background-color: var(--form-bg);
+    color: var(--form-text);
+    border-color: var(--form-border);
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    background-color: var(--form-bg);
+    border-color: var(--form-border);
+  }
+
+  select option {
+    background-color: var(--form-bg);
+    color: var(--form-text);
+  }
+}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Landing, FormEditor, SubmissionHistory, SubmissionView, About } from './pages';
 import { Footer } from './components';
+import './components/formInputStyles.css';
 import './App.css';
 
 type View = 'landing' | 'form' | 'history' | 'view' | 'about';
