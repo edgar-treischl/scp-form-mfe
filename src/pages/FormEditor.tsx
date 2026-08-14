@@ -366,6 +366,7 @@ const mockDraft: Submission | null = {
 };
 
 export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
+  const [currentStep, setCurrentStep] = useState(0);
   const [saveStatus, setSaveStatus] = useState<'saving' | 'saved' | 'error' | 'idle'>('idle');
   const [istStandAnalyse, setIstStandAnalyse] = useState('');
   const [supportPersonnel, setSupportPersonnel] = useState<boolean | ''>('');
@@ -421,7 +422,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   const [evaluationDate, setEvaluationDate] = useState('');
   const [bilanzierungDate, setBilanzierungDate] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [showDraftPicker, setShowDraftPicker] = useState(false);
   const [currentDraftId, setCurrentDraftId] = useState<string | undefined>(submissionId);
 
   // Contract party parameters (from authentication/context - these values change per user)
@@ -430,6 +430,38 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   const contractSamt = 'Staatl. Schulamt Zauberberg';
   const contractProgramRep = 'Max Musterman';
 
+  // Define form steps
+  const steps = [
+    { id: 'landing', title: 'Zielvereinbarung starten', component: 'landing' },
+    { id: 'iststand', title: 'IST-Stand Analyse', component: 'iststand' },
+    { id: 'goals', title: 'Individualziele', component: 'goals' },
+    { id: 'schoolGoals', title: 'Schulziele', component: 'schoolGoals' },
+    { id: 'measures', title: 'Maßnahmen', component: 'measures' },
+    { id: 'evaluation', title: 'Evaluierung', component: 'evaluation' },
+    { id: 'callout', title: 'Hinweis', component: 'callout' },
+  ];
+
+  const totalSteps = steps.length;
+  const currentStepData = steps[currentStep];
+
+  const handleStartNew = () => {
+    setCurrentDraftId(undefined);
+    handleNextStep();
+  };
+
+  const handleNextStep = () => {
+    if (currentStep < totalSteps - 1) {
+      setCurrentStep(currentStep + 1);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const handlePreviousStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+      window.scrollTo(0, 0);
+    }
+  };
 
   const triggerAutosave = () => {
     setSaveStatus('saving');
@@ -662,8 +694,10 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       setSupportOtherText((mockDraft.data.supportOtherText as string) || '');
       setDataSources((mockDraft.data.dataSources as string[]) || []);
       setCurrentDraftId(mockDraft.id);
-      setShowDraftPicker(false);
       setSaveStatus('saved');
+      // Move to contract step (step 1) after loading draft
+      setCurrentStep(1);
+      window.scrollTo(0, 0);
     }
   };
 
@@ -671,16 +705,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     e.preventDefault();
     alert('Formular eingereicht! (Mock - kein Backend)');
     onNavigate('history');
-  };
-
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('de-DE', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(date);
   };
 
   const handleEvaluationDateChange = (date: string) => {
@@ -722,151 +746,180 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   return (
     <div style={styles.container}>
       <Breadcrumb items={getBreadcrumbItems()} />
-
-      {mockDraft && !currentDraftId && !submissionId && (
-        <div style={styles.draftInfoBox}>
-          <button 
-            onClick={() => setShowDraftPicker(true)}
-            style={styles.button_draft}
-          >
-            <LoadTemplateIcon style={{ width: '1.25rem', height: '1.25rem', marginRight: '0.5rem', verticalAlign: 'middle' }} />
-            Entwurf laden
-          </button>
-        </div>
-      )}
-
-      {/* Draft Load Confirmation Modal */}
-      {showDraftPicker && mockDraft && (
-        <div style={styles.modalOverlay}>
-          <div style={styles.modalContent}>
-            <h2 style={styles.modalTitle}>Entwurf laden?</h2>
-            
-            <div style={styles.draftCard}>
-              <div style={styles.draftCard_title}>
-                {(mockDraft.data.title as string) || 'Untitled'}
-              </div>
-              <div style={styles.draftCard_preview}>
-                {(mockDraft.data.istStandAnalyse as string)?.substring(0, 150)}...
-              </div>
-              <div style={styles.draftCard_meta}>
-                Zuletzt aktualisiert: {formatDate(mockDraft.updatedAt)}
-              </div>
-            </div>
-
-            <div style={styles.footer}>
-              <button
-                onClick={() => setShowDraftPicker(false)}
-                style={styles.button_secondary}
-              >
-                Abbrechen
-              </button>
-              <button
-                onClick={loadDraft}
-                style={styles.button_primary}
-              >
-                Entwurf laden
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
       
       <header style={styles.header}>
         <h1 style={styles.header_title}>Neue Zielvereinbarung</h1>
         <div style={styles.header_meta}>
-          <span style={styles.status_badge}>
-            Entwurf {currentDraftId ? `(${currentDraftId})` : ''}
-          </span>
+          {currentStep > 0 && (
+            <span style={styles.status_badge}>
+              Schritt {currentStep} von {totalSteps - 1}: {currentStepData.title}
+            </span>
+          )}
           <SaveIndicator status={saveStatus} />
         </div>
       </header>
 
-      <FormContract
-        contractSchoolLead={contractSchoolLead}
-        contractSchoolName={contractSchoolName}
-        contractSamt={contractSamt}
-        contractProgramRep={contractProgramRep}
-      />
+      {/* Landing Step - Show Contract then offer Load or Create New */}
+      {currentStep === 0 && (
+        <>
+          <FormContract
+            contractSchoolLead={contractSchoolLead}
+            contractSchoolName={contractSchoolName}
+            contractSamt={contractSamt}
+            contractProgramRep={contractProgramRep}
+          />
 
-      <form onSubmit={handleSubmit}>
-        <FormIststand
-          istStandAnalyse={istStandAnalyse}
-          supportPersonnel={supportPersonnel}
-          supportTypes={supportTypes}
-          supportOtherText={supportOtherText}
-          dataSources={dataSources}
-          onIstStandChange={(value) =>
-            handleIstStandChange({ target: { value } } as React.ChangeEvent<HTMLTextAreaElement>)
-          }
-          onSupportPersonnelChange={handleSupportPersonnelChange}
-          onSupportTypeChange={handleSupportTypeChange}
-          onSupportOtherTextChange={(val) => {
-            setSupportOtherText(val);
-            triggerAutosave();
-          }}
-          onDataSourceChange={handleDataSourceChange}
-        />
+          <div style={{ marginTop: '2rem', paddingTop: '2rem', display: 'flex', gap: '1rem' }}>
+            {mockDraft && !currentDraftId && !submissionId && (
+              <button 
+                type="button"
+                onClick={loadDraft}
+                style={{
+                  ...styles.button_draft,
+                  flex: 1,
+                  padding: '0.65rem 1rem',
+                }}
+              >
+                <LoadTemplateIcon style={{ width: '1.25rem', height: '1.25rem', marginRight: '0.5rem', verticalAlign: 'middle' }} />
+                Entwurf laden
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={handleStartNew}
+              style={{
+                ...styles.button_success,
+                flex: 1,
+                padding: '0.65rem 1rem',
+              }}
+            >
+              Neue Zielvereinbarung starten
+            </button>
+          </div>
+        </>
+      )}
 
-        <hr style={styles.hr} />
+      <form onSubmit={handleSubmit} style={{ display: currentStep === 0 ? 'none' : 'block' }}>
+        {/* IST-Stand Analysis Step */}
+        {currentStep === 1 && (
+          <FormIststand
+            istStandAnalyse={istStandAnalyse}
+            supportPersonnel={supportPersonnel}
+            supportTypes={supportTypes}
+            supportOtherText={supportOtherText}
+            dataSources={dataSources}
+            onIstStandChange={(value) =>
+              handleIstStandChange({ target: { value } } as React.ChangeEvent<HTMLTextAreaElement>)
+            }
+            onSupportPersonnelChange={handleSupportPersonnelChange}
+            onSupportTypeChange={handleSupportTypeChange}
+            onSupportOtherTextChange={(val) => {
+              setSupportOtherText(val);
+              triggerAutosave();
+            }}
+            onDataSourceChange={handleDataSourceChange}
+          />
+        )}
 
-        <FormGoals
-          questionModules={questionModules}
-          onModuleChange={handleModuleChange}
-          onModuleCheckboxChange={handleModuleCheckboxChange}
-          onAddModule={addQuestionModule}
-          onRemoveModule={removeQuestionModule}
-          getAvailableGoals={getAvailableGoals}
-          goalOptions={FORM_GOAL_OPTIONS}
-        />
+        {/* Individual Goals Step */}
+        {currentStep === 2 && (
+          <FormGoals
+            questionModules={questionModules}
+            onModuleChange={handleModuleChange}
+            onModuleCheckboxChange={handleModuleCheckboxChange}
+            onAddModule={addQuestionModule}
+            onRemoveModule={removeQuestionModule}
+            getAvailableGoals={getAvailableGoals}
+            goalOptions={FORM_GOAL_OPTIONS}
+          />
+        )}
 
-        <hr style={styles.hr} />
+        {/* School Goals Step */}
+        {currentStep === 3 && (
+          <FormSchoolGoals
+            questionModules={schoolGoalModules}
+            onModuleChange={handleSchoolGoalModuleChange}
+            onModuleCheckboxChange={handleSchoolGoalModuleCheckboxChange}
+            onAddModule={addSchoolGoalModule}
+            onRemoveModule={removeSchoolGoalModule}
+            getAvailableGoals={getAvailableSchoolGoals}
+            goalOptions={SCHOOL_GOAL_OPTIONS}
+          />
+        )}
 
-        <FormSchoolGoals
-          questionModules={schoolGoalModules}
-          onModuleChange={handleSchoolGoalModuleChange}
-          onModuleCheckboxChange={handleSchoolGoalModuleCheckboxChange}
-          onAddModule={addSchoolGoalModule}
-          onRemoveModule={removeSchoolGoalModule}
-          getAvailableGoals={getAvailableSchoolGoals}
-          goalOptions={SCHOOL_GOAL_OPTIONS}
-        />
+        {/* Measures Step */}
+        {currentStep === 4 && (
+          <FormMeasure
+            measureModules={measureModules}
+            onModuleChange={handleMeasureModuleChange}
+            onModuleCheckboxChange={handleMeasureModuleCheckboxChange}
+            onAddModule={addMeasureModule}
+            onRemoveModule={removeMeasureModule}
+          />
+        )}
 
-        <hr style={styles.hr} />
+        {/* Evaluation Step */}
+        {currentStep === 5 && (
+          <FormEvaluation
+            evaluationDate={evaluationDate}
+            bilanzierungDate={bilanzierungDate}
+            uploadedFiles={uploadedFiles}
+            onEvaluationDateChange={handleEvaluationDateChange}
+            onBilanzierungDateChange={handleBilanzierungDateChange}
+            onFileUpload={handleFileUpload}
+            onFileRemove={handleFileRemove}
+          />
+        )}
 
-        <FormMeasure
-          measureModules={measureModules}
-          onModuleChange={handleMeasureModuleChange}
-          onModuleCheckboxChange={handleMeasureModuleCheckboxChange}
-          onAddModule={addMeasureModule}
-          onRemoveModule={removeMeasureModule}
-        />
+        {/* Callout Step */}
+        {currentStep === 6 && (
+          <FormCallout
+            title="Hinweis: Weitere Fragen zur Datengestützte Bilanzierung pro Teilziel"
+            message="Das Formular zur Bilanzierung pro Teilziel ist nicht implementiert."
+          />
+        )}
 
-        <hr style={styles.hr} />
-
-        <FormEvaluation
-          evaluationDate={evaluationDate}
-          bilanzierungDate={bilanzierungDate}
-          uploadedFiles={uploadedFiles}
-          onEvaluationDateChange={handleEvaluationDateChange}
-          onBilanzierungDateChange={handleBilanzierungDateChange}
-          onFileUpload={handleFileUpload}
-          onFileRemove={handleFileRemove}
-        />
-
-         <hr style={styles.hr} />
-
-        <FormCallout
-          title="Hinweis: Weitere Fragen zur Datengestützte Bilanzierung pro Teilziel"
-          message="Das Formular zur Bilanzierung pro Teilziel ist nicht implementiert."
-        />
-
+        {/* Step Navigation Footer */}
         <footer style={styles.footer}>
-          <button type="button" onClick={() => onNavigate('landing')} style={styles.button_secondary}>
-            Abbrechen
-          </button>
-          <button type="submit" style={styles.button_primary}>
-            ZV einreichen
-          </button>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flex: 1 }}>
+            <button 
+              type="button" 
+              onClick={handlePreviousStep}
+              disabled={currentStep === 0}
+              style={{
+                ...styles.button_secondary,
+                ...(currentStep === 0 && { opacity: 0.5, cursor: 'not-allowed' })
+              }}
+            >
+              ← Zurück
+            </button>
+            {currentStep > 0 && (
+              <span style={{ color: colors.textMuted, fontSize: '0.9rem', minWidth: '80px' }}>
+                Schritt {currentStep} / {totalSteps - 1}
+              </span>
+            )}
+            <button 
+              type="button" 
+              onClick={handleNextStep}
+              disabled={currentStep === totalSteps - 1}
+              style={{
+                ...styles.button_secondary,
+                ...(currentStep === totalSteps - 1 && { opacity: 0.5, cursor: 'not-allowed' })
+              }}
+            >
+              Weiter →
+            </button>
+          </div>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <button type="button" onClick={() => onNavigate('landing')} style={styles.button_secondary}>
+              Abbrechen
+            </button>
+            {currentStep === totalSteps - 1 && (
+              <button type="submit" style={styles.button_primary}>
+                ZV einreichen
+              </button>
+            )}
+          </div>
         </footer>
       </form>
     </div>
