@@ -816,6 +816,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
           onAddModule={addQuestionModule}
           onRemoveModule={removeQuestionModule}
           getAvailableGoals={getAvailableGoals}
+          goalOptions={FORM_GOAL_OPTIONS}
         />
 
         <hr style={styles.hr} />
@@ -827,6 +828,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
           onAddModule={addSchoolGoalModule}
           onRemoveModule={removeSchoolGoalModule}
           getAvailableGoals={getAvailableSchoolGoals}
+          goalOptions={SCHOOL_GOAL_OPTIONS}
         />
 
         <hr style={styles.hr} />

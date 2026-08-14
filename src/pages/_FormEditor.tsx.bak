@@ -720,7 +720,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
         {/* Ziele Section */}
         <div style={styles.section}>
-          <h2 style={styles.section_title}>Ziele</h2>
+          <h2 style={styles.section_title}>Ziele im SCP: Für welches SCP-Kernziel auf der individuellen Ebene hat sich Ihre Schule entschieden?</h2>
             
           {questionModules.map((module, index) => (
             <div 

@@ -22,14 +22,8 @@ interface FormGoalsProps {
   onAddModule: () => void;
   onRemoveModule: (id: string) => void;
   getAvailableGoals: (currentModuleId: string) => string[];
+  goalOptions: string[];
 }
-
-const FORM_GOAL_OPTIONS = [
-  'Erhöhte Anzahl an Schülerinnen und Schülern erreichen mithilfe entsprechender Basiskompetenzen die Mindeststandards in Deutsch.',
-  'Erhöhte Anzahl an Schülerinnen und Schülern gestalten mithilfe entsprechender sozialer und personaler Kompetenzen eine Wellbeing-Kultur an der Schule mit.',
-  'Gesteigerte Umsetzung der Chancengerechtigkeit insbesondere im Bereich der Zusammenarbeit mit Eltern und Erziehungsberechtigten.',
-  'Erhöhte Anzahl an Schülerinnen und Schülern erreichen einen Schulabschluss und beginnen eine anschließende Berufsausbildung.',
-];
 
 const TARGET_GROUP_OPTIONS = [
   'Schülerinnen und Schüler',
@@ -64,11 +58,12 @@ export function FormGoals({
   onAddModule,
   onRemoveModule,
   getAvailableGoals,
+  goalOptions,
 }: FormGoalsProps) {
   return (
     <>
       <div style={formStyles.section}>
-        <h2 style={formStyles.section_title}>Ziele</h2>
+        <h2 style={formStyles.section_title}>Für welches SCP-Kernziel auf der individuellen Ebene hat sich Ihre Schule entschieden?</h2>
 
         {questionModules.map((module, index) => (
           <div key={module.id} style={formStyles.moduleCard}>
@@ -89,7 +84,7 @@ export function FormGoals({
               {/* Question 01: Ziele im SCP */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label htmlFor={`goal-${module.id}`} style={formStyles.label}>
-                  01. Ziele im SCP: Für welches SCP-Kernziel auf der individuellen Ebene hat sich Ihre Schule entschieden? <span style={formStyles.required}>*</span>
+                  Bitte wählen Sie ein Kernziel aus! <span style={formStyles.required}>*</span>
                 </label>
                 <select
                   id={`goal-${module.id}`}
@@ -300,15 +295,15 @@ export function FormGoals({
         <button
           type="button"
           onClick={onAddModule}
-          disabled={questionModules.length >= FORM_GOAL_OPTIONS.length}
+          disabled={questionModules.length >= goalOptions.length}
           style={
-            questionModules.length >= FORM_GOAL_OPTIONS.length
+            questionModules.length >= goalOptions.length
               ? formStyles.button_success_disabled
               : formStyles.button_success
           }
         >
-          {questionModules.length >= FORM_GOAL_OPTIONS.length
-            ? `✓ Maximal ${FORM_GOAL_OPTIONS.length} Zielmodule erreicht`
+          {questionModules.length >= goalOptions.length
+            ? `✓ Maximal ${goalOptions.length} Zielmodule erreicht`
             : '+ Weiteres Zielmodul hinzufügen'}
         </button>
       </div>

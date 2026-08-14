@@ -38,12 +38,12 @@ export function FormIststand({
 }: FormIststandProps) {
   return (
     <div style={formStyles.section}>
-      <h2 style={formStyles.section_title}>Ist-Stand</h2>
+      <h2 style={formStyles.section_title}>Grundlegende Erkenntnisse zur IST-Stand-Analyse</h2>
 
       {/* Question 1: Support Personnel */}
       <div style={{ marginTop: '2rem' }}>
         <label style={formStyles.label}>
-          01. Wir arbeiten mit Personen aus dem Unterstützungssystem zusammen.
+          01a. Wir arbeiten mit Personen aus dem Unterstützungssystem zusammen.
         </label>
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'normal' }}>
