@@ -107,6 +107,8 @@ export function FormSchoolGoals({
                 </select>
               </div>
 
+              <hr style={formStyles.hr} />
+
               {/* Question 1a: SMART Teilziel */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label htmlFor={`smartGoal-${module.id}`} style={formStyles.label}>
@@ -121,6 +123,8 @@ export function FormSchoolGoals({
                   placeholder="Beschreiben Sie hier ein spezifisches, messbares, erreichbares, relevantes und zeitgebundenes Teilziel..."
                 />
               </div>
+
+              <hr style={formStyles.hr} />
 
               {/* Question 02: Auf wen bezieht sich das Ziel? */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
@@ -160,6 +164,8 @@ export function FormSchoolGoals({
                 </div>
               </div>
 
+              <hr style={formStyles.hr} />
+
               {/* Question 03: Was ist der Gegenstand des Ziels? */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label style={formStyles.label}>
@@ -197,6 +203,8 @@ export function FormSchoolGoals({
                   ))}
                 </div>
               </div>
+
+              <hr style={formStyles.hr} />
 
               {/* Question 04: Welche Datenquellen nutzen Sie, um die Zielerreichung zu überprüfen? */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
@@ -237,6 +245,8 @@ export function FormSchoolGoals({
                 </div>
               </div>
 
+              <hr style={formStyles.hr} />
+
               {/* Question 05: Zeitpunkt für die Zielerreichung */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label style={formStyles.label}>05. Zeitpunkt für die Zielerreichung</label>
@@ -274,6 +284,8 @@ export function FormSchoolGoals({
                   </div>
                 </div>
               </div>
+
+              <hr style={formStyles.hr} />
 
               {/* Question 06: Kommentare */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1rem' }}>

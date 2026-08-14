@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SaveIndicator, Breadcrumb } from '../components';
+import { Breadcrumb } from '../components';
 import { FormContract } from '../components/form_contract';
 import { FormCallout } from '../components/form_callout';
 import { FormIststand } from '../components/form_iststand';
@@ -7,7 +7,7 @@ import { FormGoals } from '../components/form_goals';
 import { FormSchoolGoals } from '../components/form_school_goals';
 import { FormMeasure } from '../components/form_measure';
 import { FormEvaluation } from '../components/form_evaluation';
-import { LoadTemplateIcon } from '../assets/icons';
+
 import type { Submission } from '../types';
 
 interface FormEditorProps {
@@ -77,7 +77,6 @@ const styles = {
   },
   header: {
     marginBottom: '2rem',
-    borderBottom: `2px solid ${colors.border}`,
     paddingBottom: '1.5rem',
   },
   header_title: {
@@ -367,7 +366,6 @@ const mockDraft: Submission | null = {
 
 export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   const [currentStep, setCurrentStep] = useState(0);
-  const [saveStatus, setSaveStatus] = useState<'saving' | 'saved' | 'error' | 'idle'>('idle');
   const [istStandAnalyse, setIstStandAnalyse] = useState('');
   const [supportPersonnel, setSupportPersonnel] = useState<boolean | ''>('');
   const [supportTypes, setSupportTypes] = useState<string[]>([]);
@@ -463,14 +461,8 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     }
   };
 
-  const triggerAutosave = () => {
-    setSaveStatus('saving');
-    setTimeout(() => setSaveStatus('saved'), 1000);
-  };
-
   const handleIstStandChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setIstStandAnalyse(e.target.value);
-    triggerAutosave();
   };
 
   const handleSupportPersonnelChange = (value: boolean) => {
@@ -479,7 +471,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       setSupportTypes([]);
       setSupportOtherText('');
     }
-    triggerAutosave();
+
   };
 
   const handleSupportTypeChange = (type: string, checked: boolean) => {
@@ -491,7 +483,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         setSupportOtherText('');
       }
     }
-    triggerAutosave();
+
   };
 
   const handleDataSourceChange = (source: string, checked: boolean) => {
@@ -500,7 +492,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     } else {
       setDataSources(prev => prev.filter(s => s !== source));
     }
-    triggerAutosave();
+
   };
 
   const handleModuleChange = (id: string, field: keyof QuestionModule, value: string | string[]) => {
@@ -509,7 +501,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         module.id === id ? { ...module, [field]: value } : module
       )
     );
-    triggerAutosave();
+
   };
 
   const handleModuleCheckboxChange = (id: string, field: 'targetGroup' | 'subject' | 'dataSources', option: string) => {
@@ -527,7 +519,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         return module;
       })
     );
-    triggerAutosave();
+
   };
 
   const addQuestionModule = () => {
@@ -556,7 +548,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
   const removeQuestionModule = (id: string) => {
     setQuestionModules(prev => prev.filter(module => module.id !== id));
-    triggerAutosave();
+
   };
 
   const getAvailableGoals = (currentModuleId: string) => {
@@ -573,7 +565,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         module.id === id ? { ...module, [field]: value } : module
       )
     );
-    triggerAutosave();
+
   };
 
   const handleSchoolGoalModuleCheckboxChange = (id: string, field: 'targetGroup' | 'subject' | 'dataSources', option: string) => {
@@ -591,7 +583,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         return module;
       })
     );
-    triggerAutosave();
+
   };
 
   const addSchoolGoalModule = () => {
@@ -620,7 +612,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
   const removeSchoolGoalModule = (id: string) => {
     setSchoolGoalModules(prev => prev.filter(module => module.id !== id));
-    triggerAutosave();
+
   };
 
   const getAvailableSchoolGoals = (currentModuleId: string) => {
@@ -637,7 +629,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         module.id === id ? { ...module, [field]: value } : module
       )
     );
-    triggerAutosave();
+
   };
 
   const handleMeasureModuleCheckboxChange = (id: string, field: 'involved' | 'resources' | 'workMethod', option: string) => {
@@ -655,7 +647,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         return module;
       })
     );
-    triggerAutosave();
+
   };
 
   const addMeasureModule = () => {
@@ -682,7 +674,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
   const removeMeasureModule = (id: string) => {
     setMeasureModules(prev => prev.filter(module => module.id !== id));
-    triggerAutosave();
+
   };
 
   const loadDraft = () => {
@@ -694,7 +686,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       setSupportOtherText((mockDraft.data.supportOtherText as string) || '');
       setDataSources((mockDraft.data.dataSources as string[]) || []);
       setCurrentDraftId(mockDraft.id);
-      setSaveStatus('saved');
       // Move to contract step (step 1) after loading draft
       setCurrentStep(1);
       window.scrollTo(0, 0);
@@ -709,22 +700,22 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
   const handleEvaluationDateChange = (date: string) => {
     setEvaluationDate(date);
-    triggerAutosave();
+
   };
 
   const handleBilanzierungDateChange = (date: string) => {
     setBilanzierungDate(date);
-    triggerAutosave();
+
   };
 
   const handleFileUpload = (files: File[]) => {
     setUploadedFiles(files);
-    triggerAutosave();
+
   };
 
   const handleFileRemove = (index: number) => {
     setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
-    triggerAutosave();
+
   };
 
   const getBreadcrumbItems = () => {
@@ -748,55 +739,30 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       <Breadcrumb items={getBreadcrumbItems()} />
       
       <header style={styles.header}>
-        <h1 style={styles.header_title}>Neue Zielvereinbarung</h1>
         <div style={styles.header_meta}>
           {currentStep > 0 && (
             <span style={styles.status_badge}>
               Schritt {currentStep} von {totalSteps - 1}: {currentStepData.title}
             </span>
           )}
-          <SaveIndicator status={saveStatus} />
         </div>
       </header>
 
       {/* Landing Step - Show Contract then offer Load or Create New */}
       {currentStep === 0 && (
-        <>
-          <FormContract
-            contractSchoolLead={contractSchoolLead}
-            contractSchoolName={contractSchoolName}
-            contractSamt={contractSamt}
-            contractProgramRep={contractProgramRep}
-          />
-
-          <div style={{ marginTop: '2rem', paddingTop: '2rem', display: 'flex', gap: '1rem' }}>
-            {mockDraft && !currentDraftId && !submissionId && (
-              <button 
-                type="button"
-                onClick={loadDraft}
-                style={{
-                  ...styles.button_draft,
-                  flex: 1,
-                  padding: '0.65rem 1rem',
-                }}
-              >
-                <LoadTemplateIcon style={{ width: '1.25rem', height: '1.25rem', marginRight: '0.5rem', verticalAlign: 'middle' }} />
-                Entwurf laden
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={handleStartNew}
-              style={{
-                ...styles.button_success,
-                flex: 1,
-                padding: '0.65rem 1rem',
-              }}
-            >
-              Neue Zielvereinbarung starten
-            </button>
-          </div>
-        </>
+        <FormContract
+          contractSchoolLead={contractSchoolLead}
+          contractSchoolName={contractSchoolName}
+          contractSamt={contractSamt}
+          contractProgramRep={contractProgramRep}
+          onStartNew={handleStartNew}
+          onLoadDraft={loadDraft}
+          showDraftButton={!!(mockDraft && !currentDraftId && !submissionId)}
+          buttonStyles={{
+            button_primary: styles.button_primary,
+            button_draft: styles.button_draft,
+          }}
+        />
       )}
 
       <form onSubmit={handleSubmit} style={{ display: currentStep === 0 ? 'none' : 'block' }}>
@@ -815,7 +781,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
             onSupportTypeChange={handleSupportTypeChange}
             onSupportOtherTextChange={(val) => {
               setSupportOtherText(val);
-              triggerAutosave();
+
             }}
             onDataSourceChange={handleDataSourceChange}
           />

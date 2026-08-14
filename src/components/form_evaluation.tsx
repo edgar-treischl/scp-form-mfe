@@ -46,6 +46,8 @@ export function FormEvaluation({
         />
       </div>
 
+      <hr style={formStyles.hr} />
+
       {/* Question 2: Bilanzierungsgespräch Date */}
       <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
         <label htmlFor="bilanzierungDate" style={formStyles.label}>
@@ -60,10 +62,12 @@ export function FormEvaluation({
         />
       </div>
 
+      <hr style={formStyles.hr} />
+
       {/* Question 3: Document Upload */}
       <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
         <label style={formStyles.label}>
-          03. Bitte laden Sie entsprechenden Dokumente hoch.
+          03. Upload der Dokumente
         </label>
         
         <div style={{
@@ -101,7 +105,7 @@ export function FormEvaluation({
             color: colors.textMuted,
             margin: '0.5rem 0 0 0',
           }}>
-            PDF, Word, Excel und Bilder unterstützt
+            PDF, Word, Excel? Was unterstützen wir?
           </p>
         </div>
 

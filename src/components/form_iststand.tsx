@@ -112,6 +112,8 @@ export function FormIststand({
         </div>
       )}
 
+      <hr style={formStyles.hr} />
+
       {/* Question 3: Data Sources */}
       <div style={{ marginTop: '1.5rem', marginBottom: '1rem' }}>
         <label style={formStyles.label}>02. Datenquellen für die Ist-Stand-Erhebung</label>
@@ -132,6 +134,8 @@ export function FormIststand({
           ))}
         </div>
       </div>
+
+      <hr style={formStyles.hr} />
 
       <label htmlFor="istStandAnalyse" style={formStyles.label}>
         03. Kommentare

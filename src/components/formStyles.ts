@@ -143,18 +143,15 @@ export const formStyles = {
     margin: '2rem 0',
   },
   contractSection: {
-    border: `2px solid ${colors.primary}`,
-    borderRadius: '8px',
-    padding: '1.5rem',
-    marginBottom: '2rem',
+    padding: '0.5rem',
+    marginBottom: '1rem',
   },
   contractTitle: {
-    fontSize: '1.1rem',
+    fontSize: '1.6rem',
     fontWeight: '700',
     color: colors.primary,
-    marginBottom: '1rem',
-    textTransform: 'uppercase' as const,
-    letterSpacing: '0.5px',
+    marginBottom: '1.5rem',
+    letterSpacing: '0.75px',
   },
   contractPreview: {
     fontSize: '0.95rem',

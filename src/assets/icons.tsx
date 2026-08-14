@@ -77,3 +77,17 @@ export function ExportWordIcon({ className, style }: IconProps) {
   );
 }
 
+export function NewIcon({ className, style }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      style={style}
+      aria-hidden="true"
+    >
+      <path d="M11 3h2v8h8v2h-8v8h-2v-8H3v-2h8z" />
+    </svg>
+  );
+}
+

@@ -106,6 +106,8 @@ export function FormMeasure({
                 />
               </div>
 
+              <hr style={formStyles.hr} />
+
               {/* Question 2: Um welchen Maßnahmentyp handelt es sich? */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label htmlFor={`type-${module.id}`} style={formStyles.label}>
@@ -127,6 +129,8 @@ export function FormMeasure({
                 </select>
               </div>
 
+              <hr style={formStyles.hr} />
+
               {/* Question 3: Wer ist verantwortlich? */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label htmlFor={`responsible-${module.id}`} style={formStyles.label}>
@@ -147,6 +151,8 @@ export function FormMeasure({
                   ))}
                 </select>
               </div>
+
+              <hr style={formStyles.hr} />
 
               {/* Question 4: Wer ist beteiligt? */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
@@ -175,6 +181,8 @@ export function FormMeasure({
                   ))}
                 </div>
               </div>
+
+              <hr style={formStyles.hr} />
 
               {/* Question 5a: Nennen Sie Ressourcen und Sachmittel */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
@@ -219,6 +227,8 @@ export function FormMeasure({
                 />
               </div>
 
+              <hr style={formStyles.hr} />
+
               {/* Question 6a: Mit welcher Arbeitsmethode wird dieser Schritt umgesetzt? */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label style={formStyles.label}>
@@ -261,6 +271,8 @@ export function FormMeasure({
                   placeholder="Beschreiben Sie die geplante Arbeitsmethode..."
                 />
               </div>
+
+              <hr style={formStyles.hr} />
 
               {/* Question 7: BIS WANN muss die Maßnahme im Schulalltag gestartet oder durchgeführt sein? */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
