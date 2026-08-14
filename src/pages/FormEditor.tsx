@@ -17,8 +17,11 @@ interface QuestionModule {
   goal: string;
   smartGoal: string;
   targetGroup: string[];
+  targetGroupOther: string;
   subject: string[];
+  subjectOther: string;
   dataSources: string[];
+  dataSourcesOther: string;
   startDate: string;
   endDate: string;
   comments: string;
@@ -32,10 +35,10 @@ const FORM_GOAL_OPTIONS = [
 ];
 
 const SCHOOL_GOAL_OPTIONS = [
-  'Schulgemeinschaft verfolgt die Gestaltung einer positiven Schulkultur und die Entwicklung der Schule hin zu einem förderlichen Lern- und Sozialraum als handlungsleitendes Grundprinzip.',
-  'XXx.',
-  'xxx.',
-  'XXX.',
+  'Die Schulgemeinschaft verfolgt die Gestaltung einer positiven Schulkultur und die Entwicklung der Schule hin zu einem förderlichen Lern- und Sozialraum als handlungsleitendes Grundprinzip.',
+  'An der Schule sind Verfahren nachhaltig angelegter, ko-konstruktiver Professionalisierung implementiert.',
+  'Von der Schule werden nachhaltig angelegte außerschulische und schul(art)übergreifende Netzwerke und Unterstützungssysteme wirksam und zielorientiert genutzt.',
+  'Innerhalb der Schule sind mittel- und langfristig Verfahren systematischer Qualitätsentwicklung unter Einbezug datengestützter Verfahren etabliert.',
 ];
 
 // Professional color palette
@@ -359,8 +362,11 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       goal: '',
       smartGoal: '',
       targetGroup: [],
+      targetGroupOther: '',
       subject: [],
+      subjectOther: '',
       dataSources: [],
+      dataSourcesOther: '',
       startDate: '',
       endDate: '',
       comments: '',
@@ -372,8 +378,11 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       goal: '',
       smartGoal: '',
       targetGroup: [],
+      targetGroupOther: '',
       subject: [],
+      subjectOther: '',
       dataSources: [],
+      dataSourcesOther: '',
       startDate: '',
       endDate: '',
       comments: '',
@@ -468,8 +477,11 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         goal: '',
         smartGoal: '',
         targetGroup: [],
+        targetGroupOther: '',
         subject: [],
+        subjectOther: '',
         dataSources: [],
+        dataSourcesOther: '',
         startDate: '',
         endDate: '',
         comments: '',
@@ -529,8 +541,11 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         goal: '',
         smartGoal: '',
         targetGroup: [],
+        targetGroupOther: '',
         subject: [],
+        subjectOther: '',
         dataSources: [],
+        dataSourcesOther: '',
         startDate: '',
         endDate: '',
         comments: '',

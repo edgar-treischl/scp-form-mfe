@@ -5,8 +5,11 @@ interface QuestionModule {
   goal: string;
   smartGoal: string;
   targetGroup: string[];
+  targetGroupOther: string;
   subject: string[];
+  subjectOther: string;
   dataSources: string[];
+  dataSourcesOther: string;
   startDate: string;
   endDate: string;
   comments: string;
@@ -129,23 +132,33 @@ export function FormGoals({
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {TARGET_GROUP_OPTIONS.map((option) => (
-                    <label
-                      key={option}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: '0.5rem',
-                        fontWeight: 'normal',
-                      }}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={module.targetGroup.includes(option)}
-                        onChange={() => onModuleCheckboxChange(module.id, 'targetGroup', option)}
-                        style={{ cursor: 'pointer', marginTop: '0.25rem' }}
-                      />
-                      <span>{option}</span>
-                    </label>
+                    <div key={option}>
+                      <label
+                        style={{
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '0.5rem',
+                          fontWeight: 'normal',
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={module.targetGroup.includes(option)}
+                          onChange={() => onModuleCheckboxChange(module.id, 'targetGroup', option)}
+                          style={{ cursor: 'pointer', marginTop: '0.25rem' }}
+                        />
+                        <span>{option}</span>
+                      </label>
+                      {option === 'Sonstige' && module.targetGroup.includes('Sonstige') && (
+                        <input
+                          type="text"
+                          value={module.targetGroupOther}
+                          onChange={(e) => onModuleChange(module.id, 'targetGroupOther', e.target.value)}
+                          placeholder="Bitte geben Sie die Zielgruppe an..."
+                          style={{ ...formStyles.input, marginLeft: '1.5rem', marginTop: '0.5rem' }}
+                        />
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -157,23 +170,33 @@ export function FormGoals({
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {SUBJECT_OPTIONS.map((option) => (
-                    <label
-                      key={option}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: '0.5rem',
-                        fontWeight: 'normal',
-                      }}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={module.subject.includes(option)}
-                        onChange={() => onModuleCheckboxChange(module.id, 'subject', option)}
-                        style={{ cursor: 'pointer', marginTop: '0.25rem' }}
-                      />
-                      <span>{option}</span>
-                    </label>
+                    <div key={option}>
+                      <label
+                        style={{
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '0.5rem',
+                          fontWeight: 'normal',
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={module.subject.includes(option)}
+                          onChange={() => onModuleCheckboxChange(module.id, 'subject', option)}
+                          style={{ cursor: 'pointer', marginTop: '0.25rem' }}
+                        />
+                        <span>{option}</span>
+                      </label>
+                      {option === 'Sonstiges' && module.subject.includes('Sonstiges') && (
+                        <input
+                          type="text"
+                          value={module.subjectOther}
+                          onChange={(e) => onModuleChange(module.id, 'subjectOther', e.target.value)}
+                          placeholder="Bitte geben Sie den Gegenstand an..."
+                          style={{ ...formStyles.input, marginLeft: '1.5rem', marginTop: '0.5rem' }}
+                        />
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -186,23 +209,33 @@ export function FormGoals({
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {DATA_SOURCES_OPTIONS.map((option) => (
-                    <label
-                      key={option}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: '0.5rem',
-                        fontWeight: 'normal',
-                      }}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={module.dataSources.includes(option)}
-                        onChange={() => onModuleCheckboxChange(module.id, 'dataSources', option)}
-                        style={{ cursor: 'pointer', marginTop: '0.25rem' }}
-                      />
-                      <span>{option}</span>
-                    </label>
+                    <div key={option}>
+                      <label
+                        style={{
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '0.5rem',
+                          fontWeight: 'normal',
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={module.dataSources.includes(option)}
+                          onChange={() => onModuleCheckboxChange(module.id, 'dataSources', option)}
+                          style={{ cursor: 'pointer', marginTop: '0.25rem' }}
+                        />
+                        <span>{option}</span>
+                      </label>
+                      {option === 'Sonstiges' && module.dataSources.includes('Sonstiges') && (
+                        <input
+                          type="text"
+                          value={module.dataSourcesOther}
+                          onChange={(e) => onModuleChange(module.id, 'dataSourcesOther', e.target.value)}
+                          placeholder="Bitte geben Sie die Datenquelle an..."
+                          style={{ ...formStyles.input, marginLeft: '1.5rem', marginTop: '0.5rem' }}
+                        />
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
