@@ -49,7 +49,7 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
       <Breadcrumb 
         items={[
           { label: 'Start', onClick: () => onNavigate('landing') },

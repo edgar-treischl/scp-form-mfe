@@ -96,7 +96,7 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
   }>) || [];
 
   return (
-    <div id="submission-content">
+    <div id="submission-content" style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
       <Breadcrumb 
         items={[
           { label: 'Start', onClick: () => onNavigate('landing') },
