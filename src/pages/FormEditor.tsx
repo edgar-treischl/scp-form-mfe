@@ -3,7 +3,7 @@ import { SaveIndicator, Breadcrumb } from '../components';
 import { FormContract } from '../components/form_contract';
 import { FormIststand } from '../components/form_iststand';
 import { FormGoals } from '../components/form_goals';
-import { FormSchoolGoals } from '../components/school_goals';
+import { FormSchoolGoals } from '../components/form_school_goals';
 import { LoadTemplateIcon } from '../assets/icons';
 import type { Submission } from '../types';
 
