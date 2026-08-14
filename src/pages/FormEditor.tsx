@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SaveIndicator, Breadcrumb } from '../components';
 import { FormContract } from '../components/form_contract';
+import { FormCallout } from '../components/form_callout';
 import { FormIststand } from '../components/form_iststand';
 import { FormGoals } from '../components/form_goals';
 import { FormSchoolGoals } from '../components/form_school_goals';
@@ -848,6 +849,11 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
           onBilanzierungDateChange={handleBilanzierungDateChange}
           onFileUpload={handleFileUpload}
           onFileRemove={handleFileRemove}
+        />
+
+        <FormCallout
+          title="Hinweis: Weitere Fragen in Vorbereitung"
+          message="Die folgenden Bereiche sind noch nicht vollständig implementiert. Sie können hier bereits Kategorien und Fragen dokumentieren, die später hinzugefügt werden."
         />
 
         <footer style={styles.footer}>
