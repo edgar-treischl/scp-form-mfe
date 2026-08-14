@@ -1,12 +1,11 @@
-/* Professional Form Input Styles */
-/* Enhanced styling for dropdowns, date pickers, checkboxes, and radio buttons */
+/* Form Input Styles - Professional styling for all form elements */
 
 :root {
-  --form-primary: #1E8AD9;
-  --form-success: #64D4C6;
+  --form-primary: #1e8ad9;
+  --form-success: #64d4c6;
   --form-danger: #dc3545;
   --form-border: #dee2e6;
-  --form-border-focus: #1E8AD9;
+  --form-border-focus: #1e8ad9;
   --form-bg: #ffffff;
   --form-bg-hover: #f8f9fa;
   --form-text: #212529;
@@ -17,70 +16,32 @@
   --form-transition: all 0.2s ease;
 }
 
-/* ============================================
-   SELECT / DROPDOWN STYLING
-   ============================================ */
-select,
-input[type="select"] {
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%231E8AD9' d='M4 6 L 8 11 L 12 6 Z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 1.2rem;
-  padding-right: 2.75rem;
-  cursor: pointer;
-  font-size: 0.95rem;
-  font-family: inherit;
-  color: var(--form-text);
-  background-color: var(--form-bg);
-  border: 1px solid var(--form-border);
-  border-radius: 6px;
-  padding-left: 0.75rem;
-  padding-top: 0.65rem;
-  padding-bottom: 0.65rem;
-  width: 100%;
-  transition: var(--form-transition);
-  box-shadow: var(--form-shadow);
+@media (prefers-color-scheme: dark) {
+  :root {
+    --form-bg: #1f2937;
+    --form-bg-hover: #374151;
+    --form-text: #f3f4f6;
+    --form-text-muted: #9ca3af;
+    --form-border: #4b5563;
+  }
 }
 
-select:hover:not(:disabled) {
-  border-color: var(--form-primary);
-  background-color: var(--form-bg-hover);
-}
-
-select:focus {
-  outline: none;
-  border-color: var(--form-border-focus);
-  box-shadow: var(--form-shadow), var(--form-shadow-focus);
-}
-
-select:disabled {
-  background-color: var(--form-disabled);
-  color: var(--form-text-muted);
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-select option {
-  padding: 0.5rem;
-  background-color: transparent;
-  color: var(--form-text);
-}
-
-select option:checked {
-  background-color: transparent;
-  color: var(--form-text);
-}
-
-/* ============================================
-   DATE INPUT STYLING
-   ============================================ */
+/* Base input styles */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="url"],
+input[type="tel"],
+input[type="number"],
 input[type="date"],
 input[type="datetime-local"],
 input[type="time"],
 input[type="month"],
-input[type="week"] {
-  appearance: textfield;
+input[type="week"],
+select,
+textarea {
+  appearance: none;
   background-color: var(--form-bg);
   border: 1px solid var(--form-border);
   border-radius: 6px;
@@ -91,10 +52,81 @@ input[type="week"] {
   color: var(--form-text);
   transition: var(--form-transition);
   box-shadow: var(--form-shadow);
-  cursor: pointer;
-  position: relative;
 }
 
+input[type="text"]:hover:not(:disabled),
+input[type="email"]:hover:not(:disabled),
+input[type="password"]:hover:not(:disabled),
+input[type="search"]:hover:not(:disabled),
+input[type="url"]:hover:not(:disabled),
+input[type="tel"]:hover:not(:disabled),
+input[type="number"]:hover:not(:disabled),
+input[type="date"]:hover:not(:disabled),
+input[type="datetime-local"]:hover:not(:disabled),
+input[type="time"]:hover:not(:disabled),
+input[type="month"]:hover:not(:disabled),
+input[type="week"]:hover:not(:disabled),
+select:hover:not(:disabled),
+textarea:hover:not(:disabled) {
+  border-color: var(--form-primary);
+  background-color: var(--form-bg-hover);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="url"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="datetime-local"]:focus,
+input[type="time"]:focus,
+input[type="month"]:focus,
+input[type="week"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--form-border-focus);
+  box-shadow: var(--form-shadow), var(--form-shadow-focus);
+}
+
+input[type="text"]:disabled,
+input[type="email"]:disabled,
+input[type="password"]:disabled,
+input[type="search"]:disabled,
+input[type="url"]:disabled,
+input[type="tel"]:disabled,
+input[type="number"]:disabled,
+input[type="date"]:disabled,
+input[type="datetime-local"]:disabled,
+input[type="time"]:disabled,
+input[type="month"]:disabled,
+input[type="week"]:disabled,
+select:disabled,
+textarea:disabled {
+  background-color: var(--form-disabled);
+  color: var(--form-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Select/Dropdown specific */
+select {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%231E8AD9' d='M4 6 L 8 11 L 12 6 Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.2rem;
+  padding-right: 2.75rem;
+  cursor: pointer;
+}
+
+select option {
+  background-color: var(--form-bg);
+  color: var(--form-text);
+}
+
+/* Date picker calendar icon */
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="datetime-local"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator,
@@ -105,39 +137,30 @@ input[type="week"]::-webkit-calendar-picker-indicator {
   background-color: transparent;
 }
 
-input[type="date"]:hover:not(:disabled),
-input[type="datetime-local"]:hover:not(:disabled),
-input[type="time"]:hover:not(:disabled),
-input[type="month"]:hover:not(:disabled),
-input[type="week"]:hover:not(:disabled) {
-  border-color: var(--form-primary);
-  background-color: var(--form-bg-hover);
+/* Number input spinners */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
 }
 
-input[type="date"]:focus,
-input[type="datetime-local"]:focus,
-input[type="time"]:focus,
-input[type="month"]:focus,
-input[type="week"]:focus {
-  outline: none;
-  border-color: var(--form-border-focus);
-  box-shadow: var(--form-shadow), var(--form-shadow-focus);
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
-input[type="date"]:disabled,
-input[type="datetime-local"]:disabled,
-input[type="time"]:disabled,
-input[type="month"]:disabled,
-input[type="week"]:disabled {
-  background-color: var(--form-disabled);
+/* Textarea specific */
+textarea {
+  resize: vertical;
+  min-height: 6rem;
+  line-height: 1.5;
+}
+
+textarea::placeholder {
   color: var(--form-text-muted);
-  cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
-/* ============================================
-   CHECKBOX STYLING
-   ============================================ */
+/* Checkbox styling */
 input[type="checkbox"] {
   appearance: none;
   width: 1.25rem;
@@ -151,6 +174,7 @@ input[type="checkbox"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin: 0;
 }
 
 input[type="checkbox"]:hover:not(:disabled) {
@@ -185,9 +209,7 @@ input[type="checkbox"]:disabled {
   opacity: 0.6;
 }
 
-/* ============================================
-   RADIO BUTTON STYLING
-   ============================================ */
+/* Radio button styling */
 input[type="radio"] {
   appearance: none;
   width: 1.2rem;
@@ -201,6 +223,7 @@ input[type="radio"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin: 0;
 }
 
 input[type="radio"]:hover:not(:disabled) {
@@ -231,121 +254,22 @@ input[type="radio"]:disabled {
   opacity: 0.6;
 }
 
-/* ============================================
-   TEXT & NUMBER INPUTS
-   ============================================ */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="search"],
-input[type="url"],
-input[type="tel"],
-input[type="number"] {
-  appearance: none;
-  background-color: var(--form-bg);
-  border: 1px solid var(--form-border);
-  border-radius: 6px;
-  padding: 0.65rem 0.75rem;
-  width: 100%;
-  font-size: 0.95rem;
-  font-family: inherit;
-  color: var(--form-text);
-  transition: var(--form-transition);
-  box-shadow: var(--form-shadow);
-}
-
-input[type="text"]:hover:not(:disabled),
-input[type="email"]:hover:not(:disabled),
-input[type="password"]:hover:not(:disabled),
-input[type="search"]:hover:not(:disabled),
-input[type="url"]:hover:not(:disabled),
-input[type="tel"]:hover:not(:disabled),
-input[type="number"]:hover:not(:disabled) {
-  border-color: var(--form-primary);
-  background-color: var(--form-bg-hover);
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="search"]:focus,
-input[type="url"]:focus,
-input[type="tel"]:focus,
-input[type="number"]:focus {
-  outline: none;
-  border-color: var(--form-border-focus);
-  box-shadow: var(--form-shadow), var(--form-shadow-focus);
-}
-
-input[type="text"]:disabled,
-input[type="email"]:disabled,
-input[type="password"]:disabled,
-input[type="search"]:disabled,
-input[type="url"]:disabled,
-input[type="tel"]:disabled,
-input[type="number"]:disabled {
-  background-color: var(--form-disabled);
-  color: var(--form-text-muted);
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  appearance: none;
-  margin: 0;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-/* ============================================
-   TEXTAREA STYLING
-   ============================================ */
-textarea {
-  appearance: none;
-  background-color: var(--form-bg);
-  border: 1px solid var(--form-border);
-  border-radius: 6px;
-  padding: 0.75rem;
-  width: 100%;
-  font-size: 0.95rem;
-  font-family: inherit;
-  color: var(--form-text);
-  resize: vertical;
-  transition: var(--form-transition);
-  box-shadow: var(--form-shadow);
-  min-height: 6rem;
-  line-height: 1.5;
-}
-
-textarea:hover:not(:disabled) {
-  border-color: var(--form-primary);
-  background-color: var(--form-bg-hover);
-}
-
-textarea:focus {
-  outline: none;
-  border-color: var(--form-border-focus);
-  box-shadow: var(--form-shadow), var(--form-shadow-focus);
-}
-
-textarea:disabled {
-  background-color: var(--form-disabled);
-  color: var(--form-text-muted);
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
+/* Placeholder text */
+input::placeholder,
 textarea::placeholder {
   color: var(--form-text-muted);
   opacity: 0.7;
 }
 
-/* ============================================
-   LABEL STYLING
-   ============================================ */
+/* Focus visible for accessibility */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--form-primary);
+  outline-offset: 2px;
+}
+
+/* Label styling */
 label {
   display: inline-block;
   margin-bottom: 0.5rem;
@@ -366,27 +290,7 @@ label:has(input[type="radio"]) {
   margin-bottom: 0.25rem;
 }
 
-/* ============================================
-   FOCUS VISIBLE FOR ACCESSIBILITY
-   ============================================ */
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--form-primary);
-  outline-offset: 2px;
-}
-
-/* ============================================
-   PLACEHOLDER TEXT
-   ============================================ */
-input::placeholder {
-  color: var(--form-text-muted);
-  opacity: 0.7;
-}
-
-/* ============================================
-   FORM GROUP WRAPPER
-   ============================================ */
+/* Form group wrapper */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -402,9 +306,7 @@ input::placeholder {
   width: 100%;
 }
 
-/* ============================================
-   INLINE FORM GROUPS (for radio/checkbox groups)
-   ============================================ */
+/* Inline form groups (for radio/checkbox groups) */
 .form-check {
   display: flex;
   align-items: center;
@@ -422,46 +324,4 @@ input::placeholder {
   margin: 0;
   font-weight: normal;
   cursor: pointer;
-}
-
-/* ============================================
-   DARK MODE SUPPORT
-   ============================================ */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --form-bg: #1f2937;
-    --form-bg-hover: #374151;
-    --form-text: #f3f4f6;
-    --form-border: #4b5563;
-  }
-
-  select,
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="search"],
-  input[type="url"],
-  input[type="tel"],
-  input[type="number"],
-  input[type="date"],
-  input[type="datetime-local"],
-  input[type="time"],
-  input[type="month"],
-  input[type="week"],
-  textarea {
-    background-color: var(--form-bg);
-    color: var(--form-text);
-    border-color: var(--form-border);
-  }
-
-  input[type="checkbox"],
-  input[type="radio"] {
-    background-color: var(--form-bg);
-    border-color: var(--form-border);
-  }
-
-  select option {
-    background-color: var(--form-bg);
-    color: var(--form-text);
-  }
 }
