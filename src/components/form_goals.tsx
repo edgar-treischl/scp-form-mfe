@@ -77,10 +77,10 @@ export function FormGoals({
             </div>
 
             <div style={formStyles.fieldGroup}>
-              {/* Feld 2: Ziele im SCP */}
-              <div>
+              {/* Question 01: Ziele im SCP */}
+              <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label htmlFor={`goal-${module.id}`} style={formStyles.label}>
-                  Feld 2: Ziele im SCP <span style={formStyles.required}>*</span>
+                  01. Ziele im SCP <span style={formStyles.required}>*</span>
                 </label>
                 <select
                   id={`goal-${module.id}`}
@@ -101,10 +101,10 @@ export function FormGoals({
                 </select>
               </div>
 
-              {/* Auf wen bezieht sich das Ziel? */}
-              <div>
+              {/* Question 02: Auf wen bezieht sich das Ziel? */}
+              <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label style={formStyles.label}>
-                  Auf wen bezieht sich das Ziel? <span style={formStyles.required}>*</span>
+                  02. Auf wen bezieht sich das Ziel? <span style={formStyles.required}>*</span>
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {TARGET_GROUP_OPTIONS.map((option) => (
@@ -129,10 +129,10 @@ export function FormGoals({
                 </div>
               </div>
 
-              {/* Was ist der Gegenstand des Ziels? */}
-              <div>
+              {/* Question 03: Was ist der Gegenstand des Ziels? */}
+              <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label style={formStyles.label}>
-                  Was ist der Gegenstand des Ziels? <span style={formStyles.required}>*</span>
+                  03. Was ist der Gegenstand des Ziels? <span style={formStyles.required}>*</span>
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {SUBJECT_OPTIONS.map((option) => (
@@ -157,10 +157,10 @@ export function FormGoals({
                 </div>
               </div>
 
-              {/* Welche Datenquellen nutzen Sie, um die Zielerreichung zu überprüfen? */}
-              <div>
+              {/* Question 04: Welche Datenquellen nutzen Sie, um die Zielerreichung zu überprüfen? */}
+              <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label style={formStyles.label}>
-                  Welche Datenquellen nutzen Sie, um die Zielerreichung zu überprüfen?{' '}
+                  04. Welche Datenquellen nutzen Sie, um die Zielerreichung zu überprüfen?{' '}
                   <span style={formStyles.required}>*</span>
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -186,9 +186,9 @@ export function FormGoals({
                 </div>
               </div>
 
-              {/* Zeitpunkt für die Zielerreichung */}
-              <div>
-                <label style={formStyles.label}>Zeitpunkt für die Zielerreichung</label>
+              {/* Question 05: Zeitpunkt für die Zielerreichung */}
+              <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+                <label style={formStyles.label}>05. Zeitpunkt für die Zielerreichung</label>
                 <div style={formStyles.fieldRow}>
                   <div>
                     <label
@@ -224,10 +224,10 @@ export function FormGoals({
                 </div>
               </div>
 
-              {/* Kommentare */}
-              <div>
+              {/* Question 06: Kommentare */}
+              <div style={{ marginTop: '1.5rem', marginBottom: '1rem' }}>
                 <label htmlFor={`comments-${module.id}`} style={formStyles.label}>
-                  Kommentare
+                  06. Kommentare
                 </label>
                 <textarea
                   id={`comments-${module.id}`}

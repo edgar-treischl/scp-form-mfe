@@ -40,22 +40,10 @@ export function FormIststand({
     <div style={formStyles.section}>
       <h2 style={formStyles.section_title}>Ist-Stand</h2>
 
-      <label htmlFor="istStandAnalyse" style={formStyles.label}>
-        Grundlegende Erkenntnisse zur IST-Stand-Analyse in Kurzfassung
-      </label>
-      <textarea
-        id="istStandAnalyse"
-        value={istStandAnalyse}
-        onChange={(e) => onIstStandChange(e.target.value)}
-        rows={6}
-        style={formStyles.textarea}
-        placeholder="Bitte geben Sie die grundlegenden Erkenntnisse ein..."
-      />
-
       {/* Question 1: Support Personnel */}
       <div style={{ marginTop: '2rem' }}>
         <label style={formStyles.label}>
-          Wir arbeiten mit Personen aus dem Unterstützungssystem zusammen.
+          01. Wir arbeiten mit Personen aus dem Unterstützungssystem zusammen.
         </label>
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'normal' }}>
@@ -86,7 +74,7 @@ export function FormIststand({
       {/* Question 2: Support Types (Filtered) */}
       {supportPersonnel === true && (
         <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
-          <label style={formStyles.label}>Mit wem arbeiten Sie zusammen?</label>
+          <label style={formStyles.label}>01b. Mit wem arbeiten Sie zusammen?</label>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {SUPPORT_TYPES.map((type) => (
               <label
@@ -126,7 +114,7 @@ export function FormIststand({
 
       {/* Question 3: Data Sources */}
       <div style={{ marginTop: '1.5rem', marginBottom: '1rem' }}>
-        <label style={formStyles.label}>Datenquellen für die Ist-Stand-Erhebung</label>
+        <label style={formStyles.label}>02. Datenquellen für die Ist-Stand-Erhebung</label>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {DATA_SOURCES.map((source) => (
             <label
@@ -144,6 +132,19 @@ export function FormIststand({
           ))}
         </div>
       </div>
+
+      <label htmlFor="istStandAnalyse" style={formStyles.label}>
+        03. Kommentare
+      </label>
+      <textarea
+        id="istStandAnalyse"
+        value={istStandAnalyse}
+        onChange={(e) => onIstStandChange(e.target.value)}
+        rows={6}
+        style={formStyles.textarea}
+        placeholder="Weitere Hinweise, Kommentare, Anmerkungen ..."
+      />
+
     </div>
   );
 }
