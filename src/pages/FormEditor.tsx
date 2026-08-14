@@ -355,12 +355,59 @@ const mockDraft: Submission | null = {
   updatedAt: new Date('2026-07-28T09:45:00'),
   data: {
     title: 'Zielvereinbarung 2026',
-    istStandAnalyse: 'Erste Erkenntnisse aus der laufenden Periode...',
+    istStandAnalyse: 'Die bisherigen Entwicklungen deuten auf Erfolge bei der Sprachförderung hin. Neue Herausforderungen entstehen durch den Zuzug von Schülerinnen und Schülern mit Flüchtlingshintergrund und dem Bedarf nach verstärkter interkultureller Schulentwicklung.',
     supportPersonnel: true,
-    supportTypes: ['SEM', 'BDA'],
-    supportOtherText: '',
-    dataSources: ['Schulstatistiken (z. B. ASV/ASD)', 'Zentrale Lernstandserhebungen (z. B. VERA, BYLES, Lernstand 5, Orientierungsarbeiten)'],
-    moduleCount: 1,
+    supportTypes: ['SEM', 'Schulpsychologe'],
+    supportOtherText: 'Interkulturelle Trainerin',
+    dataSources: ['Schulstatistiken (z. B. ASV/ASD)', 'Feedbackfragebögen'],
+    questionModules: [
+      {
+        id: crypto.randomUUID(),
+        goal: 'Gesteigerte Umsetzung der Chancengerechtigkeit insbesondere im Bereich der Zusammenarbeit mit Eltern und Erziehungsberechtigten.',
+        smartGoal: 'Erhöhung der Elternbeteiligung um 40% durch Einführung von kulturell sensiblen Eltern-Sprechstunden bis Q3 2026.',
+        targetGroup: ['Eltern', 'Erziehungsberechtigte'],
+        targetGroupOther: 'Familien mit Migrationshintergrund',
+        subject: ['Schulentwicklung', 'Elternarbeit'],
+        subjectOther: '',
+        dataSources: ['Feedbackfragebögen'],
+        dataSourcesOther: 'Teilnahmequoten bei Veranstaltungen',
+        startDate: '2026-08-01',
+        endDate: '2026-12-31',
+        comments: 'Kooperation mit Schulpsychologe und interkultureller Trainerin erforderlich.',
+      },
+    ],
+    schoolGoalModules: [
+      {
+        id: crypto.randomUUID(),
+        goal: 'Von der Schule werden nachhaltig angelegte außerschulische und schul(art)übergreifende Netzwerke und Unterstützungssysteme wirksam und zielorientiert genutzt.',
+        smartGoal: 'Aufbau von 3 neuen strategischen Partnerschaften (Integrationsdienst, Berufsschulen, Kultureinrichtungen) mit festgelegten Kooperationsverträgen.',
+        targetGroup: ['Schulleitung', 'Koordinator'],
+        targetGroupOther: 'Externe Partner',
+        subject: ['Netzwerkentwicklung'],
+        subjectOther: '',
+        dataSources: ['Kooperationsverträge', 'Projektdokumentation'],
+        dataSourcesOther: '',
+        startDate: '2026-09-01',
+        endDate: '2027-03-31',
+        comments: 'Steuergruppe koordiniert alle Netzwerk-Aktivitäten.',
+      },
+    ],
+    measureModules: [
+      {
+        id: crypto.randomUUID(),
+        description: 'Durchführung von monatlichen Eltern-Sprechstunden mit interkultureller Moderation und Dolmetscherdiensten.',
+        type: 'Schulentwicklung',
+        responsible: 'Schulleiter',
+        involved: ['Interkulturelle Trainerin', 'Schulpsychologe', 'Dolmetscher'],
+        resources: ['Räumlichkeiten', 'Honorar Moderatorin', 'Dolmetscherdienste'],
+        resourcesDescription: 'Budget: ca. 8.000€ für Moderatorin und Dolmetscher (Schuljahr)',
+        workMethod: ['Beratungsgespräche', 'Kultursensible Kommunikation'],
+        workMethodDescription: 'Schulung aller beteiligten Lehrkräfte in interkultureller Kompetenz',
+        deadline: '2026-08-15',
+      },
+    ],
+    evaluationDate: '2027-03-31',
+    bilanzierungDate: '2027-06-30',
   },
 };
 
@@ -679,14 +726,19 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
   const loadDraft = () => {
     if (mockDraft) {
-      // Load draft data into form
+      // Load all draft data into form
       setIstStandAnalyse((mockDraft.data.istStandAnalyse as string) || '');
       setSupportPersonnel((mockDraft.data.supportPersonnel as boolean) || false);
       setSupportTypes((mockDraft.data.supportTypes as string[]) || []);
       setSupportOtherText((mockDraft.data.supportOtherText as string) || '');
       setDataSources((mockDraft.data.dataSources as string[]) || []);
+      setQuestionModules((mockDraft.data.questionModules as QuestionModule[]) || []);
+      setSchoolGoalModules((mockDraft.data.schoolGoalModules as QuestionModule[]) || []);
+      setMeasureModules((mockDraft.data.measureModules as MeasureModule[]) || []);
+      setEvaluationDate((mockDraft.data.evaluationDate as string) || '');
+      setBilanzierungDate((mockDraft.data.bilanzierungDate as string) || '');
       setCurrentDraftId(mockDraft.id);
-      // Move to contract step (step 1) after loading draft
+      // Move to iststand step (step 1) after loading draft
       setCurrentStep(1);
       window.scrollTo(0, 0);
     }

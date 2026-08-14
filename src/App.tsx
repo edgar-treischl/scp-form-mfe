@@ -38,7 +38,7 @@ function App() {
     <div className="app">
       <main>
         {renderView()}
-        <Footer onNavigate={handleNavigate} />
+        {currentView === 'landing' && <Footer onNavigate={handleNavigate} />}
       </main>
     </div>
   );

@@ -25,21 +25,7 @@ export async function exportSubmissionAsDOCX(submission: Submission): Promise<vo
 
     const data = submission.data;
     const istStandAnalyse: string = (data.istStandAnalyse as string) || '';
-    const questionModules: Array<{
-      id: string;
-      goal: string;
-      indicators: string;
-      startDate: string;
-      endDate: string;
-      evaluation: string;
-    }> = (data.questionModules as Array<{
-      id: string;
-      goal: string;
-      indicators: string;
-      startDate: string;
-      endDate: string;
-      evaluation: string;
-    }>) || [];
+    const questionModules = (data.questionModules || []) as typeof data.questionModules;
 
     const children = [
       // Header
@@ -108,12 +94,12 @@ export async function exportSubmissionAsDOCX(submission: Submission): Promise<vo
     questionModules.forEach((module, index) => {
       children.push(
         new Paragraph({
-          children: [new TextRun({ text: `Modul ${index + 1}`, bold: true, size: 24 })],
+          children: [new TextRun({ text: `Ziel ${index + 1}`, bold: true, size: 24 })],
           heading: HeadingLevel.HEADING_3,
           spacing: { before: 300, after: 200 },
         }),
         new Paragraph({
-          children: [new TextRun({ text: 'Feld 2: Ziele im SCP', bold: true })],
+          children: [new TextRun({ text: 'Ziel', bold: true })],
           spacing: { after: 100 },
         }),
         new Paragraph({
@@ -121,11 +107,27 @@ export async function exportSubmissionAsDOCX(submission: Submission): Promise<vo
           spacing: { after: 200 },
         }),
         new Paragraph({
-          children: [new TextRun({ text: 'Zielindikatoren', bold: true })],
+          children: [new TextRun({ text: 'SMART-Ziel', bold: true })],
           spacing: { after: 100 },
         }),
         new Paragraph({
-          text: module.indicators,
+          text: module.smartGoal,
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: 'Zielgruppe', bold: true })],
+          spacing: { after: 100 },
+        }),
+        new Paragraph({
+          text: module.targetGroup.join(', '),
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: 'Fachbereiche', bold: true })],
+          spacing: { after: 100 },
+        }),
+        new Paragraph({
+          text: module.subject.join(', '),
           spacing: { after: 200 },
         }),
         new Paragraph({
@@ -138,28 +140,20 @@ export async function exportSubmissionAsDOCX(submission: Submission): Promise<vo
             new TextRun(formatDateShort(module.startDate)),
           ],
           spacing: { after: 100 },
-        })
-      );
-
-      if (module.endDate) {
-        children.push(
-          new Paragraph({
-            children: [
-              new TextRun({ text: 'Enddatum: ', bold: true }),
-              new TextRun(formatDateShort(module.endDate)),
-            ],
-            spacing: { after: 200 },
-          })
-        );
-      }
-
-      children.push(
+        }),
         new Paragraph({
-          children: [new TextRun({ text: 'Interne Evaluation der Teilziele', bold: true })],
+          children: [
+            new TextRun({ text: 'Enddatum: ', bold: true }),
+            new TextRun(formatDateShort(module.endDate)),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: 'Kommentare', bold: true })],
           spacing: { after: 100 },
         }),
         new Paragraph({
-          text: module.evaluation,
+          text: module.comments,
           spacing: { after: 300 },
         })
       );
