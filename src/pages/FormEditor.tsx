@@ -5,6 +5,7 @@ import { FormIststand } from '../components/form_iststand';
 import { FormGoals } from '../components/form_goals';
 import { FormSchoolGoals } from '../components/form_school_goals';
 import { FormMeasure } from '../components/form_measure';
+import { FormEvaluation } from '../components/form_evaluation';
 import { LoadTemplateIcon } from '../assets/icons';
 import type { Submission } from '../types';
 
@@ -416,6 +417,9 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       deadline: '',
     }
   ]);
+  const [evaluationDate, setEvaluationDate] = useState('');
+  const [bilanzierungDate, setBilanzierungDate] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [showDraftPicker, setShowDraftPicker] = useState(false);
   const [currentDraftId, setCurrentDraftId] = useState<string | undefined>(submissionId);
 
@@ -678,6 +682,26 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     }).format(date);
   };
 
+  const handleEvaluationDateChange = (date: string) => {
+    setEvaluationDate(date);
+    triggerAutosave();
+  };
+
+  const handleBilanzierungDateChange = (date: string) => {
+    setBilanzierungDate(date);
+    triggerAutosave();
+  };
+
+  const handleFileUpload = (files: File[]) => {
+    setUploadedFiles(files);
+    triggerAutosave();
+  };
+
+  const handleFileRemove = (index: number) => {
+    setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
+    triggerAutosave();
+  };
+
   const getBreadcrumbItems = () => {
     if (submissionId) {
       // Editing existing submission
@@ -812,6 +836,18 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
           onModuleCheckboxChange={handleMeasureModuleCheckboxChange}
           onAddModule={addMeasureModule}
           onRemoveModule={removeMeasureModule}
+        />
+
+        <hr style={styles.hr} />
+
+        <FormEvaluation
+          evaluationDate={evaluationDate}
+          bilanzierungDate={bilanzierungDate}
+          uploadedFiles={uploadedFiles}
+          onEvaluationDateChange={handleEvaluationDateChange}
+          onBilanzierungDateChange={handleBilanzierungDateChange}
+          onFileUpload={handleFileUpload}
+          onFileRemove={handleFileRemove}
         />
 
         <footer style={styles.footer}>
