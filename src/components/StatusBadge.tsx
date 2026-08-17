@@ -18,7 +18,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
       display: 'inline-block',
       ...styles
     }}>
-      {status === 'draft' ? 'Draft' : 'Submitted'}
+      {status === 'draft' ? 'Entwurf' : 'Eingereicht'}
     </span>
   );
 }

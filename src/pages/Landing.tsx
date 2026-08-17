@@ -72,7 +72,7 @@ export function Landing({ onNavigate }: LandingProps) {
             maxWidth: '700px',
           }}
         >
-          Neue Zielvereinbarungen anlegen, bearbeiten und eingereichte
+          Neue Zielvereinbarungen anlegen, Entwürfe speichern und 
           Vereinbarungen verwalten.
         </p>
       </div>
@@ -163,7 +163,7 @@ export function Landing({ onNavigate }: LandingProps) {
               margin: 0,
             }}
           >
-            Bisherige Zielvereinbarungen einsehen und verwalten.
+            Zielvereinbarungen einsehen und verwalten.
           </p>
         </div>
       </div>

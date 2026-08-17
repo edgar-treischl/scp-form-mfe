@@ -52,7 +52,7 @@ export function Footer({ onNavigate }: FooterProps) {
             e.currentTarget.style.color = '#666';
           }}
         >
-          Weitere Infos
+          Über diesen Prototyp
         </button>
       </div>
     </footer>

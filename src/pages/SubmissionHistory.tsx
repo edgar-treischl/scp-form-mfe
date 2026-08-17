@@ -164,7 +164,7 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
 
   const handleSendZV = (submissionId: string, submissionTitle: string) => {
     console.log(`Mock Submit: Sending ZV "${submissionTitle}" (ID: ${submissionId})`);
-    alert(`ZV "${submissionTitle}" wurde erfolgreich eingereicht!`);
+    alert(`Mock: ZV "${submissionTitle}" wurde erfolgreich eingereicht!`);
   };
 
   return (

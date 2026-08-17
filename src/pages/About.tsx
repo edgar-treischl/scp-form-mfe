@@ -73,7 +73,7 @@ export function About({ onNavigate }: AboutProps) {
           <p>
             <strong>Ansprechpartner:</strong>{" "}
             <a
-              href="mailto:kontaktperson@example.de"
+              href="mailto:edgar.treischl@isb.bayern.de"
               style={{
                 color: "#1E8AD9",
                 textDecoration: "none",
