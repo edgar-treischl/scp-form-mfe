@@ -162,6 +162,11 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
     }).format(date);
   };
 
+  const handleSendZV = (submissionId: string, submissionTitle: string) => {
+    console.log(`Mock Submit: Sending ZV "${submissionTitle}" (ID: ${submissionId})`);
+    alert(`ZV "${submissionTitle}" wurde erfolgreich eingereicht!`);
+  };
+
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
       <Breadcrumb 
@@ -252,7 +257,30 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
                         e.currentTarget.style.background = '#1E8AD9';
                       }}
                     >
-                      Evaluierung
+                      Bilanzierung
+                    </button>
+                  ) : submission.status === 'draft' ? (
+                    <button
+                      onClick={() => handleSendZV(submission.id, submission.data.title as string)}
+                      style={{
+                        padding: '0.5rem 0.75rem',
+                        fontSize: '0.85rem',
+                        fontWeight: '500',
+                        background: '#28A745',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        transition: 'background 0.2s',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.background = '#218838';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.background = '#28A745';
+                      }}
+                    >
+                      ZV senden
                     </button>
                   ) : (
                     <span style={{ color: '#999', fontSize: '0.85rem' }}>-</span>

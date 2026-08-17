@@ -476,8 +476,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     { id: 'goals', title: 'Teilziel auf Individualebene', component: 'goals' },
     { id: 'schoolGoals', title: 'Teilziel auf Schulebene', component: 'schoolGoals' },
     { id: 'measures', title: 'Maßnahmen', component: 'measures' },
-    { id: 'evaluation', title: 'Evaluierung', component: 'evaluation' },
-    { id: 'callout', title: 'Hinweis', component: 'callout' },
   ];
 
   const totalSteps = steps.length;
@@ -722,8 +720,11 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Formular eingereicht! (Mock - kein Backend)');
-    onNavigate('history');
+    // Show mock submission info
+    const mockSubmissionId = `SUB-${Date.now()}`;
+    const mockInfo = `Ihr Formular wurde erfolgreich eingereicht!\n\nSubmissions-ID: ${mockSubmissionId}\nStatus: Eingereicht\nZeitpunkt: ${new Date().toLocaleString('de-DE')}`;
+    alert(mockInfo);
+    onNavigate('landing');
   };
 
   const getBreadcrumbItems = () => {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Breadcrumb } from '../components/Breadcrumb';
 import { FormCallout } from '../components/form_callout';
 import { FormEvaluation } from '../components/form_evaluation';
 
@@ -110,10 +111,16 @@ export function FormEval({ onNavigate }: FormEvalProps) {
     } as const,
   };
 
+  const breadcrumbItems = [
+    { label: 'Home', onClick: () => onNavigate('landing') },
+    { label: 'Bilanzierung' },
+  ];
+
   return (
     <div style={styles.container}>
+      <Breadcrumb items={breadcrumbItems} />
       <header style={styles.header}>
-        <h1 style={styles.header_title}>Form Evaluation</h1>
+        <h1 style={styles.header_title}>Bilanzierung</h1>
       </header>
 
       {/* Evaluation Step */}
