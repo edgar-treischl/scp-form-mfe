@@ -2,7 +2,7 @@ import { StatusBadge, Breadcrumb } from '../components';
 import type { Submission } from '../types';
 
 interface SubmissionHistoryProps {
-  onNavigate: (view: 'landing' | 'form' | 'history' | 'view' | 'about', submissionId?: string) => void;
+  onNavigate: (view: 'landing' | 'form' | 'history' | 'view' | 'about' | 'eval', submissionId?: string) => void;
 }
 
 // Mock data - matches FormEditor structure with complete form fields
@@ -188,6 +188,7 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
               <th style={{ padding: '0.75rem' }}>Status</th>
               <th style={{ padding: '0.75rem' }}>Erstellt</th>
               <th style={{ padding: '0.75rem' }}>Aktualisiert</th>
+              <th style={{ padding: '0.75rem' }}>Aktionen</th>
             </tr>
           </thead>
           <tbody>
@@ -228,6 +229,34 @@ export function SubmissionHistory({ onNavigate }: SubmissionHistoryProps) {
                 </td>
                 <td style={{ padding: '0.75rem', fontSize: '0.9em', color: '#666' }}>
                   {formatDate(submission.updatedAt)}
+                </td>
+                <td style={{ padding: '0.75rem' }}>
+                  {submission.status === 'submitted' ? (
+                    <button
+                      onClick={() => onNavigate('eval', submission.id)}
+                      style={{
+                        padding: '0.5rem 0.75rem',
+                        fontSize: '0.85rem',
+                        fontWeight: '500',
+                        background: '#1E8AD9',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        transition: 'background 0.2s',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.background = '#1565A0';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.background = '#1E8AD9';
+                      }}
+                    >
+                      Evaluierung
+                    </button>
+                  ) : (
+                    <span style={{ color: '#999', fontSize: '0.85rem' }}>-</span>
+                  )}
                 </td>
               </tr>
             ))}

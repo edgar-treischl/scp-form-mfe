@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { Breadcrumb } from '../components';
 import { FormContract } from '../components/form_contract';
-import { FormCallout } from '../components/form_callout';
 import { FormIststand } from '../components/form_iststand';
 import { FormGoals } from '../components/form_goals';
 import { FormSchoolGoals } from '../components/form_school_goals';
 import { FormMeasure } from '../components/form_measure';
-import { FormEvaluation } from '../components/form_evaluation';
 
 import type { Submission } from '../types';
 
@@ -463,9 +461,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       deadline: '',
     }
   ]);
-  const [evaluationDate, setEvaluationDate] = useState('');
-  const [bilanzierungDate, setBilanzierungDate] = useState('');
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [currentDraftId, setCurrentDraftId] = useState<string | undefined>(submissionId);
 
   // Contract party parameters (from authentication/context - these values change per user)
@@ -718,8 +713,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       setQuestionModules((mockDraft.data.questionModules as QuestionModule[]) || []);
       setSchoolGoalModules((mockDraft.data.schoolGoalModules as QuestionModule[]) || []);
       setMeasureModules((mockDraft.data.measureModules as MeasureModule[]) || []);
-      setEvaluationDate((mockDraft.data.evaluationDate as string) || '');
-      setBilanzierungDate((mockDraft.data.bilanzierungDate as string) || '');
       setCurrentDraftId(mockDraft.id);
       // Move to iststand step (step 1) after loading draft
       setCurrentStep(1);
@@ -731,26 +724,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
     e.preventDefault();
     alert('Formular eingereicht! (Mock - kein Backend)');
     onNavigate('history');
-  };
-
-  const handleEvaluationDateChange = (date: string) => {
-    setEvaluationDate(date);
-
-  };
-
-  const handleBilanzierungDateChange = (date: string) => {
-    setBilanzierungDate(date);
-
-  };
-
-  const handleFileUpload = (files: File[]) => {
-    setUploadedFiles(files);
-
-  };
-
-  const handleFileRemove = (index: number) => {
-    setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
-
   };
 
   const getBreadcrumbItems = () => {
@@ -858,27 +831,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
             onModuleCheckboxChange={handleMeasureModuleCheckboxChange}
             onAddModule={addMeasureModule}
             onRemoveModule={removeMeasureModule}
-          />
-        )}
-
-        {/* Evaluation Step */}
-        {currentStep === 5 && (
-          <FormEvaluation
-            evaluationDate={evaluationDate}
-            bilanzierungDate={bilanzierungDate}
-            uploadedFiles={uploadedFiles}
-            onEvaluationDateChange={handleEvaluationDateChange}
-            onBilanzierungDateChange={handleBilanzierungDateChange}
-            onFileUpload={handleFileUpload}
-            onFileRemove={handleFileRemove}
-          />
-        )}
-
-        {/* Callout Step */}
-        {currentStep === 6 && (
-          <FormCallout
-            title="Hinweis: Weitere Fragen zur Datengestützte Bilanzierung pro Teilziel"
-            message="Das Formular zur Bilanzierung pro Teilziel ist nicht implementiert."
           />
         )}
 

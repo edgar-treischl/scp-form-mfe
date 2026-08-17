@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Landing, FormEditor, SubmissionHistory, SubmissionView, About } from './pages';
+import { Landing, FormEditor, FormEval, SubmissionHistory, SubmissionView, About } from './pages';
 import { Footer } from './components';
 import './components/formInputStyles.css';
 import './App.css';
 
-type View = 'landing' | 'form' | 'history' | 'view' | 'about';
+type View = 'landing' | 'form' | 'history' | 'view' | 'about' | 'eval';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('landing');
@@ -23,6 +23,8 @@ function App() {
         return <Landing onNavigate={handleNavigate} />;
       case 'form':
         return <FormEditor onNavigate={handleNavigate} submissionId={selectedSubmissionId || undefined} />;
+      case 'eval':
+        return <FormEval onNavigate={handleNavigate} />;
       case 'history':
         return <SubmissionHistory onNavigate={handleNavigate} />;
       case 'view':

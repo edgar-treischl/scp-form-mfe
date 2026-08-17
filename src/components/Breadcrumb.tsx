@@ -13,10 +13,10 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
       aria-label="Breadcrumb"
       className="breadcrumb-nav"
       style={{ 
-        marginBottom: '1rem',
-        fontSize: '0.813rem',
-        color: '#888',
-        padding: 0,
+        marginBottom: '1.5rem',
+        fontSize: '1rem',
+        color: '#666',
+        padding: '0.75rem 0',
         border: 'none'
       }}
     >
@@ -26,12 +26,12 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
         listStyle: 'none',
         padding: 0,
         margin: 0,
-        gap: '0.375rem'
+        gap: '0.5rem'
       }}>
         {items.map((item, index) => (
-          <li key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+          <li key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             {index > 0 && (
-              <span style={{ color: '#ccc' }}>/</span>
+              <span style={{ color: '#ddd' }}>/</span>
             )}
             {item.onClick ? (
               <button
@@ -39,24 +39,28 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#888',
+                  color: '#1e8ad9',
                   textDecoration: 'none',
                   cursor: 'pointer',
                   padding: 0,
                   font: 'inherit',
-                  fontSize: '0.813rem'
+                  fontSize: '1rem',
+                  fontWeight: 500,
+                  transition: 'color 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.color = '#333';
+                  e.currentTarget.style.color = '#155fa4';
+                  e.currentTarget.style.textDecoration = 'underline';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.color = '#888';
+                  e.currentTarget.style.color = '#1e8ad9';
+                  e.currentTarget.style.textDecoration = 'none';
                 }}
               >
                 {item.label}
               </button>
             ) : (
-              <span style={{ color: '#333' }}>
+              <span style={{ color: '#333', fontWeight: 500 }}>
                 {item.label}
               </span>
             )}
