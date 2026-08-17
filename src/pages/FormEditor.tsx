@@ -872,7 +872,7 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
             </button>
             {currentStep === totalSteps - 1 && (
               <button type="submit" style={styles.button_primary}>
-                ZV einreichen
+                Entwurf speichern
               </button>
             )}
           </div>
