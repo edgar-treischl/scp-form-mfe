@@ -25,7 +25,6 @@ const mockSubmissions: Submission[] = [
       questionModules: [
         {
           id: '1',
-          goal: 'Erhöhte Anzahl an Schülerinnen und Schülern erreichen mithilfe entsprechender Basiskompetenzen die Mindeststandards in Deutsch.',
           smartGoal: 'Steigerung der Deutsch-Kompetenzwerte um mindestens 15% bei 80% der Schülerinnen und Schüler der Klasse 4.',
           targetGroup: ['Alle Schülerinnen und Schüler', '4. Jahrgangsstufe'],
           targetGroupOther: '',
@@ -41,7 +40,6 @@ const mockSubmissions: Submission[] = [
       schoolGoalModules: [
         {
           id: '1',
-          goal: 'Die Schulgemeinschaft verfolgt die Gestaltung einer positiven Schulkultur und die Entwicklung der Schule hin zu einem förderlichen Lern- und Sozialraum als handlungsleitendes Grundprinzip.',
           smartGoal: 'Implementierung von 2 neuen Schulkultur-Maßnahmen mit dokumentierter Partizipation von mind. 70% der Schulgemeinschaft.',
           targetGroup: ['Schulgemeinschaft'],
           targetGroupOther: '',
@@ -68,6 +66,8 @@ const mockSubmissions: Submission[] = [
           deadline: '2025-08-15',
         },
       ],
+      selectedGoal: 'Erhöhte Anzahl an Schülerinnen und Schülern erreichen mithilfe entsprechender Basiskompetenzen die Mindeststandards in Deutsch.',
+      selectedSchoolGoal: 'Die Schulgemeinschaft verfolgt die Gestaltung einer positiven Schulkultur und die Entwicklung der Schule hin zu einem förderlichen Lern- und Sozialraum als handlungsleitendes Grundprinzip.',
       evaluationDate: '2026-03-31',
       bilanzierungDate: '2026-06-30',
     },
@@ -89,7 +89,6 @@ const mockSubmissions: Submission[] = [
       questionModules: [
         {
           id: '1',
-          goal: 'Gesteigerte Umsetzung der Chancengerechtigkeit insbesondere im Bereich der Zusammenarbeit mit Eltern und Erziehungsberechtigten.',
           smartGoal: 'Erhöhung der Elternbeteiligung um 40% durch Einführung von kulturell sensiblen Eltern-Sprechstunden bis Q3 2026.',
           targetGroup: ['Eltern', 'Erziehungsberechtigte'],
           targetGroupOther: 'Familien mit Migrationshintergrund',
@@ -105,7 +104,6 @@ const mockSubmissions: Submission[] = [
       schoolGoalModules: [
         {
           id: '1',
-          goal: 'Von der Schule werden nachhaltig angelegte außerschulische und schul(art)übergreifende Netzwerke und Unterstützungssysteme wirksam und zielorientiert genutzt.',
           smartGoal: 'Aufbau von 3 neuen strategischen Partnerschaften (Integrationsdienst, Berufsschulen, Kultureinrichtungen) mit festgelegten Kooperationsverträgen.',
           targetGroup: ['Schulleitung', 'Koordinator'],
           targetGroupOther: 'Externe Partner',
@@ -144,6 +142,8 @@ const mockSubmissions: Submission[] = [
           deadline: '2026-09-30',
         },
       ],
+      selectedGoal: 'Gesteigerte Umsetzung der Chancengerechtigkeit insbesondere im Bereich der Zusammenarbeit mit Eltern und Erziehungsberechtigten.',
+      selectedSchoolGoal: 'Von der Schule werden nachhaltig angelegte außerschulische und schul(art)übergreifende Netzwerke und Unterstützungssysteme wirksam und zielorientiert genutzt.',
       evaluationDate: '2027-03-31',
       bilanzierungDate: '2027-06-30',
     },

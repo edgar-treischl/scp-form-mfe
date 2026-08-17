@@ -25,6 +25,7 @@ export async function exportSubmissionAsDOCX(submission: Submission): Promise<vo
 
     const data = submission.data;
     const istStandAnalyse: string = (data.istStandAnalyse as string) || '';
+    const selectedGoal: string = (data.selectedGoal as string) || '';
     const questionModules = (data.questionModules || []) as typeof data.questionModules;
 
     const children = [
@@ -103,7 +104,7 @@ export async function exportSubmissionAsDOCX(submission: Submission): Promise<vo
           spacing: { after: 100 },
         }),
         new Paragraph({
-          text: module.goal,
+          text: selectedGoal,
           spacing: { after: 200 },
         }),
         new Paragraph({

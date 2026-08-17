@@ -2,7 +2,6 @@ export type SubmissionStatus = 'draft' | 'submitted';
 
 export interface QuestionModule {
   id: string;
-  goal: string;
   smartGoal: string;
   targetGroup: string[];
   targetGroupOther: string;
@@ -35,6 +34,8 @@ export interface FormData {
   supportTypes: string[];
   supportOtherText: string;
   dataSources: string[];
+  selectedGoal: string;
+  selectedSchoolGoal: string;
   questionModules: QuestionModule[];
   schoolGoalModules: QuestionModule[];
   measureModules: MeasureModule[];

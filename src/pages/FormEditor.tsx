@@ -17,7 +17,6 @@ interface FormEditorProps {
 
 interface QuestionModule {
   id: string;
-  goal: string;
   smartGoal: string;
   targetGroup: string[];
   targetGroupOther: string;
@@ -360,10 +359,11 @@ const mockDraft: Submission | null = {
     supportTypes: ['SEM', 'Schulpsychologe'],
     supportOtherText: 'Interkulturelle Trainerin',
     dataSources: ['Schulstatistiken (z. B. ASV/ASD)', 'Feedbackfragebögen'],
+    selectedGoal: 'Gesteigerte Umsetzung der Chancengerechtigkeit insbesondere im Bereich der Zusammenarbeit mit Eltern und Erziehungsberechtigten.',
+    selectedSchoolGoal: 'Von der Schule werden nachhaltig angelegte außerschulische und schul(art)übergreifende Netzwerke und Unterstützungssysteme wirksam und zielorientiert genutzt.',
     questionModules: [
       {
         id: crypto.randomUUID(),
-        goal: 'Gesteigerte Umsetzung der Chancengerechtigkeit insbesondere im Bereich der Zusammenarbeit mit Eltern und Erziehungsberechtigten.',
         smartGoal: 'Erhöhung der Elternbeteiligung um 40% durch Einführung von kulturell sensiblen Eltern-Sprechstunden bis Q3 2026.',
         targetGroup: ['Eltern', 'Erziehungsberechtigte'],
         targetGroupOther: 'Familien mit Migrationshintergrund',
@@ -379,7 +379,6 @@ const mockDraft: Submission | null = {
     schoolGoalModules: [
       {
         id: crypto.randomUUID(),
-        goal: 'Von der Schule werden nachhaltig angelegte außerschulische und schul(art)übergreifende Netzwerke und Unterstützungssysteme wirksam und zielorientiert genutzt.',
         smartGoal: 'Aufbau von 3 neuen strategischen Partnerschaften (Integrationsdienst, Berufsschulen, Kultureinrichtungen) mit festgelegten Kooperationsverträgen.',
         targetGroup: ['Schulleitung', 'Koordinator'],
         targetGroupOther: 'Externe Partner',
@@ -418,10 +417,11 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   const [supportTypes, setSupportTypes] = useState<string[]>([]);
   const [supportOtherText, setSupportOtherText] = useState('');
   const [dataSources, setDataSources] = useState<string[]>([]);
+  const [selectedGoal, setSelectedGoal] = useState<string>('');
+  const [selectedSchoolGoal, setSelectedSchoolGoal] = useState<string>('');
   const [questionModules, setQuestionModules] = useState<QuestionModule[]>([
     {
       id: crypto.randomUUID(),
-      goal: '',
       smartGoal: '',
       targetGroup: [],
       targetGroupOther: '',
@@ -437,7 +437,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   const [schoolGoalModules, setSchoolGoalModules] = useState<QuestionModule[]>([
     {
       id: crypto.randomUUID(),
-      goal: '',
       smartGoal: '',
       targetGroup: [],
       targetGroupOther: '',
@@ -479,8 +478,8 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   const steps = [
     { id: 'landing', title: 'Zielvereinbarung starten', component: 'landing' },
     { id: 'iststand', title: 'IST-Stand Analyse', component: 'iststand' },
-    { id: 'goals', title: 'Individualziele', component: 'goals' },
-    { id: 'schoolGoals', title: 'Schulziele', component: 'schoolGoals' },
+    { id: 'goals', title: 'Teilziel auf Individualebene', component: 'goals' },
+    { id: 'schoolGoals', title: 'Teilziel auf Schulebene', component: 'schoolGoals' },
     { id: 'measures', title: 'Maßnahmen', component: 'measures' },
     { id: 'evaluation', title: 'Evaluierung', component: 'evaluation' },
     { id: 'callout', title: 'Hinweis', component: 'callout' },
@@ -578,7 +577,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       ...prev,
       {
         id: crypto.randomUUID(),
-        goal: '',
         smartGoal: '',
         targetGroup: [],
         targetGroupOther: '',
@@ -596,14 +594,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   const removeQuestionModule = (id: string) => {
     setQuestionModules(prev => prev.filter(module => module.id !== id));
 
-  };
-
-  const getAvailableGoals = (currentModuleId: string) => {
-    const selectedGoals = questionModules
-      .filter(module => module.id !== currentModuleId && module.goal !== '')
-      .map(module => module.goal);
-    
-    return FORM_GOAL_OPTIONS.filter(goal => !selectedGoals.includes(goal));
   };
 
   const handleSchoolGoalModuleChange = (id: string, field: keyof QuestionModule, value: string | string[]) => {
@@ -642,7 +632,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       ...prev,
       {
         id: crypto.randomUUID(),
-        goal: '',
         smartGoal: '',
         targetGroup: [],
         targetGroupOther: '',
@@ -660,14 +649,6 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
   const removeSchoolGoalModule = (id: string) => {
     setSchoolGoalModules(prev => prev.filter(module => module.id !== id));
 
-  };
-
-  const getAvailableSchoolGoals = (currentModuleId: string) => {
-    const selectedGoals = schoolGoalModules
-      .filter(module => module.id !== currentModuleId && module.goal !== '')
-      .map(module => module.goal);
-    
-    return SCHOOL_GOAL_OPTIONS.filter(goal => !selectedGoals.includes(goal));
   };
 
   const handleMeasureModuleChange = (id: string, field: keyof MeasureModule, value: string | string[]) => {
@@ -732,6 +713,8 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
       setSupportTypes((mockDraft.data.supportTypes as string[]) || []);
       setSupportOtherText((mockDraft.data.supportOtherText as string) || '');
       setDataSources((mockDraft.data.dataSources as string[]) || []);
+      setSelectedGoal((mockDraft.data.selectedGoal as string) || '');
+      setSelectedSchoolGoal((mockDraft.data.selectedSchoolGoal as string) || '');
       setQuestionModules((mockDraft.data.questionModules as QuestionModule[]) || []);
       setSchoolGoalModules((mockDraft.data.schoolGoalModules as QuestionModule[]) || []);
       setMeasureModules((mockDraft.data.measureModules as MeasureModule[]) || []);
@@ -842,12 +825,13 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         {/* Individual Goals Step */}
         {currentStep === 2 && (
           <FormGoals
+            selectedGoal={selectedGoal}
+            onGoalChange={setSelectedGoal}
             questionModules={questionModules}
             onModuleChange={handleModuleChange}
             onModuleCheckboxChange={handleModuleCheckboxChange}
             onAddModule={addQuestionModule}
             onRemoveModule={removeQuestionModule}
-            getAvailableGoals={getAvailableGoals}
             goalOptions={FORM_GOAL_OPTIONS}
           />
         )}
@@ -855,12 +839,13 @@ export function FormEditor({ onNavigate, submissionId }: FormEditorProps) {
         {/* School Goals Step */}
         {currentStep === 3 && (
           <FormSchoolGoals
+            selectedGoal={selectedSchoolGoal}
+            onGoalChange={setSelectedSchoolGoal}
             questionModules={schoolGoalModules}
             onModuleChange={handleSchoolGoalModuleChange}
             onModuleCheckboxChange={handleSchoolGoalModuleCheckboxChange}
             onAddModule={addSchoolGoalModule}
             onRemoveModule={removeSchoolGoalModule}
-            getAvailableGoals={getAvailableSchoolGoals}
             goalOptions={SCHOOL_GOAL_OPTIONS}
           />
         )}

@@ -27,7 +27,6 @@ const mockSubmission: Submission = {
     questionModules: [
       {
         id: '1',
-        goal: 'Erhöhte Anzahl an Schülerinnen und Schülern erreichen mithilfe entsprechender Basiskompetenzen die Mindeststandards in Deutsch.',
         smartGoal: 'Steigerung der Deutsch-Kompetenzwerte um mindestens 15% bei den Schülerinnen und Schülern der 4. Jahrgangsstufe durch systematische Sprachförderung.',
         targetGroup: ['Alle Schülerinnen und Schüler', '4. Jahrgangsstufe'],
         targetGroupOther: '',
@@ -41,7 +40,6 @@ const mockSubmission: Submission = {
       },
       {
         id: '2',
-        goal: 'Erhöhte Anzahl an Schülerinnen und Schülern gestalten mithilfe entsprechender sozialer und personaler Kompetenzen eine Wellbeing-Kultur an der Schule mit.',
         smartGoal: 'Implementierung eines Wellbeing-Programms mit mindestens 80% Partizipation der Schülerinnen und Schüler bis Ende Q3 2024.',
         targetGroup: ['Alle Schülerinnen und Schüler'],
         targetGroupOther: '',
@@ -57,7 +55,6 @@ const mockSubmission: Submission = {
     schoolGoalModules: [
       {
         id: '1',
-        goal: 'Die Schulgemeinschaft verfolgt die Gestaltung einer positiven Schulkultur und die Entwicklung der Schule hin zu einem förderlichen Lern- und Sozialraum als handlungsleitendes Grundprinzip.',
         smartGoal: 'Etablierung von 3 strukturierten schulkultur-Maßnahmen (Schulfest, Mentorenprogramm, Konfliktlösungstraining) mit dokumentierter Teilnehmerzahl.',
         targetGroup: ['Schulgemeinschaft', 'Lehrkräfte', 'Eltern'],
         targetGroupOther: '',
@@ -71,7 +68,6 @@ const mockSubmission: Submission = {
       },
       {
         id: '2',
-        goal: 'Von der Schule werden nachhaltig angelegte außerschulische und schul(art)übergreifende Netzwerke und Unterstützungssysteme wirksam und zielorientiert genutzt.',
         smartGoal: 'Etablierung von mindestens 5 aktiven Partnerschaften mit Institutionen (Sportvereine, Musikschulen, Berufsschulen) mit regelmäßigen Austausch-Meetings.',
         targetGroup: ['Externe Partner', 'Schulleitung'],
         targetGroupOther: '',
@@ -110,6 +106,8 @@ const mockSubmission: Submission = {
         deadline: '2024-09-01',
       },
     ],
+    selectedGoal: 'Erhöhte Anzahl an Schülerinnen und Schülern erreichen mithilfe entsprechender Basiskompetenzen die Mindeststandards in Deutsch.',
+    selectedSchoolGoal: 'Die Schulgemeinschaft verfolgt die Gestaltung einer positiven Schulkultur und die Entwicklung der Schule hin zu einem förderlichen Lern- und Sozialraum als handlungsleitendes Grundprinzip.',
     evaluationDate: '2025-03-31',
     bilanzierungDate: '2025-06-30',
   },
@@ -153,7 +151,7 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
   }
 
   const data = mockSubmission.data;
-  const { istStandAnalyse, supportPersonnel, supportTypes, dataSources, questionModules = [], schoolGoalModules = [], measureModules = [], evaluationDate, bilanzierungDate } = data;
+  const { istStandAnalyse, supportPersonnel, supportTypes, dataSources, selectedGoal, selectedSchoolGoal, questionModules = [], schoolGoalModules = [], measureModules = [], evaluationDate, bilanzierungDate } = data;
 
   return (
     <div id="submission-content" style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
@@ -259,7 +257,7 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   <div>
                     <label style={{ fontWeight: '500', display: 'block', marginBottom: '0.5rem' }}>Ziel</label>
-                    <div style={{ padding: '0.75rem', background: '#f8f9fa', borderRadius: '4px' }}>{module.goal}</div>
+                    <div style={{ padding: '0.75rem', background: '#f8f9fa', borderRadius: '4px' }}>{selectedGoal}</div>
                   </div>
                   <div>
                     <label style={{ fontWeight: '500', display: 'block', marginBottom: '0.5rem' }}>SMART-Ziel</label>
@@ -322,7 +320,7 @@ export function SubmissionView({ submissionId, onNavigate }: SubmissionViewProps
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   <div>
                     <label style={{ fontWeight: '500', display: 'block', marginBottom: '0.5rem' }}>Ziel</label>
-                    <div style={{ padding: '0.75rem', background: '#f8f9fa', borderRadius: '4px' }}>{module.goal}</div>
+                    <div style={{ padding: '0.75rem', background: '#f8f9fa', borderRadius: '4px' }}>{selectedSchoolGoal}</div>
                   </div>
                   <div>
                     <label style={{ fontWeight: '500', display: 'block', marginBottom: '0.5rem' }}>SMART-Ziel</label>

@@ -2,7 +2,6 @@ import { formStyles } from './formStyles';
 
 interface QuestionModule {
   id: string;
-  goal: string;
   smartGoal: string;
   targetGroup: string[];
   targetGroupOther: string;
@@ -16,12 +15,13 @@ interface QuestionModule {
 }
 
 interface FormGoalsProps {
+  selectedGoal: string;
+  onGoalChange: (goal: string) => void;
   questionModules: QuestionModule[];
   onModuleChange: (id: string, field: keyof QuestionModule, value: string | string[]) => void;
   onModuleCheckboxChange: (id: string, field: 'targetGroup' | 'subject' | 'dataSources', option: string) => void;
   onAddModule: () => void;
   onRemoveModule: (id: string) => void;
-  getAvailableGoals: (currentModuleId: string) => string[];
   goalOptions: string[];
 }
 
@@ -52,12 +52,13 @@ const DATA_SOURCES_OPTIONS = [
 ];
 
 export function FormGoals({
+  selectedGoal,
+  onGoalChange,
   questionModules,
   onModuleChange,
   onModuleCheckboxChange,
   onAddModule,
   onRemoveModule,
-  getAvailableGoals,
   goalOptions,
 }: FormGoalsProps) {
   return (
@@ -65,10 +66,36 @@ export function FormGoals({
       <div style={formStyles.section}>
         <h2 style={formStyles.section_title}>Für welches SCP-Kernziel auf der individuellen Ebene hat sich Ihre Schule entschieden?</h2>
 
+        <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+          <label htmlFor="global-goal" style={formStyles.label}>
+            Bitte wählen Sie ein Kernziel aus! <span style={formStyles.required}>*</span>
+          </label>
+          <select
+            id="global-goal"
+            value={selectedGoal}
+            onChange={(e) => onGoalChange(e.target.value)}
+            required
+            style={formStyles.input}
+          >
+            <option value="">Bitte wählen Sie ein Ziel...</option>
+            {goalOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {selectedGoal && (
+          <div style={{ marginBottom: '1.5rem', padding: '1rem', backgroundColor: '#f0f4f8', borderRadius: '4px' }}>
+            <strong>Gewähltes Ziel:</strong> {selectedGoal}
+          </div>
+        )}
+
         {questionModules.map((module, index) => (
           <div key={module.id} style={formStyles.moduleCard}>
             <div style={formStyles.module_header}>
-              <h3 style={formStyles.module_title}>Individualziel {index + 1}</h3>
+              <h3 style={formStyles.module_title}>Teilziel auf Individualebene {index + 1}</h3>
               {questionModules.length > 1 && (
                 <button
                   type="button"
@@ -81,32 +108,6 @@ export function FormGoals({
             </div>
 
             <div style={formStyles.fieldGroup}>
-              {/* Question 01: Ziele im SCP */}
-              <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
-                <label htmlFor={`goal-${module.id}`} style={formStyles.label}>
-                  Bitte wählen Sie ein Kernziel aus! <span style={formStyles.required}>*</span>
-                </label>
-                <select
-                  id={`goal-${module.id}`}
-                  value={module.goal}
-                  onChange={(e) => onModuleChange(module.id, 'goal', e.target.value)}
-                  required
-                  style={formStyles.input}
-                >
-                  <option value="">Bitte wählen Sie ein Ziel...</option>
-                  {module.goal && !getAvailableGoals(module.id).includes(module.goal) && (
-                    <option value={module.goal}>{module.goal}</option>
-                  )}
-                  {getAvailableGoals(module.id).map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <hr style={formStyles.hr} />
-
               {/* Question 1a: SMART Teilziel */}
               <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <label htmlFor={`smartGoal-${module.id}`} style={formStyles.label}>
